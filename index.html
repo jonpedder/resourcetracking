@@ -1,0 +1,2131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>EOC Resource &amp; Asset Management</title>
+
+  <link rel="icon" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlNlbnRpbmVsIEVtZXJnZW5jeSBNYW5hZ2VtZW50IEFnZW5jeSBzZWFsIj4NCiAgPGRlZnM+DQogICAgPHBhdGggaWQ9InJpbmdUb3AiIGQ9Ik0gMTYsMTAwIEEgODQsODQgMCAwIDEgMTg0LDEwMCIvPg0KICAgIDxwYXRoIGlkPSJyaW5nQm90dG9tIiBkPSJNIDE4NywxMDAgQSA4Nyw4NyAwIDAgMSAxMywxMDAiLz4NCiAgPC9kZWZzPg0KDQogIDwhLS0gT3V0ZXIgbmF2eSBzZWFsIC0tPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk4IiBmaWxsPSIjMGYyYTQ0Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y1YzU0MiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI3NiIgZmlsbD0iI2Y3ZjVlZiIvPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijc2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmNWM1NDIiIHN0cm9rZS13aWR0aD0iMiIvPg0KDQogIDwhLS0gUmluZyB0ZXh0IC0tPg0KICA8ZyBmaWxsPSIjZjVjNTQyIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1RpbWVzIE5ldyBSb21hbicsIHNlcmlmIiBmb250LXdlaWdodD0iNzAwIj4NCiAgICA8dGV4dCBmb250LXNpemU9IjkiIGxldHRlci1zcGFjaW5nPSIwLjYiPg0KICAgICAgPHRleHRQYXRoIGhyZWY9IiNyaW5nVG9wIiBzdGFydE9mZnNldD0iNTAlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRU5USU5FTCBFTUVSR0VOQ1kgTUFOQUdFTUVOVCBBR0VOQ1k8L3RleHRQYXRoPg0KICAgIDwvdGV4dD4NCiAgICA8dGV4dCBmb250LXNpemU9IjguNSIgbGV0dGVyLXNwYWNpbmc9IjIuMiI+DQogICAgICA8dGV4dFBhdGggaHJlZj0iI3JpbmdCb3R0b20iIHN0YXJ0T2Zmc2V0PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlBSRVBBUkUgJiM4MjI2OyBSRVNQT05EICYjODIyNjsgUkVDT1ZFUjwvdGV4dFBhdGg+DQogICAgPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBTaWRlIHN0YXJzIHNlcGFyYXRpbmcgdGhlIHJpbmcgdGV4dCAtLT4NCiAgPGcgZmlsbD0iI2Y1YzU0MiI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIxNCwxMDAgMTcuNSwxMDEuNCAxOSwxMDUgMjAuNSwxMDEuNCAyNCwxMDAgMjAuNSw5OC42IDE5LDk1IDE3LjUsOTguNiIvPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTc2LDEwMCAxNzkuNSwxMDEuNCAxODEsMTA1IDE4Mi41LDEwMS40IDE4NiwxMDAgMTgyLjUsOTguNiAxODEsOTUgMTc5LjUsOTguNiIvPg0KICA8L2c+DQoNCiAgPCEtLSBDZW50ZXIgZW1ibGVtOiBjb21wYXNzLXJvc2Ugc3RhciAoY29vcmRpbmF0aW9uKSBvdmVyIGEgbmF2eSBtZWRhbGxpb24gLS0+DQogIDxwb2x5Z29uIGZpbGw9IiMxYjRhNzUiIHN0cm9rZT0iIzBmMmE0NCIgc3Ryb2tlLXdpZHRoPSIxIg0KICAgIHBvaW50cz0iMTAwLDQ4IDEwOC40LDc5LjcgMTM2LjgsNjMuMiAxMjAuMyw5MS42IDE1MiwxMDAgMTIwLjMsMTA4LjQgMTM2LjgsMTM2LjggMTA4LjQsMTIwLjMgMTAwLDE1MiA5MS42LDEyMC4zIDYzLjIsMTM2LjggNzkuNywxMDguNCA0OCwxMDAgNzkuNyw5MS42IDYzLjIsNjMuMiA5MS42LDc5LjciLz4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiINCiAgICBwb2ludHM9IjEwMCw2MCAxMDYsODggMTMyLDY4IDExMiw5NCAxNDAsMTAwIDExMiwxMDYgMTMyLDEzMiAxMDYsMTEyIDEwMCwxNDAgOTQsMTEyIDY4LDEzMiA4OCwxMDYgNjAsMTAwIDg4LDk0IDY4LDY4IDk0LDg4Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMjQiIGZpbGw9IiMwZjJhNDQiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjVjNTQyIiBzdHJva2Utd2lkdGg9IjEuNSIvPg0KICA8IS0tIENlbnRyYWwgdXB3YXJkIHRyaWFuZ2xlIChjaXZpbC1kZWZlbnNlIGluc3BpcmVkKSB3aXRoIGEgc3RhciAtLT4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiIgcG9pbnRzPSIxMDAsODQgMTE0LDExMCA4NiwxMTAiLz4NCiAgPHBvbHlnb24gZmlsbD0iIzBmMmE0NCINCiAgICBwb2ludHM9IjEwMCw5MiAxMDIuNiw5OS44IDExMC44LDk5LjggMTA0LjEsMTA0LjYgMTA2LjcsMTEyLjQgMTAwLDEwNy42IDkzLjMsMTEyLjQgOTUuOSwxMDQuNiA4OS4yLDk5LjggOTcuNCw5OS44Ii8+DQo8L3N2Zz4NCg==" type="image/svg+xml" />
+  <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
+  <style>
+:root {
+  --bg: #0a1620;
+  --panel: #0f2130;
+  --panel-2: #16303f;
+  --border: #1d3f52;
+  --text: #e6edf3;
+  --muted: #9fb3c0;
+  --accent: #2ECC71;
+  --accent-blue: #3498DB;
+  --danger: #E74C3C;
+  --warning: #F1C40F;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+#app {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  height: 100vh;
+}
+
+/* Header */
+header#topbar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: linear-gradient(90deg, #0b2230, #0f2130);
+  border-bottom: 1px solid var(--border);
+}
+header#topbar .brand-block {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+header#topbar .brand-logo {
+  height: 46px;
+  width: 46px;
+  flex: 0 0 auto;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
+}
+header#topbar .brand {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+}
+header#topbar .brand .accent { color: var(--accent); }
+header#topbar .sub {
+  color: var(--muted);
+  font-size: 12px;
+}
+header#topbar .spacer { flex: 1; }
+header#topbar #signInStatus {
+  font-size: 12px;
+  color: var(--muted);
+}
+header#topbar button {
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+}
+header#topbar button:hover { background: var(--border); }
+
+/* KPI strip */
+#kpis {
+  display: flex;
+  gap: 10px;
+  padding: 10px 16px;
+  background: var(--panel);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+.kpi {
+  min-width: 130px;
+  background: var(--panel-2);
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  padding: 8px 12px;
+}
+.kpi .value { font-size: 22px; font-weight: 700; }
+.kpi .label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* Main layout */
+#main {
+  display: grid;
+  grid-template-columns: 300px 340px 1fr;
+  min-height: 0;
+}
+@media (max-width: 1100px) {
+  #main { grid-template-columns: 260px 1fr; }
+  #listPanel { display: none; }
+}
+
+.panel {
+  background: var(--panel);
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+  padding: 12px;
+}
+.panel h3 {
+  margin: 4px 0 10px;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--muted);
+}
+
+/* Filters */
+.filter-group { margin-bottom: 16px; }
+.filter-group label.title {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: var(--text);
+}
+.filter-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 3px 0;
+  font-size: 13px;
+  color: var(--muted);
+  cursor: pointer;
+}
+.filter-option input { accent-color: var(--accent); }
+.filter-option .swatch {
+  width: 10px; height: 10px; border-radius: 50%;
+  display: inline-block;
+}
+#clearFilters {
+  width: 100%;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+#clearFilters:hover { background: var(--border); }
+
+/* Resource list */
+#resultCount { font-size: 12px; color: var(--muted); margin-bottom: 8px; }
+.list-item {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  background: var(--panel-2);
+}
+.list-item:hover { border-color: var(--accent); }
+.list-item .name { font-weight: 600; font-size: 13px; }
+.list-item .meta { font-size: 11px; color: var(--muted); margin-top: 3px; }
+.list-item .status {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 7px;
+  border-radius: 10px;
+  margin-top: 5px;
+  color: #061018;
+  font-weight: 600;
+}
+
+/* Map */
+#viewDiv { height: 100%; width: 100%; }
+
+/* Loading / error banner */
+#banner {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  padding: 10px 16px;
+  font-size: 13px;
+  text-align: center;
+  display: none;
+}
+#banner.error { display: block; background: var(--danger); color: #fff; }
+#banner.info { display: block; background: var(--accent-blue); color: #fff; }
+
+/* 213RR request modal */
+#newRequestBtn {
+  background: var(--accent);
+  color: #061018;
+  border: none;
+  font-weight: 600;
+}
+#newRequestBtn:hover { filter: brightness(1.08); }
+
+#requestOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 20, 0.7);
+  z-index: 1000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+}
+#requestOverlay.open { display: flex; }
+#requestModal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 460px;
+  max-width: 94vw;
+  margin-top: 5vh;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+.modal-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.modal-title { font-size: 15px; font-weight: 600; }
+.modal-sub { font-size: 11px; color: var(--muted); margin-top: 2px; }
+.icon-btn {
+  background: none; border: none; color: var(--muted);
+  font-size: 22px; line-height: 1; cursor: pointer;
+}
+.icon-btn:hover { color: var(--text); }
+#requestForm { overflow-y: auto; padding: 8px 12px; }
+#requestFormMsg { padding: 0 16px; font-size: 12px; }
+#requestFormMsg.error { color: var(--danger); padding-top: 10px; }
+#requestFormMsg.success { color: var(--accent); padding-top: 10px; }
+.modal-foot {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+}
+.btn-primary {
+  background: var(--accent); color: #061018; border: none;
+  border-radius: 4px; padding: 8px 16px; font-weight: 600; cursor: pointer;
+}
+.btn-primary:disabled { opacity: 0.5; cursor: default; }
+.btn-secondary {
+  background: var(--panel-2); color: var(--text); border: 1px solid var(--border);
+  border-radius: 4px; padding: 8px 16px; cursor: pointer;
+}
+
+/* Requests drawer */
+.header-icon { font-size: 18px; }
+#requestsPanel {
+  position: fixed;
+  top: 0; right: 0;
+  width: 380px;
+  max-width: 92vw;
+  height: 100vh;
+  background: var(--panel);
+  border-left: 1px solid var(--border);
+  box-shadow: -8px 0 24px rgba(0, 0, 0, 0.4);
+  transform: translateX(100%);
+  transition: transform 0.2s ease;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+}
+#requestsPanel.open { transform: translateX(0); }
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+}
+.drawer-title { font-size: 15px; font-weight: 600; }
+#requestsCount { padding: 8px 16px; font-size: 12px; color: var(--muted); }
+#requestsList { overflow-y: auto; padding: 0 12px 16px; }
+
+/* Persona switcher */
+#personaBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+#personaBar label { color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; }
+#personaSelect {
+  flex: 0 0 auto;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--accent);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+#personaGroup { color: var(--muted); font-size: 11px; margin-left: auto; text-align: right; }
+
+/* Request status filter */
+#requestFilterBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 16px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+}
+#requestFilterBar label { color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px; font-size: 11px; }
+#requestStatusFilter {
+  flex: 1 1 auto;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--accent-blue);
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* Workflow owner + actions on request cards */
+.req-owner { font-size: 11px; color: var(--muted); margin: 8px 0 6px; }
+.req-owner b { color: var(--text); }
+.req-approved { font-size: 11px; color: var(--accent); margin: 2px 0 6px; }
+.req-actions { display: flex; flex-wrap: wrap; gap: 6px; }
+.req-actions button {
+  border: none;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--accent-blue);
+  color: #061018;
+}
+.req-actions button.approve { background: var(--accent); }
+.req-actions button.deny { background: var(--danger); color: #fff; }
+.req-actions button:disabled { opacity: 0.4; cursor: default; }
+.req-wait { font-size: 11px; color: var(--warning); font-style: italic; }
+.req-terminal { font-size: 11px; color: var(--muted); font-style: italic; }
+.req-audit {
+  margin-top: 8px;
+  background: transparent;
+  color: var(--accent-blue);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.req-audit:hover { border-color: var(--accent-blue); }
+.req-card {
+  border: 1px solid var(--border);
+  border-left: 4px solid var(--muted);
+  border-radius: 6px;
+  background: var(--panel-2);
+  padding: 10px;
+  margin-bottom: 10px;
+}
+.req-card .title { font-weight: 600; font-size: 13px; }
+.req-card .meta { font-size: 11px; color: var(--muted); margin: 4px 0 8px; }
+.req-badge {
+  display: inline-block;
+  font-size: 11px;
+  padding: 1px 8px;
+  border-radius: 10px;
+  color: #061018;
+  font-weight: 600;
+}
+.req-card .prio { font-size: 11px; font-weight: 600; }
+.req-card .prio.Immediate { color: var(--danger); }
+.req-card .prio.Priority { color: var(--warning); }
+.req-card .prio.Routine { color: var(--muted); }
+.req-card select {
+  width: 100%;
+  margin-top: 8px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 5px;
+  font-size: 12px;
+}
+
+/* Audit log modal (Workflow Manager job history) */
+#auditOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 20, 0.7);
+  z-index: 1100;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+}
+#auditOverlay.open { display: flex; }
+#auditModal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 460px;
+  max-width: 94vw;
+  margin-top: 6vh;
+  max-height: 82vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+#auditBody { overflow-y: auto; padding: 8px 16px 16px; }
+.audit-empty { padding: 16px 0; font-size: 12px; color: var(--muted); }
+.audit-entry {
+  border-left: 3px solid var(--accent-blue);
+  background: var(--panel-2);
+  border-radius: 4px;
+  padding: 8px 10px;
+  margin: 8px 0;
+}
+.audit-when { font-size: 11px; color: var(--muted); }
+.audit-what { font-size: 13px; margin: 2px 0; }
+.audit-who { font-size: 11px; color: var(--accent); }
+.audit-from { color: var(--muted); font-weight: 600; }
+.audit-arrow { color: var(--text); }
+.audit-to { color: var(--accent); font-weight: 700; }
+
+/* Denial reason modal + card denial note */
+#denyOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 20, 0.7);
+  z-index: 1200;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+}
+#denyOverlay.open { display: flex; }
+#denyModal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 440px;
+  max-width: 94vw;
+  margin-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+#denyBody { padding: 12px 16px; }
+#denyBody textarea {
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 6px;
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 8px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+}
+#denyMsg { font-size: 12px; margin-top: 8px; }
+#denyMsg.error { color: var(--danger); }
+.req-denied {
+  font-size: 11px;
+  color: var(--danger);
+  margin: 4px 0 6px;
+  line-height: 1.4;
+}
+
+/* Configuration panel */
+#configOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(4, 12, 20, 0.7);
+  z-index: 1000;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+}
+#configOverlay.open { display: flex; }
+#configModal {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 460px;
+  max-width: 94vw;
+  margin-top: 5vh;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+}
+#configBody { overflow-y: auto; padding: 12px 16px; }
+.cfg-field {
+  display: block;
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.cfg-field input {
+  display: block;
+  width: 100%;
+  margin-top: 4px;
+  background: var(--panel-2);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 7px 8px;
+  font-size: 13px;
+}
+.cfg-row { display: flex; gap: 8px; }
+.cfg-field.small { flex: 1; }
+.cfg-section {
+  font-size: 12px; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; color: var(--muted);
+  margin: 6px 0 8px; border-top: 1px solid var(--border); padding-top: 12px;
+}
+.cfg-toggle {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 13px; padding: 4px 0; cursor: pointer;
+}
+.cfg-toggle input { accent-color: var(--accent); }
+.cfg-note { font-size: 11px; color: var(--muted); margin: 10px 0 0; }
+#configMsg { font-size: 12px; margin-top: 10px; }
+#configMsg.success { color: var(--accent); }
+#configMsg.error { color: var(--danger); }
+
+</style>
+</head>
+<body>
+  <div id="banner"></div>
+
+  <div id="app">
+    <header id="topbar">
+      <div class="brand-block">
+        <img class="brand-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlNlbnRpbmVsIEVtZXJnZW5jeSBNYW5hZ2VtZW50IEFnZW5jeSBzZWFsIj4NCiAgPGRlZnM+DQogICAgPHBhdGggaWQ9InJpbmdUb3AiIGQ9Ik0gMTYsMTAwIEEgODQsODQgMCAwIDEgMTg0LDEwMCIvPg0KICAgIDxwYXRoIGlkPSJyaW5nQm90dG9tIiBkPSJNIDE4NywxMDAgQSA4Nyw4NyAwIDAgMSAxMywxMDAiLz4NCiAgPC9kZWZzPg0KDQogIDwhLS0gT3V0ZXIgbmF2eSBzZWFsIC0tPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk4IiBmaWxsPSIjMGYyYTQ0Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y1YzU0MiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI3NiIgZmlsbD0iI2Y3ZjVlZiIvPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijc2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmNWM1NDIiIHN0cm9rZS13aWR0aD0iMiIvPg0KDQogIDwhLS0gUmluZyB0ZXh0IC0tPg0KICA8ZyBmaWxsPSIjZjVjNTQyIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1RpbWVzIE5ldyBSb21hbicsIHNlcmlmIiBmb250LXdlaWdodD0iNzAwIj4NCiAgICA8dGV4dCBmb250LXNpemU9IjkiIGxldHRlci1zcGFjaW5nPSIwLjYiPg0KICAgICAgPHRleHRQYXRoIGhyZWY9IiNyaW5nVG9wIiBzdGFydE9mZnNldD0iNTAlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRU5USU5FTCBFTUVSR0VOQ1kgTUFOQUdFTUVOVCBBR0VOQ1k8L3RleHRQYXRoPg0KICAgIDwvdGV4dD4NCiAgICA8dGV4dCBmb250LXNpemU9IjguNSIgbGV0dGVyLXNwYWNpbmc9IjIuMiI+DQogICAgICA8dGV4dFBhdGggaHJlZj0iI3JpbmdCb3R0b20iIHN0YXJ0T2Zmc2V0PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlBSRVBBUkUgJiM4MjI2OyBSRVNQT05EICYjODIyNjsgUkVDT1ZFUjwvdGV4dFBhdGg+DQogICAgPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBTaWRlIHN0YXJzIHNlcGFyYXRpbmcgdGhlIHJpbmcgdGV4dCAtLT4NCiAgPGcgZmlsbD0iI2Y1YzU0MiI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIxNCwxMDAgMTcuNSwxMDEuNCAxOSwxMDUgMjAuNSwxMDEuNCAyNCwxMDAgMjAuNSw5OC42IDE5LDk1IDE3LjUsOTguNiIvPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTc2LDEwMCAxNzkuNSwxMDEuNCAxODEsMTA1IDE4Mi41LDEwMS40IDE4NiwxMDAgMTgyLjUsOTguNiAxODEsOTUgMTc5LjUsOTguNiIvPg0KICA8L2c+DQoNCiAgPCEtLSBDZW50ZXIgZW1ibGVtOiBjb21wYXNzLXJvc2Ugc3RhciAoY29vcmRpbmF0aW9uKSBvdmVyIGEgbmF2eSBtZWRhbGxpb24gLS0+DQogIDxwb2x5Z29uIGZpbGw9IiMxYjRhNzUiIHN0cm9rZT0iIzBmMmE0NCIgc3Ryb2tlLXdpZHRoPSIxIg0KICAgIHBvaW50cz0iMTAwLDQ4IDEwOC40LDc5LjcgMTM2LjgsNjMuMiAxMjAuMyw5MS42IDE1MiwxMDAgMTIwLjMsMTA4LjQgMTM2LjgsMTM2LjggMTA4LjQsMTIwLjMgMTAwLDE1MiA5MS42LDEyMC4zIDYzLjIsMTM2LjggNzkuNywxMDguNCA0OCwxMDAgNzkuNyw5MS42IDYzLjIsNjMuMiA5MS42LDc5LjciLz4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiINCiAgICBwb2ludHM9IjEwMCw2MCAxMDYsODggMTMyLDY4IDExMiw5NCAxNDAsMTAwIDExMiwxMDYgMTMyLDEzMiAxMDYsMTEyIDEwMCwxNDAgOTQsMTEyIDY4LDEzMiA4OCwxMDYgNjAsMTAwIDg4LDk0IDY4LDY4IDk0LDg4Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMjQiIGZpbGw9IiMwZjJhNDQiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjVjNTQyIiBzdHJva2Utd2lkdGg9IjEuNSIvPg0KICA8IS0tIENlbnRyYWwgdXB3YXJkIHRyaWFuZ2xlIChjaXZpbC1kZWZlbnNlIGluc3BpcmVkKSB3aXRoIGEgc3RhciAtLT4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiIgcG9pbnRzPSIxMDAsODQgMTE0LDExMCA4NiwxMTAiLz4NCiAgPHBvbHlnb24gZmlsbD0iIzBmMmE0NCINCiAgICBwb2ludHM9IjEwMCw5MiAxMDIuNiw5OS44IDExMC44LDk5LjggMTA0LjEsMTA0LjYgMTA2LjcsMTEyLjQgMTAwLDEwNy42IDkzLjMsMTEyLjQgOTUuOSwxMDQuNiA4OS4yLDk5LjggOTcuNCw5OS44Ii8+DQo8L3N2Zz4NCg==" alt="Sentinel Emergency Management Agency seal" />
+        <div>
+          <div class="brand">EOC <span class="accent">Resource &amp; Asset</span> Management</div>
+          <div class="sub">Sentinel Emergency Management Agency &middot; FEMA NIMS Common Operating Picture</div>
+        </div>
+      </div>
+      <div class="spacer"></div>
+      <button id="requestsPanelBtn">Requests</button>
+      <button id="newRequestBtn">+ Resource Request (213RR)</button>
+      <button id="configBtn" class="icon-btn header-icon" title="Configuration" aria-label="Configuration">&#9881;</button>
+      <span id="signInStatus"></span>
+      <button id="signInBtn">Sign out</button>
+    </header>
+
+    <section id="kpis">
+      <div class="kpi" id="kpi-total"><div class="value">–</div><div class="label">Total Resources</div></div>
+      <div class="kpi" id="kpi-avail"><div class="value">–</div><div class="label">Available</div></div>
+      <div class="kpi" id="kpi-committed"><div class="value">–</div><div class="label">Committed</div></div>
+      <div class="kpi" id="kpi-oos"><div class="value">–</div><div class="label">Out of Service</div></div>
+      <div class="kpi" id="kpi-qty"><div class="value">–</div><div class="label">Total Quantity</div></div>
+    </section>
+
+    <div id="main">
+      <aside class="panel" id="filterPanel">
+        <h3>Filters</h3>
+        <div id="filters"></div>
+        <button id="clearFilters">Clear all filters</button>
+      </aside>
+
+      <aside class="panel" id="listPanel">
+        <h3>Resource Inventory</h3>
+        <div id="resultCount"></div>
+        <div id="list"></div>
+      </aside>
+
+      <div id="viewDiv"></div>
+    </div>
+  </div>
+
+  <!-- Requests drawer: existing 213RR records + status control -->
+  <aside id="requestsPanel">
+    <div class="drawer-head">
+      <div class="drawer-title">Resource Requests (213RR)</div>
+      <button id="requestsClose" class="icon-btn" aria-label="Close">&times;</button>
+    </div>
+    <div id="personaBar">
+      <label for="personaSelect">Acting as</label>
+      <select id="personaSelect"></select>
+      <span id="personaGroup"></span>
+    </div>
+    <div id="requestFilterBar">
+      <label for="requestStatusFilter">Show status</label>
+      <select id="requestStatusFilter"></select>
+    </div>
+    <div id="requestsCount"></div>
+    <div id="requestsList"></div>
+  </aside>
+
+  <!-- ICS 213RR Resource Request intake -->
+  <div id="requestOverlay">
+    <div id="requestModal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title" id="requestModalTitle">Resource Request &mdash; ICS 213RR</div>
+          <div class="modal-sub" id="requestModalSub">Submit a new request into the EOC ResourceRequests log</div>
+        </div>
+        <button id="requestClose" class="icon-btn" aria-label="Close">&times;</button>
+      </div>
+      <div id="requestFormMsg"></div>
+      <div id="requestForm"></div>
+      <div class="modal-foot">
+        <button id="requestCancel" class="btn-secondary">Cancel</button>
+        <button id="requestSubmit" class="btn-primary">Submit Request</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Request audit log (Workflow Manager job history) -->
+  <div id="auditOverlay">
+    <div id="auditModal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">Audit Log</div>
+          <div class="modal-sub" id="auditSub">Workflow Manager job history</div>
+        </div>
+        <button id="auditClose" class="icon-btn" aria-label="Close">&times;</button>
+      </div>
+      <div id="auditBody"></div>
+      <div class="modal-foot">
+        <button id="auditCsvBtn" class="btn-secondary">Export CSV</button>
+        <button id="auditPdfBtn" class="btn-primary">PDF report</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Deny request: capture the approver's reason -->
+  <div id="denyOverlay">
+    <div id="denyModal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">Deny Request</div>
+          <div class="modal-sub">Provide the reason this request is being denied</div>
+        </div>
+        <button id="denyClose" class="icon-btn" aria-label="Close">&times;</button>
+      </div>
+      <div id="denyBody">
+        <label class="cfg-field">Reason for denial
+          <textarea id="denyReason" rows="4" placeholder="Explain why this request cannot be approved&hellip;"></textarea>
+        </label>
+        <div id="denyMsg"></div>
+      </div>
+      <div class="modal-foot">
+        <button id="denyCancel" class="btn-secondary">Cancel</button>
+        <button id="denyConfirm" class="btn-primary">Deny &amp; Notify Requestor</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Configuration control panel -->
+  <div id="configOverlay">
+    <div id="configModal">
+      <div class="modal-head">
+        <div>
+          <div class="modal-title">Configuration</div>
+          <div class="modal-sub">Connection settings persist in this browser (localStorage)</div>
+        </div>
+        <button id="configClose" class="icon-btn" aria-label="Close">&times;</button>
+      </div>
+      <div id="configBody">
+        <label class="cfg-field">Portal URL
+          <input type="text" id="cfgPortalUrl" />
+        </label>
+        <label class="cfg-field">OAuth App ID (Client ID)
+          <input type="text" id="cfgAppId" placeholder="required for org-shared layers" />
+        </label>
+        <label class="cfg-field">Feature Service URL
+          <input type="text" id="cfgServiceUrl" />
+        </label>
+        <div class="cfg-row">
+          <label class="cfg-field small">Resources layer
+            <input type="number" id="cfgLayerResources" min="0" />
+          </label>
+          <label class="cfg-field small">Facilities layer
+            <input type="number" id="cfgLayerFacilities" min="0" />
+          </label>
+          <label class="cfg-field small">Requests table
+            <input type="number" id="cfgLayerRequests" min="0" />
+          </label>
+        </div>
+        <div class="cfg-section">Live map layers</div>
+        <label class="cfg-toggle"><input type="checkbox" id="cfgShowResources" checked /> Show Resources</label>
+        <label class="cfg-toggle"><input type="checkbox" id="cfgShowFacilities" checked /> Show Facilities</label>
+        <div id="configMsg"></div>
+        <p class="cfg-note">Changing connection settings reloads the app.</p>
+      </div>
+      <div class="modal-foot">
+        <button id="configReset" class="btn-secondary">Reset to defaults</button>
+        <button id="configSave" class="btn-primary">Save &amp; reload</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+/**
+ * EOC Resource & Asset Management — standalone JS app configuration.
+ * Mirrors the criteria of the ArcGIS Online EOC solution (org publicsafety.maps.arcgis.com).
+ */
+window.EOC_CONFIG = {
+  portalUrl: "https://publicsafety.maps.arcgis.com",
+
+  // OAuth 2.0 app registration. Register a Web app item in ArcGIS Online, add this
+  // page's origin as a redirect URI, then paste its client id here. Leave blank only
+  // if the feature service is shared publicly (no sign-in required).
+  appId: "btWAe4m8NsZGaAXt", // e.g. "AbCd1234ClientId"
+
+  featureServiceUrl:
+    "https://services6.arcgis.com/SdBwj74JF24xKhpX/arcgis/rest/services/EOC_Resource_Inventory/FeatureServer",
+
+  layers: {
+    resources: 0, // point — NIMS-typed inventory
+    facilities: 1, // point — EOC / staging / POD / shelter / base camp
+    requests: 2 // table — ICS 213RR-style resource requests
+  },
+
+  // Tactical dark palette — color drives Status, size drives Quantity.
+  statusColors: {
+    Available: "#2ECC71",
+    Committed: "#3498DB",
+    "En Route": "#F1C40F",
+    "Out of Service": "#E74C3C",
+    Demobilized: "#95A5A6"
+  },
+
+  // Filter fields exposed in the left panel (multi-select).
+  filterFields: [
+    { field: "Status", label: "Status" },
+    { field: "NIMS_Category", label: "Category" },
+    { field: "NIMS_Kind", label: "Kind" },
+    { field: "TypeClass", label: "Type" }
+  ],
+
+  // California extent (matches the relocated synthetic data).
+  initialExtent: {
+    xmin: -124.5,
+    ymin: 32.5,
+    xmax: -114.1,
+    ymax: 42.0,
+    spatialReference: { wkid: 4326 }
+  },
+
+  // Resource-request approval workflow — mirrors the ArcGIS Workflow Manager diagram.
+  // Each status is "owned" by one persona; only that persona sees its actions enabled.
+  workflow: {
+    statusField: "RequestStatus",
+    personas: ["Requestor", "Logistics", "Approver", "Operations"],
+    // Persona -> the ArcGIS Workflow Manager role group that runs the step (for display).
+    personaGroups: {
+      Requestor: "EOC — Requestors",
+      Logistics: "EOC — Logistics Section",
+      Approver: "EOC — Approving Authority",
+      Operations: "EOC — Operations Section"
+    },
+    // Optional stamp fields (written only if they exist on the table).
+    approvedByField: "ApprovedBy",
+    approvedDateField: "ApprovedDate",
+    returnedDateField: "ReturnedDate",
+    denialReasonField: "DenialReason",
+
+    // ArcGIS Workflow Manager job that serves as each request's audit log.
+    // jobIdField relates a request row to its WFM job; every status change is
+    // recorded as a job comment + extended-property update, and the job history
+    // (GET jobs/{id}/history + /comments) is shown as the request's audit trail.
+    wfm: {
+      orgId: "SdBwj74JF24xKhpX",
+      itemId: "44a7a82c0a334e7bbff8403e831c7281",
+      jobIdField: "WFMJobId",
+      statusExtProp: "resource_request.request_status",
+      requestorExtProp: "resource_request.requestor",
+      denialReasonExtProp: "resource_request.denial_reason",
+      auditSummaryExtProp: "resource_request.audit_summary",
+      editUrlExtProp: "resource_request.edit_url",
+      // Named Email steps in the diagram the app drives (over REST) so WFM sends the notification.
+      denyEmailStep: "Notify Requestor \u2014 Denied",
+      resubmitEmailStep: "Notify Approver \u2014 Resubmitted",
+      sendEmails: true
+    },
+    // status -> { owner persona, actions: [{ label, to, kind }] }
+    steps: {
+      "Submitted":       { owner: "Logistics",  actions: [{ label: "Start Logistics Review", to: "Under Review" }] },
+      "Under Review":    { owner: "Approver",   actions: [{ label: "Approve", to: "Approved", kind: "approve" }, { label: "Deny", to: "Denied", kind: "deny" }] },
+      "Approved":        { owner: "Logistics",  actions: [{ label: "Source Resource", to: "Sourced" }] },
+      "Sourced":         { owner: "Logistics",  actions: [{ label: "Mobilize", to: "En Route" }] },
+      "En Route":        { owner: "Operations", actions: [{ label: "Deploy", to: "Deployed" }] },
+      "Deployed":        { owner: "Operations", actions: [{ label: "Demobilize", to: "Demobilizing" }] },
+      "Demobilizing":    { owner: "Logistics",  actions: [{ label: "Return", to: "Returned", kind: "return" }] },
+      "Returned":        { owner: "Logistics",  actions: [{ label: "Close", to: "Closed" }] },
+      "Denied":          { owner: "Requestor",  actions: [{ label: "Edit & Resubmit", to: "Submitted", kind: "resubmit" }] },
+      "Closed":          { owner: null, actions: [] }
+    }
+  }
+};
+
+// Runtime overrides saved from the Configuration panel (localStorage). Lets an operator
+// point the app at a different portal / OAuth app / service without editing this file.
+try {
+  const saved = JSON.parse(localStorage.getItem("eoc.configOverrides") || "{}");
+  Object.assign(window.EOC_CONFIG, saved);
+} catch (e) { /* ignore malformed overrides */ }
+
+</script>
+  <script src="https://js.arcgis.com/4.30/"></script>
+  <script>
+/**
+ * EOC Resource & Asset Management — standalone ArcGIS Maps SDK for JavaScript app.
+ * Pure HTML/JS/CSS (no build step). Loads the AMD SDK from the Esri CDN.
+ */
+require([
+  "esri/config",
+  "esri/identity/OAuthInfo",
+  "esri/identity/IdentityManager",
+  "esri/Map",
+  "esri/views/MapView",
+  "esri/layers/FeatureLayer",
+  "esri/renderers/UniqueValueRenderer",
+  "esri/symbols/SimpleMarkerSymbol",
+  "esri/widgets/Legend",
+  "esri/widgets/LayerList",
+  "esri/widgets/Search",
+  "esri/widgets/BasemapGallery",
+  "esri/widgets/Editor",
+  "esri/widgets/FeatureForm",
+  "esri/widgets/Expand",
+  "esri/widgets/Home",
+  "esri/Graphic",
+  "esri/geometry/Extent"
+], function (
+  esriConfig, OAuthInfo, IdentityManager, Map, MapView, FeatureLayer,
+  UniqueValueRenderer, SimpleMarkerSymbol, Legend, LayerList, Search,
+  BasemapGallery, Editor, FeatureForm, Expand, Home, Graphic, Extent
+) {
+  "use strict";
+
+  const CFG = window.EOC_CONFIG;
+  const banner = document.getElementById("banner");
+
+  function showBanner(msg, kind) {
+    banner.textContent = msg;
+    banner.className = kind || "info";
+  }
+  function hideBanner() { banner.className = ""; banner.style.display = "none"; }
+
+  /* ---------------------------------------------------------------- auth */
+  function signIn() {
+    return new Promise(function (resolve) {
+      if (!CFG.appId) {
+        // No OAuth app configured — assume the service is public.
+        resolve(null);
+        return;
+      }
+      const info = new OAuthInfo({
+        appId: CFG.appId,
+        portalUrl: CFG.portalUrl,
+        popup: false
+      });
+      IdentityManager.registerOAuthInfos([info]);
+      IdentityManager.checkSignInStatus(CFG.portalUrl + "/sharing")
+        .then(function (cred) {
+          document.getElementById("signInStatus").textContent =
+            "Signed in: " + (cred.userId || "");
+          document.getElementById("signInBtn").textContent = "Sign out";
+          resolve(cred);
+        })
+        .catch(function () {
+          IdentityManager.getCredential(CFG.portalUrl + "/sharing")
+            .then(resolve)
+            .catch(function () { resolve(null); });
+        });
+    });
+  }
+
+  document.getElementById("signInBtn").addEventListener("click", function () {
+    IdentityManager.destroyCredentials();
+    window.location.reload();
+  });
+
+  /* ------------------------------------------------------------- renderer */
+  function buildResourceRenderer() {
+    function marker(color) {
+      return new SimpleMarkerSymbol({
+        color: color,
+        size: 8,
+        outline: { color: [8, 22, 32, 0.9], width: 0.75 }
+      });
+    }
+    const uniqueValueInfos = Object.keys(CFG.statusColors).map(function (status) {
+      return { value: status, symbol: marker(CFG.statusColors[status]), label: status };
+    });
+    return new UniqueValueRenderer({
+      field: "Status",
+      defaultSymbol: marker("#7f8c8d"),
+      defaultLabel: "Other",
+      uniqueValueInfos: uniqueValueInfos,
+      // Size drives Quantity (8–48 pt over 1–100), matching the deployed symbology.
+      visualVariables: [
+        {
+          type: "size",
+          field: "Quantity",
+          minDataValue: 1,
+          maxDataValue: 100,
+          minSize: 8,
+          maxSize: 48
+        }
+      ]
+    });
+  }
+
+  /* ---------------------------------------------------------------- layers */
+  const resourcesLayer = new FeatureLayer({
+    url: CFG.featureServiceUrl + "/" + CFG.layers.resources,
+    title: "Resources",
+    outFields: ["*"],
+    renderer: buildResourceRenderer(),
+    popupTemplate: {
+      title: "{ResourceName}",
+      content: [{
+        type: "fields",
+        fieldInfos: [
+          { fieldName: "NIMS_Category", label: "Category" },
+          { fieldName: "NIMS_Kind", label: "Kind" },
+          { fieldName: "ResourceTypeDef", label: "Typing Definition" },
+          { fieldName: "TypeClass", label: "Type" },
+          { fieldName: "Quantity", label: "Quantity" },
+          { fieldName: "UnitOfMeasure", label: "Unit" },
+          { fieldName: "Status", label: "Status" },
+          { fieldName: "Readiness", label: "Readiness" },
+          { fieldName: "OwningAgency", label: "Owning Agency" },
+          { fieldName: "Jurisdiction", label: "Jurisdiction" },
+          { fieldName: "SiteName", label: "Site" },
+          { fieldName: "Contact", label: "Contact" },
+          { fieldName: "ContactPhone", label: "Phone" }
+        ]
+      }]
+    }
+  });
+
+  const facilitiesLayer = new FeatureLayer({
+    url: CFG.featureServiceUrl + "/" + CFG.layers.facilities,
+    title: "Facilities",
+    outFields: ["*"],
+    popupTemplate: {
+      title: "{SiteName}",
+      content: [{
+        type: "fields",
+        fieldInfos: [
+          { fieldName: "FacilityType", label: "Facility Type" },
+          { fieldName: "Status", label: "Status" },
+          { fieldName: "Capacity", label: "Capacity" },
+          { fieldName: "Jurisdiction", label: "Jurisdiction" },
+          { fieldName: "Contact", label: "Contact" },
+          { fieldName: "ContactPhone", label: "Phone" }
+        ]
+      }]
+    }
+  });
+
+  /* ------------------------------------------------------------------ map */
+  const map = new Map({ basemap: "dark-gray-vector", layers: [facilitiesLayer, resourcesLayer] });
+
+  // Non-spatial ResourceRequests log (ICS 213RR). Standalone table — not added to the map.
+  const requestsTable = new FeatureLayer({
+    url: CFG.featureServiceUrl + "/" + CFG.layers.requests,
+    outFields: ["*"]
+  });
+
+  const view = new MapView({
+    container: "viewDiv",
+    map: map,
+    extent: new Extent(CFG.initialExtent),
+    padding: { top: 0 },
+    popup: { dockEnabled: true, dockOptions: { position: "bottom-right", breakpoint: false } }
+  });
+
+  view.ui.add(new Home({ view: view }), "top-left");
+  view.ui.add(
+    new Expand({ view: view, content: new Search({ view: view }), expandTooltip: "Search" }),
+    "top-right"
+  );
+  view.ui.add(
+    new Expand({ view: view, content: new LayerList({ view: view }), expandTooltip: "Layers" }),
+    "top-right"
+  );
+  view.ui.add(
+    new Expand({ view: view, content: new Legend({ view: view }), expandTooltip: "Legend" }),
+    "bottom-left"
+  );
+  view.ui.add(
+    new Expand({ view: view, content: new BasemapGallery({ view: view }), expandTooltip: "Basemap" }),
+    "top-right"
+  );
+
+  /* ------------------------------------------------------- data entry/edit */
+  // Editor widget: add / update / delete Resources and Facilities. Coded-value
+  // domains render as dropdowns automatically. Editing must be enabled on the service.
+  const editor = new Editor({
+    view: view,
+    label: "Add / Edit",
+    layerInfos: [
+      {
+        layer: resourcesLayer,
+        formTemplate: {
+          elements: [
+            { type: "field", fieldName: "ResourceName", label: "Resource Name" },
+            { type: "field", fieldName: "NIMS_Category", label: "Category" },
+            { type: "field", fieldName: "NIMS_Kind", label: "Kind" },
+            { type: "field", fieldName: "ResourceTypeDef", label: "Typing Definition" },
+            { type: "field", fieldName: "TypeClass", label: "Type" },
+            { type: "field", fieldName: "Quantity", label: "Quantity" },
+            { type: "field", fieldName: "UnitOfMeasure", label: "Unit of Measure" },
+            { type: "field", fieldName: "Capability", label: "Capability" },
+            { type: "field", fieldName: "Status", label: "Status" },
+            { type: "field", fieldName: "Readiness", label: "Readiness" },
+            { type: "field", fieldName: "OwningAgency", label: "Owning Agency" },
+            { type: "field", fieldName: "Jurisdiction", label: "Jurisdiction" },
+            { type: "field", fieldName: "SiteName", label: "Site" },
+            { type: "field", fieldName: "Contact", label: "Contact" },
+            { type: "field", fieldName: "ContactPhone", label: "Contact Phone" },
+            { type: "field", fieldName: "Notes", label: "Notes" }
+          ]
+        },
+        enabled: true,
+        addEnabled: true,
+        updateEnabled: true,
+        deleteEnabled: true,
+        attributeUpdatesEnabled: true,
+        geometryUpdatesEnabled: true,
+        attachmentsOnCreateEnabled: true,
+        attachmentsOnUpdateEnabled: true
+      },
+      {
+        layer: facilitiesLayer,
+        formTemplate: {
+          elements: [
+            { type: "field", fieldName: "SiteName", label: "Site Name" },
+            { type: "field", fieldName: "FacilityType", label: "Facility Type" },
+            { type: "field", fieldName: "Status", label: "Status" },
+            { type: "field", fieldName: "Capacity", label: "Capacity" },
+            { type: "field", fieldName: "Jurisdiction", label: "Jurisdiction" },
+            { type: "field", fieldName: "Contact", label: "Contact" },
+            { type: "field", fieldName: "ContactPhone", label: "Contact Phone" },
+            { type: "field", fieldName: "Notes", label: "Notes" }
+          ]
+        },
+        enabled: true,
+        addEnabled: true,
+        updateEnabled: true,
+        deleteEnabled: true
+      }
+    ]
+  });
+  view.ui.add(
+    new Expand({ view: view, content: editor, expandIconClass: "esri-icon-edit", expandTooltip: "Data Entry / Edit" }),
+    "top-left"
+  );
+
+  // Recompute KPIs + list after any create/update/delete so the picture stays current.
+  function afterEdits() { applyFilters(); }
+  resourcesLayer.on("edits", afterEdits);
+  facilitiesLayer.on("edits", afterEdits);
+
+  /* -------------------------------------------------- ICS 213RR request form */
+  let requestForm = null;
+  let editContext = null; // when set, the request modal is editing/resubmitting an existing record
+
+  function ensureRequestForm() {
+    if (requestForm) return;
+    requestForm = new FeatureForm({
+      container: "requestForm",
+      layer: requestsTable,
+      formTemplate: {
+        elements: [
+          { type: "field", fieldName: "RequestTitle", label: "Request Title" },
+          { type: "field", fieldName: "IncidentName", label: "Incident Name" },
+          { type: "field", fieldName: "Requestor", label: "Requestor" },
+          { type: "field", fieldName: "Priority", label: "Priority" },
+          { type: "field", fieldName: "RequestedCategory", label: "Requested Category" },
+          { type: "field", fieldName: "RequestedKind", label: "Requested Kind" },
+          { type: "field", fieldName: "RequestedType", label: "Requested Type" },
+          { type: "field", fieldName: "QuantityRequested", label: "Quantity Requested" },
+          { type: "field", fieldName: "DateNeeded", label: "Date Needed" },
+          { type: "field", fieldName: "RequestStatus", label: "Status" },
+          { type: "field", fieldName: "Notes", label: "Notes / Justification" }
+        ]
+      }
+    });
+  }
+
+  function openRequestModal() {
+    const overlay = document.getElementById("requestOverlay");
+    const msg = document.getElementById("requestFormMsg");
+    msg.textContent = "";
+    msg.className = "";
+    editContext = null;
+    document.getElementById("requestModalTitle").textContent = "Resource Request \u2014 ICS 213RR";
+    document.getElementById("requestModalSub").textContent = "Submit a new request into the EOC ResourceRequests log";
+    document.getElementById("requestSubmit").textContent = "Submit Request";
+
+    // A fresh, empty record; RequestStatus defaults to "Submitted", DateNeeded to today.
+    const feature = new Graphic({
+      attributes: {
+        RequestStatus: "Submitted",
+        Priority: "Routine",
+        DateNeeded: Date.now()
+      }
+    });
+
+    ensureRequestForm();
+    requestForm.feature = feature;
+    overlay.classList.add("open");
+  }
+
+  function closeRequestModal() {
+    document.getElementById("requestOverlay").classList.remove("open");
+  }
+
+  function submitRequest() {
+    const msg = document.getElementById("requestFormMsg");
+    const submitBtn = document.getElementById("requestSubmit");
+    if (!requestForm) return;
+
+    const values = requestForm.getValues();
+    if (!values.RequestTitle) {
+      msg.className = "error";
+      msg.textContent = "Request Title is required.";
+      return;
+    }
+
+    if (editContext) { submitResubmission(values, msg, submitBtn); return; }
+
+    submitBtn.disabled = true;
+    msg.className = "";
+    msg.textContent = "Submitting…";
+
+    const graphic = new Graphic({ attributes: values });
+    requestsTable.applyEdits({ addFeatures: [graphic] })
+      .then(function (result) {
+        const res = result.addFeatureResults && result.addFeatureResults[0];
+        if (res && res.error) throw res.error;
+        msg.className = "success";
+        msg.textContent = "Request submitted (OBJECTID " + (res ? res.objectId : "?") + ").";
+        // Reveal the request in the drawer (newest-first), ready for approval.
+        toggleRequestsPanel(true);
+        setTimeout(closeRequestModal, 1200);
+      })
+      .catch(function (err) {
+        console.error(err);
+        msg.className = "error";
+        msg.textContent = "Submit failed: " + (err && err.message ? err.message : "unknown error") +
+          ". You need edit privileges on ResourceRequests.";
+      })
+      .then(function () { submitBtn.disabled = false; });
+  }
+
+  // Resubmit a previously denied request: update the record, return it to the approval queue,
+  // and record the resubmission (+ notify the approver) through Workflow Manager.
+  function submitResubmission(values, msg, submitBtn) {
+    const ctx = editContext;
+    const target = (ctx.action && ctx.action.to) || "Submitted";
+    submitBtn.disabled = true;
+    msg.className = "";
+    msg.textContent = "Resubmitting…";
+
+    const attrs = Object.assign({}, values, { OBJECTID: ctx.objectId });
+    attrs[WF.statusField] = target;
+    const graphic = new Graphic({ attributes: attrs });
+    requestsTable.applyEdits({ updateFeatures: [graphic] })
+      .then(function (result) {
+        const res = result.updateFeatureResults && result.updateFeatureResults[0];
+        if (res && res.error) throw res.error;
+        msg.className = "success";
+        msg.textContent = "Resubmitted for approval.";
+        wfmRecordTransition(ctx.jobId, activePersona, ctx.fromStatus, target);
+        handleResubmitSideEffects(ctx.objectId, ctx.jobId);
+        editContext = null;
+        toggleRequestsPanel(true);
+        setTimeout(closeRequestModal, 1200);
+      })
+      .catch(function (err) {
+        console.error(err);
+        msg.className = "error";
+        msg.textContent = "Resubmit failed: " + (err && err.message ? err.message : "unknown error") + ".";
+      })
+      .then(function () { submitBtn.disabled = false; });
+  }
+
+  document.getElementById("newRequestBtn").addEventListener("click", openRequestModal);
+  document.getElementById("requestClose").addEventListener("click", closeRequestModal);
+  document.getElementById("requestCancel").addEventListener("click", closeRequestModal);
+  document.getElementById("requestSubmit").addEventListener("click", submitRequest);
+  document.getElementById("requestOverlay").addEventListener("click", function (e) {
+    if (e.target.id === "requestOverlay") closeRequestModal();
+  });
+
+  /* ------------------------------------------------------ requests panel */
+  // Status color key for the request log badges (defaults to grey for unmapped values).
+  const REQUEST_STATUS_COLORS = {
+    Submitted: "#3498DB",
+    "Under Review": "#F1C40F",
+    Approved: "#2ECC71",
+    Sourced: "#1ABC9C",
+    "En Route": "#F39C12",
+    Deployed: "#2ECC71",
+    Filled: "#2ECC71",
+    Demobilizing: "#9B59B6",
+    Returned: "#95A5A6",
+    Denied: "#E74C3C",
+    Cancelled: "#E74C3C",
+    Closed: "#7f8c8d"
+  };
+
+  let requestStatusValues = null; // cached coded-value list from the field domain
+
+  function getRequestStatusValues() {
+    if (requestStatusValues) return requestStatusValues;
+    const field = requestsTable.fields &&
+      requestsTable.fields.find(function (f) { return f.name === "RequestStatus"; });
+    if (field && field.domain && field.domain.codedValues) {
+      requestStatusValues = field.domain.codedValues.map(function (c) { return c.name; });
+    } else {
+      requestStatusValues = Object.keys(REQUEST_STATUS_COLORS);
+    }
+    return requestStatusValues;
+  }
+
+  /* ---- persona-driven approval workflow (mirrors ArcGIS Workflow Manager) ---- */
+  const WF = CFG.workflow;
+  let activePersona = WF.personas[0];
+  // Requests list status filter — defaults to new (Submitted) requests awaiting approval.
+  let activeRequestStatus = "Submitted";
+
+  /* ---- Workflow Manager job = per-request audit log ---- */
+  const WFM = WF.wfm || null;
+  let currentAuditData = null; // { objectId, title, jobId, entries } for the open audit modal (drives export)
+  function wfmBase() { return "https://workflow.arcgis.com/" + WFM.orgId + "/" + WFM.itemId; }
+  function wfmToken() {
+    const c = IdentityManager.findCredential(CFG.portalUrl + "/sharing");
+    return c && c.token;
+  }
+  function wfmFetch(path, options) {
+    const token = wfmToken();
+    if (!token) return Promise.reject(new Error("Not signed in"));
+    const opts = options || {};
+    return fetch(wfmBase() + path, {
+      method: opts.method || "GET",
+      headers: {
+        "Authorization": "Bearer " + token,
+        "Content-Type": "application/json",
+        "Accept": "application/json"
+      },
+      body: opts.body ? JSON.stringify(opts.body) : undefined
+    }).then(function (r) { return r.json(); })
+      .then(function (j) { if (j && j.error) throw new Error(j.error.message || "Workflow Manager error"); return j; });
+  }
+  // Record a status change on the linked WFM job: durable comment + status ext-prop.
+  // Comment is stored in a parseable form so the audit log can show previous → new status.
+  function wfmRecordTransition(jobId, persona, fromStatus, toStatus) {
+    if (!WFM || !jobId) return Promise.resolve(false);
+    const comment = "Status: " + fromStatus + " \u2192 " + toStatus + " (by " + persona + ")";
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/comments", { method: "POST", body: { comment: comment } })
+      .then(function () {
+        return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/update", {
+          method: "POST",
+          body: { extendedProperties: [{ identifier: WFM.statusExtProp, value: String(toStatus) }] }
+        }).catch(function () { /* ext-prop update is best-effort */ });
+      })
+      .then(function () { return true; })
+      .catch(function (err) { console.warn("WFM audit write failed:", err && err.message); return false; });
+  }
+
+  /* ---- WFM notifications: enrich the job, then drive its Email step so WFM sends mail ---- */
+  function wfmUser() {
+    const c = IdentityManager.findCredential(CFG.portalUrl + "/sharing");
+    return c && c.userId;
+  }
+  function sendEmailsEnabled() { return !!(WFM && WFM.sendEmails !== false); }
+  function editUrlFor(objectId) { return location.origin + location.pathname + "?request=" + objectId; }
+  function seq(items, fn) {
+    return items.reduce(function (p, x) { return p.then(function () { return fn(x); }); }, Promise.resolve());
+  }
+  function notifyAudit(jobId, text) {
+    if (!WFM || !jobId) return Promise.resolve();
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/comments", { method: "POST", body: { comment: text } })
+      .catch(function () { /* audit note best-effort */ });
+  }
+  // Compact, human-readable trail for the job narrative (one line per transition, HTML <br> breaks).
+  function buildAuditSummary(entries) {
+    return (entries || []).slice(0, 20).map(function (e) {
+      const when = e.when ? new Date(Number(e.when) || Date.parse(e.when)).toLocaleString() : "";
+      const change = (e.from || e.to) ? ((e.from || "\u2014") + " \u2192 " + (e.to || "\u2014")) : (e.note || "");
+      return "\u2022 " + change + (e.who ? " (by " + e.who + ")" : "") + (when ? " \u2014 " + when : "");
+    }).join("<br>");
+  }
+  // Full narrative packed into the WFM job description; the email steps render it via $job.description.
+  function buildJobNarrative(a, entries, kind, reason) {
+    const lines = [];
+    lines.push(kind === "resubmitted" ? "STATUS: MODIFIED & RESUBMITTED FOR APPROVAL" : "STATUS: DENIED");
+    lines.push("Request: " + (a.RequestTitle || ""));
+    if (a.IncidentName) lines.push("Incident: " + a.IncidentName);
+    const ckt = [a.RequestedCategory, a.RequestedKind, a.RequestedType].filter(Boolean).join(" / ");
+    if (ckt) lines.push("Category / Kind / Type: " + ckt);
+    lines.push("Quantity: " + (a.QuantityRequested == null ? "-" : a.QuantityRequested) + "   Priority: " + (a.Priority || ""));
+    if (a.Requestor) lines.push("Requestor: " + a.Requestor);
+    const r = reason != null ? reason : a[WF.denialReasonField];
+    if (kind !== "resubmitted" && r) lines.push("Reason for denial: " + r);
+    lines.push("");
+    lines.push("Audit trail:");
+    lines.push(buildAuditSummary(entries) || "(no entries yet)");
+    lines.push("");
+    lines.push("Edit & resubmit: " + editUrlFor(a.OBJECTID));
+    return lines.join("<br>");
+  }
+  function wfmUpdateExtProps(jobId, props) {
+    const extendedProperties = Object.keys(props).map(function (k) {
+      return { identifier: k, value: props[k] == null ? "" : String(props[k]) };
+    });
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/update", { method: "POST", body: { extendedProperties: extendedProperties } });
+  }
+  // Write the composed narrative to the job description (+ keep request_status current) so the
+  // Workflow Manager email steps have full content to render.
+  function refreshJobNarrative(objectId, jobId, extra) {
+    extra = extra || {};
+    if (!WFM || !jobId) return Promise.resolve();
+    return requestsTable.queryFeatures({ where: "OBJECTID=" + objectId, outFields: ["*"], returnGeometry: false, num: 1 })
+      .then(function (res) {
+        const a = (res.features[0] && res.features[0].attributes) || {};
+        a.OBJECTID = objectId;
+        return wfmLoadAudit(jobId).catch(function () { return []; }).then(function (entries) {
+          const body = {
+            description: buildJobNarrative(a, entries, extra.kind, extra.reason),
+            extendedProperties: [{ identifier: WFM.statusExtProp, value: String(extra.status || a.RequestStatus || "") }]
+          };
+          return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/update", { method: "POST", body: body });
+        });
+      });
+  }
+  function wfmAssign(jobId, stepId, user) {
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/" + encodeURIComponent(stepId), { method: "POST", body: { assignedType: "User", assignedTo: user } });
+  }
+  function wfmSetCurrentStep(jobId, stepId) {
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/action", { method: "POST", body: { type: "SetCurrentStep", stepIds: [stepId] } })
+      .then(function () { return wfmFetch("/jobs/" + encodeURIComponent(jobId)); })
+      .then(function (job) {
+        const now = (job.currentSteps || []).map(function (s) { return s.stepId; });
+        // A SetCurrentStep issued while steps are current can deactivate first; a second call lands it.
+        if (now.indexOf(stepId) === -1) {
+          return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/action", { method: "POST", body: { type: "SetCurrentStep", stepIds: [stepId] } });
+        }
+      });
+  }
+  // Drive the linked WFM job to a named Email step over REST so Workflow Manager sends the email.
+  // Uses only REST primitives (assign -> Stop -> SetCurrentStep -> Run -> Finish); best-effort.
+  function wfmSendEmail(jobId, stepName) {
+    if (!WFM || !jobId || !stepName) return Promise.resolve(false);
+    const user = wfmUser();
+    let emailStepId = null;
+    return wfmFetch("/jobs/" + encodeURIComponent(jobId)).then(function (job) {
+      const diagramId = job.diagramId || (job.job && job.job.diagramId);
+      if (!diagramId) throw new Error("job has no diagram");
+      const current = (job.currentSteps || []).map(function (s) { return s.stepId; });
+      return wfmFetch("/diagrams/" + encodeURIComponent(diagramId)).then(function (d) {
+        const dg = d.diagram || d;
+        const step = (dg.steps || []).find(function (s) { return (s.name || s.stepName) === stepName; });
+        if (!step) throw new Error("email step '" + stepName + "' not found in diagram");
+        emailStepId = step.id || step.stepId;
+        return seq(current, function (sid) { return wfmAssign(jobId, sid, user).catch(function () {}); });
+      });
+    }).then(function () {
+      return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/action", { method: "POST", body: { type: "Stop" } }).catch(function () {});
+    }).then(function () {
+      return wfmSetCurrentStep(jobId, emailStepId);
+    }).then(function () {
+      return wfmAssign(jobId, emailStepId, user).catch(function () {});
+    }).then(function () {
+      return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/action", { method: "POST", body: { type: "Run", stepIds: [emailStepId] } }).catch(function () {});
+    }).then(function () {
+      return wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/action", { method: "POST", body: { type: "Finish", stepIds: [emailStepId] } });
+    }).then(function () { return true; });
+  }
+  // Denial side effects: reason comment + refreshed extended properties + WFM email to the requestor.
+  function handleDenialSideEffects(objectId, jobId, reason) {
+    if (!WFM || !jobId) return;
+    wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/comments", { method: "POST", body: { comment: "Denial reason: " + reason } })
+      .catch(function () {})
+      .then(function () { return refreshJobNarrative(objectId, jobId, { status: "Denied", kind: "denied", reason: reason }); })
+      .then(function () { return sendEmailsEnabled() ? wfmSendEmail(jobId, WFM.denyEmailStep) : false; })
+      .then(function (sent) { if (sent) return notifyAudit(jobId, "Denial email sent to requestor via Workflow Manager."); })
+      .catch(function (err) {
+        console.warn("Denial notification failed:", err && err.message);
+        showBanner("Denial recorded; the Workflow Manager email could not be sent automatically (" +
+          (err && err.message ? err.message : "error") + ").", "error");
+        setTimeout(hideBanner, 5000);
+      });
+  }
+  // Resubmit side effects: audit note + refreshed extended properties + WFM email to the approver.
+  function handleResubmitSideEffects(objectId, jobId) {
+    if (!WFM || !jobId) return;
+    notifyAudit(jobId, "Request modified and resubmitted for approval by " + activePersona + ".")
+      .then(function () { return refreshJobNarrative(objectId, jobId, { status: "Submitted", kind: "resubmitted" }); })
+      .then(function () { return sendEmailsEnabled() ? wfmSendEmail(jobId, WFM.resubmitEmailStep) : false; })
+      .then(function (sent) { if (sent) return notifyAudit(jobId, "Resubmission email sent to approver via Workflow Manager."); })
+      .catch(function (err) { console.warn("Resubmit notification failed:", err && err.message); });
+  }
+
+  // Merge job history events + comments into one time-sorted (newest first) list.
+  function wfmLoadAudit(jobId) {
+    return Promise.all([
+      wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/history").catch(function () { return null; }),
+      wfmFetch("/jobs/" + encodeURIComponent(jobId) + "/comments").catch(function () { return null; })
+    ]).then(function (res) {
+      const entries = [];
+      const hist = res[0];
+      const items = hist && (hist.jobHistory || hist.history || hist.results || hist.records);
+      // Job-lifecycle actions that just echo our status writes — hidden so the log reads as status changes.
+      const HIDE = { Updated: 1, Activated: 1, Assigned: 1, Unassigned: 1 };
+      if (Array.isArray(items)) {
+        items.forEach(function (h) {
+          const action = h.description || h.action || h.type || "";
+          if (HIDE[action]) return;
+          const step = h.stepName || h.stepId || "";
+          entries.push({
+            when: h.date || h.timeStamp || h.datetime || h.time || h.changedDate,
+            who: h.username || h.user || h.changedBy || "",
+            note: action + (step && action ? " · " + step : step)
+          });
+        });
+      }
+      const cmt = res[1];
+      const clist = cmt && (cmt.jobComments || cmt.comments || cmt.results);
+      if (Array.isArray(clist)) {
+        clist.forEach(function (c) {
+          const text = c.comment || c.text || "";
+          // Parse our transition comments: "Status: <from> → <to> (by <persona>)".
+          const m = text.match(/^Status:\s*(.+?)\s*\u2192\s*(.+?)\s*(?:\(by\s*(.+?)\))?\s*$/);
+          entries.push({
+            when: c.lastModified || c.postedDate || c.date || c.timeStamp,
+            who: (m && m[3]) || c.lastModifiedBy || c.username || c.user || c.postedBy || "",
+            from: m ? m[1] : null,
+            to: m ? m[2] : null,
+            note: m ? "" : text
+          });
+        });
+      }
+      entries.sort(function (a, b) {
+        return (Number(b.when) || Date.parse(b.when) || 0) - (Number(a.when) || Date.parse(a.when) || 0);
+      });
+      return entries;
+    });
+  }
+
+  function openAuditModal(objectId, a) {
+    const overlay = document.getElementById("auditOverlay");
+    const sub = document.getElementById("auditSub");
+    const body = document.getElementById("auditBody");
+    const jobId = WFM ? a[WFM.jobIdField] : null;
+    currentAuditData = { objectId: objectId, title: (a.RequestTitle || "Request " + objectId), jobId: jobId, entries: [] };
+    setAuditExportEnabled(false);
+    sub.textContent = (a.RequestTitle || "Request " + objectId) + (jobId ? " \u00b7 WFM job " + jobId : "");
+    body.innerHTML = "";
+    overlay.classList.add("open");
+    if (!WFM) { body.textContent = "Workflow Manager is not configured."; body.className = "audit-empty"; return; }
+    if (!jobId) { body.textContent = "No Workflow Manager job is linked to this request."; body.className = "audit-empty"; return; }
+    body.className = "";
+    const loading = document.createElement("div");
+    loading.className = "audit-empty";
+    loading.textContent = "Loading history\u2026";
+    body.appendChild(loading);
+    wfmLoadAudit(jobId).then(function (entries) {
+      currentAuditData.entries = entries;
+      setAuditExportEnabled(entries.length > 0);
+      body.innerHTML = "";
+      if (!entries.length) {
+        const none = document.createElement("div");
+        none.className = "audit-empty";
+        none.textContent = "No history recorded yet.";
+        body.appendChild(none);
+        return;
+      }
+      entries.forEach(function (e) {
+        const row = document.createElement("div");
+        row.className = "audit-entry";
+        const line = document.createElement("div");
+        line.className = "audit-what";
+        if (e.from || e.to) {
+          const fromEl = document.createElement("span");
+          fromEl.className = "audit-from";
+          fromEl.textContent = e.from || "—";
+          const arrow = document.createElement("span");
+          arrow.className = "audit-arrow";
+          arrow.textContent = " \u2192 ";
+          const toEl = document.createElement("span");
+          toEl.className = "audit-to";
+          toEl.textContent = e.to || "—";
+          line.appendChild(fromEl);
+          line.appendChild(arrow);
+          line.appendChild(toEl);
+        } else {
+          line.textContent = e.note || "";
+        }
+        const meta = document.createElement("div");
+        meta.className = "audit-who";
+        const when = e.when ? new Date(Number(e.when) || Date.parse(e.when)).toLocaleString() : "";
+        meta.textContent = (e.who ? "by " + e.who : "") + (e.who && when ? " · " : "") + when;
+        row.appendChild(line);
+        row.appendChild(meta);
+        body.appendChild(row);
+      });
+    }).catch(function (err) {
+      body.innerHTML = "";
+      const fail = document.createElement("div");
+      fail.className = "audit-empty";
+      fail.textContent = "Could not load history: " + (err && err.message ? err.message : "error");
+      body.appendChild(fail);
+    });
+  }
+
+  function setAuditExportEnabled(enabled) {
+    const csv = document.getElementById("auditCsvBtn");
+    const pdf = document.getElementById("auditPdfBtn");
+    if (csv) csv.disabled = !enabled;
+    if (pdf) pdf.disabled = !enabled;
+  }
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+  function csvCell(v) {
+    v = v == null ? "" : String(v);
+    return /[",\n\r]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }
+  function fmtWhen(w) {
+    return w ? new Date(Number(w) || Date.parse(w)).toLocaleString() : "";
+  }
+  function exportAuditCsv() {
+    if (!currentAuditData || !currentAuditData.entries.length) return;
+    const d = currentAuditData;
+    const rows = [["Request", "WFM Job", "Date/Time", "Changed By", "Previous Status", "New Status", "Detail"]];
+    d.entries.forEach(function (e) {
+      rows.push([d.title, d.jobId || "", fmtWhen(e.when), e.who || "", e.from || "", e.to || "", e.note || ""]);
+    });
+    const csv = rows.map(function (r) { return r.map(csvCell).join(","); }).join("\r\n");
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "audit-" + String(d.title).replace(/[^\w.-]+/g, "_") + ".csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+  }
+  function auditPdfReport() {
+    if (!currentAuditData || !currentAuditData.entries.length) return;
+    const d = currentAuditData;
+    const rowsHtml = d.entries.map(function (e) {
+      const change = (e.from || e.to)
+        ? escapeHtml(e.from || "\u2014") + " \u2192 " + escapeHtml(e.to || "\u2014")
+        : escapeHtml(e.note || "");
+      return "<tr><td>" + escapeHtml(fmtWhen(e.when)) + "</td><td>" + escapeHtml(e.who || "") + "</td><td>" + change + "</td></tr>";
+    }).join("");
+    const logoUrl = document.querySelector(".brand-logo").src;
+    const html =
+      "<!DOCTYPE html><html><head><meta charset='utf-8'><title>Audit Report \u2014 " + escapeHtml(d.title) + "</title>" +
+      "<style>body{font-family:Segoe UI,Arial,sans-serif;color:#111;margin:32px}" +
+      ".hd{display:flex;align-items:center;gap:14px;border-bottom:3px solid #0f2a44;padding-bottom:10px;margin-bottom:16px}" +
+      ".hd img{width:66px;height:66px}.hd .org{font-size:16px;font-weight:700;color:#0f2a44}" +
+      ".hd .app{font-size:11px;color:#555}h2{font-size:12px;font-weight:normal;color:#555;margin:0 0 16px}" +
+      "table{border-collapse:collapse;width:100%;font-size:12px}th,td{border:1px solid #ccc;padding:6px 8px;text-align:left;vertical-align:top}" +
+      "th{background:#0f2a44;color:#f5c542}</style></head><body>" +
+      "<div class='hd'><img src='" + logoUrl + "' alt='Sentinel Emergency Management Agency seal'/>" +
+      "<div><div class='org'>Sentinel Emergency Management Agency</div>" +
+      "<div class='app'>EOC Resource &amp; Asset Management &mdash; Request Audit Log</div></div></div>" +
+      "<h2>" + escapeHtml(d.title) + (d.jobId ? " &middot; WFM job " + escapeHtml(d.jobId) : "") +
+      " &middot; generated " + escapeHtml(new Date().toLocaleString()) + "</h2>" +
+      "<table><thead><tr><th>Date / Time</th><th>Changed By</th><th>Status Change</th></tr></thead><tbody>" +
+      rowsHtml + "</tbody></table></body></html>";
+    const w = window.open("", "_blank");
+    if (!w) { showBanner("Popup blocked \u2014 allow popups to create the PDF report.", "error"); setTimeout(hideBanner, 4000); return; }
+    w.document.open();
+    w.document.write(html);
+    w.document.close();
+    w.focus();
+    setTimeout(function () { w.print(); }, 400);
+  }
+
+  function hasField(name) {
+    return !!(requestsTable.fields && requestsTable.fields.some(function (f) { return f.name === name; }));
+  }
+
+  function buildPersonaBar() {
+    const sel = document.getElementById("personaSelect");
+    if (!sel || sel.options.length) return;
+    WF.personas.forEach(function (p) {
+      const o = document.createElement("option");
+      o.value = p; o.textContent = p;
+      sel.appendChild(o);
+    });
+    sel.value = activePersona;
+    updatePersonaGroupLabel();
+    sel.addEventListener("change", function () {
+      activePersona = sel.value;
+      updatePersonaGroupLabel();
+      loadRequests();
+    });
+  }
+  function updatePersonaGroupLabel() {
+    const el = document.getElementById("personaGroup");
+    if (el) el.textContent = WF.personaGroups[activePersona] || "";
+  }
+
+  function loadRequests() {
+    const listEl = document.getElementById("requestsList");
+    const countEl = document.getElementById("requestsCount");
+    if (!listEl) return;
+    buildPersonaBar();
+    countEl.textContent = "Loading…";
+    // Load the table first so field metadata (hasField) is reliable before we build the query.
+    requestsTable.load().then(function () {
+      buildRequestFilter();
+      const stampFields = [WF.approvedByField, WF.approvedDateField].filter(hasField);
+      const jobField = WFM && hasField(WFM.jobIdField) ? [WFM.jobIdField] : [];
+      const denialField = hasField(WF.denialReasonField) ? [WF.denialReasonField] : [];
+      const where = activeRequestStatus
+        ? "RequestStatus = '" + activeRequestStatus.replace(/'/g, "''") + "'"
+        : "1=1";
+      return requestsTable.queryFeatures({
+        where: where,
+        outFields: ["OBJECTID", "RequestTitle", "IncidentName", "Priority",
+          "QuantityRequested", "RequestedCategory", "RequestStatus", "Requestor"].concat(stampFields).concat(jobField).concat(denialField),
+        orderByFields: ["OBJECTID DESC"],
+        returnGeometry: false,
+        num: 200
+      });
+    }).then(function (res) {
+      countEl.textContent = res.features.length + " request(s) · " +
+        (activeRequestStatus || "All statuses") + " · acting as " + activePersona;
+      listEl.innerHTML = "";
+      res.features.forEach(function (feat) {
+        listEl.appendChild(renderRequestCard(feat.attributes));
+      });
+    }).catch(function (err) {
+      countEl.textContent = "Could not load requests: " + (err && err.message ? err.message : "error");
+    });
+  }
+
+  // Status filter for the requests drawer (defaults to Submitted = new requests).
+  function buildRequestFilter() {
+    const sel = document.getElementById("requestStatusFilter");
+    if (!sel || sel.options.length) return;
+    const all = document.createElement("option");
+    all.value = ""; all.textContent = "All statuses";
+    sel.appendChild(all);
+    getRequestStatusValues().forEach(function (s) {
+      const o = document.createElement("option");
+      o.value = s; o.textContent = s;
+      sel.appendChild(o);
+    });
+    sel.value = activeRequestStatus || "";
+    sel.addEventListener("change", function () {
+      activeRequestStatus = sel.value || null;
+      loadRequests();
+    });
+  }
+
+  function renderRequestCard(a) {
+    const oid = a.OBJECTID;
+    const status = a.RequestStatus || "Submitted";
+    const badgeColor = REQUEST_STATUS_COLORS[status] || "#7f8c8d";
+    const prio = a.Priority || "Routine";
+    const step = WF.steps[status];
+    const owner = step ? step.owner : null;
+
+    const card = document.createElement("div");
+    card.className = "req-card";
+    card.style.borderLeftColor = badgeColor;
+
+    let html =
+      '<div class="title">' + (a.RequestTitle || "Untitled request") + "</div>" +
+      '<div class="meta">' +
+        (a.IncidentName ? a.IncidentName + " · " : "") +
+        (a.RequestedCategory ? a.RequestedCategory + " · " : "") +
+        "Qty " + (a.QuantityRequested == null ? "-" : a.QuantityRequested) +
+        (a.Requestor ? " · " + a.Requestor : "") +
+      "</div>" +
+      '<span class="req-badge" style="background:' + badgeColor + '">' + status + "</span> " +
+      '<span class="prio ' + prio + '">' + prio + "</span>";
+
+    if (owner) {
+      html += '<div class="req-owner">Current approver: <b>' + owner + "</b>" +
+        (WF.personaGroups[owner] ? " · " + WF.personaGroups[owner] : "") + "</div>";
+    } else {
+      html += '<div class="req-terminal">Workflow complete — no further action.</div>';
+    }
+    if (a[WF.approvedByField]) {
+      html += '<div class="req-approved">Approved by ' + a[WF.approvedByField] + "</div>";
+    }
+    if (status === "Denied" && a[WF.denialReasonField]) {
+      html += '<div class="req-denied">Denied: ' + escapeHtml(a[WF.denialReasonField]) + "</div>";
+    }
+    card.innerHTML = html;
+
+    const jobId = WFM ? a[WFM.jobIdField] : null;
+    if (step && step.actions.length) {
+      const actions = document.createElement("div");
+      actions.className = "req-actions";
+      // Every available next-status action is clickable regardless of the selected role.
+      step.actions.forEach(function (act) {
+        const btn = document.createElement("button");
+        btn.textContent = act.label;
+        if (act.kind === "approve") btn.className = "approve";
+        if (act.kind === "deny") btn.className = "deny";
+        btn.addEventListener("click", function () {
+          if (act.kind === "deny") openDenyModal(oid, status, act, jobId);
+          else if (act.kind === "resubmit") openEditRequest(oid, act, jobId, status);
+          else advanceRequest(oid, status, act, jobId);
+        });
+        actions.appendChild(btn);
+      });
+      card.appendChild(actions);
+    }
+
+    // Audit log (Workflow Manager job history) for this request.
+    if (WFM) {
+      const auditBtn = document.createElement("button");
+      auditBtn.className = "req-audit";
+      auditBtn.textContent = "Audit log";
+      auditBtn.addEventListener("click", function () { openAuditModal(oid, a); });
+      card.appendChild(auditBtn);
+    }
+    return card;
+  }
+
+  function advanceRequest(objectId, fromStatus, action, jobId, opts) {
+    opts = opts || {};
+    const attrs = { OBJECTID: objectId };
+    attrs[WF.statusField] = action.to;
+    if (action.kind === "approve") {
+      if (hasField(WF.approvedByField)) attrs[WF.approvedByField] = activePersona;
+      if (hasField(WF.approvedDateField)) attrs[WF.approvedDateField] = Date.now();
+    }
+    if (action.kind === "return" && hasField(WF.returnedDateField)) {
+      attrs[WF.returnedDateField] = Date.now();
+    }
+    if (action.kind === "deny" && opts.reason != null && hasField(WF.denialReasonField)) {
+      attrs[WF.denialReasonField] = opts.reason;
+    }
+    const graphic = new Graphic({ attributes: attrs });
+    requestsTable.applyEdits({ updateFeatures: [graphic] })
+      .then(function (result) {
+        const r = result.updateFeatureResults && result.updateFeatureResults[0];
+        if (r && r.error) throw r.error;
+        // Record the change in the linked Workflow Manager job (audit log).
+        wfmRecordTransition(jobId, activePersona, fromStatus, action.to);
+        if (action.kind === "deny") handleDenialSideEffects(objectId, jobId, opts.reason);
+        showBanner(activePersona + ": '" + fromStatus + "' → '" + action.to + "'", "info");
+        setTimeout(hideBanner, 2500);
+        loadRequests();
+      })
+      .catch(function (err) {
+        console.error(err);
+        showBanner("Could not advance request: " +
+          (err && err.message ? err.message : "error") + " (edit privileges / status domain).", "error");
+        setTimeout(hideBanner, 5000);
+      });
+  }
+
+  /* ---- deny with reason ---- */
+  let pendingDeny = null;
+  function openDenyModal(objectId, fromStatus, action, jobId) {
+    pendingDeny = { objectId: objectId, fromStatus: fromStatus, action: action, jobId: jobId };
+    const ta = document.getElementById("denyReason");
+    const m = document.getElementById("denyMsg");
+    ta.value = ""; m.textContent = ""; m.className = "";
+    document.getElementById("denyOverlay").classList.add("open");
+    setTimeout(function () { ta.focus(); }, 50);
+  }
+  function closeDenyModal() {
+    document.getElementById("denyOverlay").classList.remove("open");
+    pendingDeny = null;
+  }
+  function confirmDeny() {
+    if (!pendingDeny) return;
+    const reason = document.getElementById("denyReason").value.trim();
+    const m = document.getElementById("denyMsg");
+    if (!reason) { m.className = "error"; m.textContent = "A denial reason is required."; return; }
+    const p = pendingDeny;
+    pendingDeny = null;
+    document.getElementById("denyOverlay").classList.remove("open");
+    advanceRequest(p.objectId, p.fromStatus, p.action, p.jobId, { reason: reason });
+  }
+
+  /* ---- edit & resubmit a denied request ---- */
+  function openEditRequest(objectId, action, jobId, fromStatus) {
+    const overlay = document.getElementById("requestOverlay");
+    const msg = document.getElementById("requestFormMsg");
+    ensureRequestForm();
+    requestsTable.queryFeatures({ where: "OBJECTID=" + objectId, outFields: ["*"], returnGeometry: false, num: 1 })
+      .then(function (res) {
+        const feat = res.features[0];
+        if (!feat) { showBanner("Could not load request " + objectId, "error"); setTimeout(hideBanner, 4000); return; }
+        editContext = { objectId: objectId, jobId: jobId, fromStatus: fromStatus, action: action || { to: "Submitted", kind: "resubmit" } };
+        document.getElementById("requestModalTitle").textContent = "Edit & Resubmit \u2014 ICS 213RR";
+        document.getElementById("requestModalSub").textContent = "Adjust the request and resubmit it for approval";
+        document.getElementById("requestSubmit").textContent = "Resubmit for Approval";
+        const reason = feat.attributes[WF.denialReasonField];
+        msg.className = reason ? "error" : "";
+        msg.textContent = reason ? ("Denied: " + reason) : "";
+        requestForm.feature = new Graphic({ attributes: feat.attributes });
+        overlay.classList.add("open");
+        toggleRequestsPanel(true);
+      })
+      .catch(function (err) {
+        showBanner("Could not open request: " + (err && err.message ? err.message : "error"), "error");
+        setTimeout(hideBanner, 4000);
+      });
+  }
+
+  // Deep link (?request=<OBJECTID>) opens that request's edit/resubmit form, e.g. from a denial email.
+  function handleDeepLink() {
+    const m = /[?&]request=(\d+)/.exec(location.search);
+    if (!m) return;
+    const oid = parseInt(m[1], 10);
+    requestsTable.load().then(function () {
+      return requestsTable.queryFeatures({ where: "OBJECTID=" + oid, outFields: ["*"], returnGeometry: false, num: 1 });
+    }).then(function (res) {
+      const feat = res.features[0];
+      if (!feat) return;
+      const a = feat.attributes;
+      const jobId = WFM ? a[WFM.jobIdField] : null;
+      openEditRequest(oid, { to: "Submitted", kind: "resubmit" }, jobId, a.RequestStatus);
+    }).catch(function () {});
+  }
+
+  function toggleRequestsPanel(open) {
+    const panel = document.getElementById("requestsPanel");
+    const willOpen = open == null ? !panel.classList.contains("open") : open;
+    panel.classList.toggle("open", willOpen);
+    if (willOpen) loadRequests();
+  }
+
+  document.getElementById("requestsPanelBtn").addEventListener("click", function () { toggleRequestsPanel(); });
+  document.getElementById("requestsClose").addEventListener("click", function () { toggleRequestsPanel(false); });
+
+  // Audit log modal (Workflow Manager job history).
+  document.getElementById("auditClose").addEventListener("click", function () {
+    document.getElementById("auditOverlay").classList.remove("open");
+  });
+  document.getElementById("auditOverlay").addEventListener("click", function (e) {
+    if (e.target.id === "auditOverlay") document.getElementById("auditOverlay").classList.remove("open");
+  });
+  document.getElementById("auditCsvBtn").addEventListener("click", exportAuditCsv);
+  document.getElementById("auditPdfBtn").addEventListener("click", auditPdfReport);
+
+  // Deny-with-reason modal.
+  document.getElementById("denyClose").addEventListener("click", closeDenyModal);
+  document.getElementById("denyCancel").addEventListener("click", closeDenyModal);
+  document.getElementById("denyConfirm").addEventListener("click", confirmDeny);
+  document.getElementById("denyOverlay").addEventListener("click", function (e) {
+    if (e.target.id === "denyOverlay") closeDenyModal();
+  });
+
+  /* --------------------------------------------------- configuration panel */
+  function openConfigPanel() {
+    document.getElementById("cfgPortalUrl").value = CFG.portalUrl || "";
+    document.getElementById("cfgAppId").value = CFG.appId || "";
+    document.getElementById("cfgServiceUrl").value = CFG.featureServiceUrl || "";
+    document.getElementById("cfgLayerResources").value = CFG.layers.resources;
+    document.getElementById("cfgLayerFacilities").value = CFG.layers.facilities;
+    document.getElementById("cfgLayerRequests").value = CFG.layers.requests;
+    document.getElementById("cfgShowResources").checked = resourcesLayer.visible;
+    document.getElementById("cfgShowFacilities").checked = facilitiesLayer.visible;
+    document.getElementById("configMsg").textContent = "";
+    document.getElementById("configMsg").className = "";
+    document.getElementById("configOverlay").classList.add("open");
+  }
+  function closeConfigPanel() {
+    document.getElementById("configOverlay").classList.remove("open");
+  }
+  function saveConfig() {
+    const overrides = {
+      portalUrl: document.getElementById("cfgPortalUrl").value.trim(),
+      appId: document.getElementById("cfgAppId").value.trim(),
+      featureServiceUrl: document.getElementById("cfgServiceUrl").value.trim().replace(/\/+$/, ""),
+      layers: {
+        resources: parseInt(document.getElementById("cfgLayerResources").value, 10) || 0,
+        facilities: parseInt(document.getElementById("cfgLayerFacilities").value, 10) || 0,
+        requests: parseInt(document.getElementById("cfgLayerRequests").value, 10) || 0
+      }
+    };
+    try {
+      localStorage.setItem("eoc.configOverrides", JSON.stringify(overrides));
+      const msg = document.getElementById("configMsg");
+      msg.className = "success";
+      msg.textContent = "Saved. Reloading…";
+      setTimeout(function () { window.location.reload(); }, 700);
+    } catch (e) {
+      const msg = document.getElementById("configMsg");
+      msg.className = "error";
+      msg.textContent = "Could not save settings: " + e.message;
+    }
+  }
+  function resetConfig() {
+    localStorage.removeItem("eoc.configOverrides");
+    window.location.reload();
+  }
+
+  document.getElementById("configBtn").addEventListener("click", openConfigPanel);
+  document.getElementById("configClose").addEventListener("click", closeConfigPanel);
+  document.getElementById("configSave").addEventListener("click", saveConfig);
+  document.getElementById("configReset").addEventListener("click", resetConfig);
+  document.getElementById("configOverlay").addEventListener("click", function (e) {
+    if (e.target.id === "configOverlay") closeConfigPanel();
+  });
+  document.getElementById("cfgShowResources").addEventListener("change", function (e) {
+    resourcesLayer.visible = e.target.checked;
+  });
+  document.getElementById("cfgShowFacilities").addEventListener("change", function (e) {
+    facilitiesLayer.visible = e.target.checked;
+  });
+
+  /* -------------------------------------------------------------- filters */
+  const activeFilters = {}; // field -> Set of selected values
+
+  function buildWhere() {
+    const clauses = [];
+    Object.keys(activeFilters).forEach(function (field) {
+      const vals = Array.from(activeFilters[field]);
+      if (vals.length) {
+        const list = vals.map(function (v) { return "'" + v.replace(/'/g, "''") + "'"; }).join(",");
+        clauses.push(field + " IN (" + list + ")");
+      }
+    });
+    return clauses.length ? clauses.join(" AND ") : "1=1";
+  }
+
+  function applyFilters() {
+    const where = buildWhere();
+    resourcesLayer.definitionExpression = where;
+    refreshKpis(where);
+    refreshList(where);
+  }
+
+  function buildFilterUI() {
+    const container = document.getElementById("filters");
+    CFG.filterFields.forEach(function (f) {
+      activeFilters[f.field] = new Set();
+      const group = document.createElement("div");
+      group.className = "filter-group";
+      const title = document.createElement("label");
+      title.className = "title";
+      title.textContent = f.label;
+      group.appendChild(title);
+      const holder = document.createElement("div");
+      holder.dataset.field = f.field;
+      group.appendChild(holder);
+      container.appendChild(group);
+
+      // Distinct values from the service.
+      resourcesLayer.queryFeatures({
+        where: "1=1",
+        outFields: [f.field],
+        returnDistinctValues: true,
+        returnGeometry: false,
+        orderByFields: [f.field]
+      }).then(function (res) {
+        res.features.forEach(function (feat) {
+          const val = feat.attributes[f.field];
+          if (val == null || val === "") return;
+          const opt = document.createElement("label");
+          opt.className = "filter-option";
+          const cb = document.createElement("input");
+          cb.type = "checkbox";
+          cb.value = val;
+          cb.addEventListener("change", function () {
+            if (cb.checked) activeFilters[f.field].add(val);
+            else activeFilters[f.field].delete(val);
+            applyFilters();
+          });
+          opt.appendChild(cb);
+          if (f.field === "Status" && CFG.statusColors[val]) {
+            const sw = document.createElement("span");
+            sw.className = "swatch";
+            sw.style.background = CFG.statusColors[val];
+            opt.appendChild(sw);
+          }
+          opt.appendChild(document.createTextNode(val));
+          holder.appendChild(opt);
+        });
+      });
+    });
+  }
+
+  document.getElementById("clearFilters").addEventListener("click", function () {
+    Object.keys(activeFilters).forEach(function (k) { activeFilters[k].clear(); });
+    document.querySelectorAll("#filters input[type=checkbox]").forEach(function (cb) { cb.checked = false; });
+    applyFilters();
+  });
+
+  /* ------------------------------------------------------------------ KPIs */
+  function refreshKpis(where) {
+    const statBase = { onStatisticField: "OBJECTID", statisticType: "count", outStatisticFieldName: "cnt" };
+    resourcesLayer.queryFeatureCount({ where: where }).then(function (total) {
+      setKpi("kpi-total", total);
+    });
+    ["Available", "Committed", "Out of Service"].forEach(function (status, i) {
+      const w = where === "1=1" ? "" : where + " AND ";
+      resourcesLayer.queryFeatureCount({
+        where: w + "Status = '" + status + "'"
+      }).then(function (c) {
+        setKpi(["kpi-avail", "kpi-committed", "kpi-oos"][i], c);
+      });
+    });
+    resourcesLayer.queryFeatures({
+      where: where,
+      outStatistics: [{ onStatisticField: "Quantity", statisticType: "sum", outStatisticFieldName: "qty" }],
+      returnGeometry: false
+    }).then(function (res) {
+      const qty = res.features.length ? res.features[0].attributes.qty : 0;
+      setKpi("kpi-qty", (qty || 0).toLocaleString());
+    });
+  }
+  function setKpi(id, value) {
+    const el = document.querySelector("#" + id + " .value");
+    if (el) el.textContent = value;
+  }
+
+  /* ---------------------------------------------------------------- list */
+  function refreshList(where) {
+    const listEl = document.getElementById("list");
+    const countEl = document.getElementById("resultCount");
+    resourcesLayer.queryFeatures({
+      where: where,
+      outFields: ["OBJECTID", "ResourceName", "NIMS_Category", "TypeClass", "Quantity", "Status", "SiteName"],
+      orderByFields: ["ResourceName"],
+      returnGeometry: true,
+      num: 200
+    }).then(function (res) {
+      countEl.textContent = res.features.length + " resource(s) shown (max 200)";
+      listEl.innerHTML = "";
+      res.features.forEach(function (feat) {
+        const a = feat.attributes;
+        const item = document.createElement("div");
+        item.className = "list-item";
+        const color = CFG.statusColors[a.Status] || "#7f8c8d";
+        item.innerHTML =
+          '<div class="name">' + (a.ResourceName || "Unnamed") + "</div>" +
+          '<div class="meta">' + (a.NIMS_Category || "") +
+          (a.TypeClass ? " · " + a.TypeClass : "") +
+          " · Qty " + (a.Quantity == null ? "-" : a.Quantity) +
+          (a.SiteName ? " · " + a.SiteName : "") + "</div>" +
+          '<span class="status" style="background:' + color + '">' + (a.Status || "") + "</span>";
+        item.addEventListener("click", function () { zoomToFeature(feat); });
+        listEl.appendChild(item);
+      });
+    });
+  }
+
+  function zoomToFeature(feature) {
+    view.goTo({ target: feature.geometry, scale: 40000 }).then(function () {
+      view.openPopup({ features: [feature], location: feature.geometry });
+      flash(feature.geometry);
+    });
+  }
+
+  function flash(geometry) {
+    const g = new Graphic({
+      geometry: geometry,
+      symbol: new SimpleMarkerSymbol({
+        color: [46, 204, 113, 0],
+        size: 26,
+        outline: { color: "#2ECC71", width: 3 }
+      })
+    });
+    view.graphics.add(g);
+    setTimeout(function () { view.graphics.remove(g); }, 1500);
+  }
+
+  /* ------------------------------------------------------------- bootstrap */
+  showBanner("Connecting to ArcGIS…", "info");
+  signIn().then(function () {
+    return view.when();
+  }).then(function () {
+    return resourcesLayer.load();
+  }).then(function () {
+    hideBanner();
+    buildFilterUI();
+    applyFilters();
+    handleDeepLink();
+  }).catch(function (err) {
+    console.error(err);
+    showBanner(
+      "Could not load the EOC feature service. If the layers are shared only to the " +
+      "organization, register an OAuth app and set appId in js/config.js. (" +
+      (err && err.message ? err.message : "unknown error") + ")",
+      "error"
+    );
+  });
+});
+
+</script>
+</body>
+</html>
