@@ -38,6 +38,37 @@ html, body {
   height: 100vh;
 }
 
+#app[hidden], #loginPage[hidden] { display: none; }
+#loginPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+}
+.login-card {
+  width: min(100%, 560px);
+  padding: 28px;
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  line-height: 1.5;
+}
+.login-card h1 { margin-top: 0; font-size: 24px; }
+.login-card a { color: #79c7ff; }
+.login-card code { overflow-wrap: anywhere; }
+.login-card button {
+  padding: 12px 20px;
+  background: var(--accent);
+  color: #0a1620;
+  border: 0;
+  border-radius: 4px;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+.login-card button:disabled { opacity: .6; cursor: not-allowed; }
+#loginMessage { color: var(--warning); }
+
 /* Header */
 header#topbar {
   display: flex;
@@ -555,7 +586,21 @@ header#topbar button:hover { background: var(--border); }
 <body>
   <div id="banner"></div>
 
-  <div id="app">
+  <main id="loginPage" aria-labelledby="loginTitle">
+    <section class="login-card">
+      <h1 id="loginTitle">EOC Resource &amp; Asset Management</h1>
+      <p>Sign in with your ArcGIS organization account to access resources and requests.</p>
+      <p id="loginMessage" role="status" aria-live="polite">Preparing sign-in. If this message remains, check your connection to the ArcGIS SDK.</p>
+      <button id="loginBtn" type="button" disabled>Sign in with ArcGIS</button>
+      <p id="loginHostingHelp">Open this app over HTTP or HTTPS, not directly from disk.
+        For local use, start the app server and open <a href="http://localhost:8080/index.html">http://localhost:8080/index.html</a>.</p>
+      <p>For deployment, an administrator must register the published app URL in the
+        ArcGIS OAuth application's redirect URIs. A login page cannot authorize an unregistered URL.</p>
+      <p>OAuth redirect URL: <code id="loginRedirect"></code></p>
+    </section>
+  </main>
+
+  <div id="app" hidden inert>
     <header id="topbar">
       <div class="brand-block">
         <img class="brand-logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyMDAgMjAwIiByb2xlPSJpbWciIGFyaWEtbGFiZWw9IlNlbnRpbmVsIEVtZXJnZW5jeSBNYW5hZ2VtZW50IEFnZW5jeSBzZWFsIj4NCiAgPGRlZnM+DQogICAgPHBhdGggaWQ9InJpbmdUb3AiIGQ9Ik0gMTYsMTAwIEEgODQsODQgMCAwIDEgMTg0LDEwMCIvPg0KICAgIDxwYXRoIGlkPSJyaW5nQm90dG9tIiBkPSJNIDE4NywxMDAgQSA4Nyw4NyAwIDAgMSAxMywxMDAiLz4NCiAgPC9kZWZzPg0KDQogIDwhLS0gT3V0ZXIgbmF2eSBzZWFsIC0tPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijk4IiBmaWxsPSIjMGYyYTQ0Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iOTUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI2Y1YzU0MiIgc3Ryb2tlLXdpZHRoPSIxLjUiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSI3NiIgZmlsbD0iI2Y3ZjVlZiIvPg0KICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9Ijc2IiBmaWxsPSJub25lIiBzdHJva2U9IiNmNWM1NDIiIHN0cm9rZS13aWR0aD0iMiIvPg0KDQogIDwhLS0gUmluZyB0ZXh0IC0tPg0KICA8ZyBmaWxsPSIjZjVjNTQyIiBmb250LWZhbWlseT0iR2VvcmdpYSwgJ1RpbWVzIE5ldyBSb21hbicsIHNlcmlmIiBmb250LXdlaWdodD0iNzAwIj4NCiAgICA8dGV4dCBmb250LXNpemU9IjkiIGxldHRlci1zcGFjaW5nPSIwLjYiPg0KICAgICAgPHRleHRQYXRoIGhyZWY9IiNyaW5nVG9wIiBzdGFydE9mZnNldD0iNTAlIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5TRU5USU5FTCBFTUVSR0VOQ1kgTUFOQUdFTUVOVCBBR0VOQ1k8L3RleHRQYXRoPg0KICAgIDwvdGV4dD4NCiAgICA8dGV4dCBmb250LXNpemU9IjguNSIgbGV0dGVyLXNwYWNpbmc9IjIuMiI+DQogICAgICA8dGV4dFBhdGggaHJlZj0iI3JpbmdCb3R0b20iIHN0YXJ0T2Zmc2V0PSI1MCUiIHRleHQtYW5jaG9yPSJtaWRkbGUiPlBSRVBBUkUgJiM4MjI2OyBSRVNQT05EICYjODIyNjsgUkVDT1ZFUjwvdGV4dFBhdGg+DQogICAgPC90ZXh0Pg0KICA8L2c+DQoNCiAgPCEtLSBTaWRlIHN0YXJzIHNlcGFyYXRpbmcgdGhlIHJpbmcgdGV4dCAtLT4NCiAgPGcgZmlsbD0iI2Y1YzU0MiI+DQogICAgPHBvbHlnb24gcG9pbnRzPSIxNCwxMDAgMTcuNSwxMDEuNCAxOSwxMDUgMjAuNSwxMDEuNCAyNCwxMDAgMjAuNSw5OC42IDE5LDk1IDE3LjUsOTguNiIvPg0KICAgIDxwb2x5Z29uIHBvaW50cz0iMTc2LDEwMCAxNzkuNSwxMDEuNCAxODEsMTA1IDE4Mi41LDEwMS40IDE4NiwxMDAgMTgyLjUsOTguNiAxODEsOTUgMTc5LjUsOTguNiIvPg0KICA8L2c+DQoNCiAgPCEtLSBDZW50ZXIgZW1ibGVtOiBjb21wYXNzLXJvc2Ugc3RhciAoY29vcmRpbmF0aW9uKSBvdmVyIGEgbmF2eSBtZWRhbGxpb24gLS0+DQogIDxwb2x5Z29uIGZpbGw9IiMxYjRhNzUiIHN0cm9rZT0iIzBmMmE0NCIgc3Ryb2tlLXdpZHRoPSIxIg0KICAgIHBvaW50cz0iMTAwLDQ4IDEwOC40LDc5LjcgMTM2LjgsNjMuMiAxMjAuMyw5MS42IDE1MiwxMDAgMTIwLjMsMTA4LjQgMTM2LjgsMTM2LjggMTA4LjQsMTIwLjMgMTAwLDE1MiA5MS42LDEyMC4zIDYzLjIsMTM2LjggNzkuNywxMDguNCA0OCwxMDAgNzkuNyw5MS42IDYzLjIsNjMuMiA5MS42LDc5LjciLz4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiINCiAgICBwb2ludHM9IjEwMCw2MCAxMDYsODggMTMyLDY4IDExMiw5NCAxNDAsMTAwIDExMiwxMDYgMTMyLDEzMiAxMDYsMTEyIDEwMCwxNDAgOTQsMTEyIDY4LDEzMiA4OCwxMDYgNjAsMTAwIDg4LDk0IDY4LDY4IDk0LDg4Ii8+DQogIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMjQiIGZpbGw9IiMwZjJhNDQiLz4NCiAgPGNpcmNsZSBjeD0iMTAwIiBjeT0iMTAwIiByPSIyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjZjVjNTQyIiBzdHJva2Utd2lkdGg9IjEuNSIvPg0KICA8IS0tIENlbnRyYWwgdXB3YXJkIHRyaWFuZ2xlIChjaXZpbC1kZWZlbnNlIGluc3BpcmVkKSB3aXRoIGEgc3RhciAtLT4NCiAgPHBvbHlnb24gZmlsbD0iI2Y1YzU0MiIgcG9pbnRzPSIxMDAsODQgMTE0LDExMCA4NiwxMTAiLz4NCiAgPHBvbHlnb24gZmlsbD0iIzBmMmE0NCINCiAgICBwb2ludHM9IjEwMCw5MiAxMDIuNiw5OS44IDExMC44LDk5LjggMTA0LjEsMTA0LjYgMTA2LjcsMTEyLjQgMTAwLDEwNy42IDkzLjMsMTEyLjQgOTUuOSwxMDQuNiA4OS4yLDk5LjggOTcuNCw5OS44Ii8+DQo8L3N2Zz4NCg==" alt="Sentinel Emergency Management Agency seal" />
@@ -828,6 +873,13 @@ try {
 } catch (e) { /* ignore malformed overrides */ }
 
 </script>
+  <script>
+    document.getElementById("loginRedirect").textContent = location.href.split(/[?#]/)[0];
+    if (location.protocol !== "http:" && location.protocol !== "https:") {
+      document.getElementById("loginMessage").textContent =
+        "Sign-in blocked: ArcGIS cannot redirect to a file:// page. Use the localhost link below or your published HTTPS URL.";
+    }
+  </script>
   <script src="https://js.arcgis.com/4.30/"></script>
   <script>
 /**
@@ -870,6 +922,17 @@ require([
   function hideBanner() { banner.className = ""; banner.style.display = "none"; }
 
   /* ---------------------------------------------------------------- auth */
+  const loginPage = document.getElementById("loginPage");
+  const loginMessage = document.getElementById("loginMessage");
+  const loginBtn = document.getElementById("loginBtn");
+  if (location.protocol !== "http:" && location.protocol !== "https:") return;
+
+  function acceptCredential(cred) {
+    document.getElementById("signInStatus").textContent = "Signed in: " + (cred.userId || "");
+    document.getElementById("signInBtn").textContent = "Sign out";
+    return cred;
+  }
+
   function signIn() {
     return new Promise(function (resolve) {
       if (!CFG.appId) {
@@ -883,17 +946,25 @@ require([
         popup: false
       });
       IdentityManager.registerOAuthInfos([info]);
+      loginBtn.addEventListener("click", function () {
+        loginBtn.disabled = true;
+        loginMessage.textContent = "Opening ArcGIS sign-in...";
+        IdentityManager.getCredential(CFG.portalUrl + "/sharing")
+          .then(acceptCredential)
+          .then(resolve)
+          .catch(function (error) {
+            console.error("ArcGIS sign-in failed", error);
+            loginMessage.textContent = "Sign-in did not complete. Retry, or ask your administrator to verify the OAuth client ID and the redirect URL shown below. " +
+              (error && error.message ? error.message : "ArcGIS returned an authentication error.");
+            loginBtn.disabled = false;
+          });
+      });
       IdentityManager.checkSignInStatus(CFG.portalUrl + "/sharing")
-        .then(function (cred) {
-          document.getElementById("signInStatus").textContent =
-            "Signed in: " + (cred.userId || "");
-          document.getElementById("signInBtn").textContent = "Sign out";
-          resolve(cred);
-        })
+        .then(acceptCredential)
+        .then(resolve)
         .catch(function () {
-          IdentityManager.getCredential(CFG.portalUrl + "/sharing")
-            .then(resolve)
-            .catch(function () { resolve(null); });
+          loginMessage.textContent = "Ready to sign in to " + CFG.portalUrl + ".";
+          loginBtn.disabled = false;
         });
     });
   }
@@ -902,6 +973,18 @@ require([
     IdentityManager.destroyCredentials();
     window.location.reload();
   });
+
+  return (async function () {
+  try {
+    await signIn();
+  } catch (error) {
+    console.error("ArcGIS authentication setup failed", error);
+    loginMessage.textContent = "Could not prepare sign-in: " + error.message;
+    return;
+  }
+  loginPage.hidden = true;
+  document.getElementById("app").hidden = false;
+  document.getElementById("app").inert = false;
 
   /* ------------------------------------------------------------- renderer */
   function buildResourceRenderer() {
@@ -2106,9 +2189,7 @@ require([
 
   /* ------------------------------------------------------------- bootstrap */
   showBanner("Connecting to ArcGIS…", "info");
-  signIn().then(function () {
-    return view.when();
-  }).then(function () {
+  view.when().then(function () {
     return resourcesLayer.load();
   }).then(function () {
     hideBanner();
@@ -2124,6 +2205,7 @@ require([
       "error"
     );
   });
+  })();
 });
 
 </script>
