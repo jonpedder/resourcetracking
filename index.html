@@ -141,8 +141,11 @@ header#topbar button:hover { background: var(--border); }
   grid-template-columns: 300px 340px 1fr;
   min-height: 0;
 }
+#main.filter-panel-collapsed { grid-template-columns: 340px 1fr; }
+#main.filter-panel-collapsed #filterPanel { display: none; }
 @media (max-width: 1100px) {
   #main { grid-template-columns: 260px 1fr; }
+  #main.filter-panel-collapsed { grid-template-columns: 1fr; }
   #listPanel { display: none; }
 }
 
@@ -161,23 +164,14 @@ header#topbar button:hover { background: var(--border); }
 }
 
 /* Filters */
-.filter-group {
-  margin-bottom: 8px;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  background: var(--panel-2);
-}
-.filter-group .title {
+.filter-group { margin-bottom: 16px; }
+.filter-group label.title {
   display: block;
-  padding: 8px 10px;
   font-size: 12px;
   font-weight: 600;
+  margin-bottom: 6px;
   color: var(--text);
-  cursor: pointer;
-  user-select: none;
 }
-.filter-group[open] .title { border-bottom: 1px solid var(--border); }
-.filter-group > div { padding: 6px 10px 8px; }
 .filter-option {
   display: flex;
   align-items: center;
@@ -619,6 +613,7 @@ header#topbar button:hover { background: var(--border); }
         </div>
       </div>
       <div class="spacer"></div>
+      <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
       <button id="requestsPanelBtn">Requests</button>
       <button id="newRequestBtn">+ Resource Request (213RR)</button>
       <button id="configBtn" class="icon-btn header-icon" title="Configuration" aria-label="Configuration">&#9881;</button>
@@ -634,7 +629,7 @@ header#topbar button:hover { background: var(--border); }
       <div class="kpi" id="kpi-qty"><div class="value">–</div><div class="label">Total Quantity</div></div>
     </section>
 
-    <div id="main">
+    <div id="main" class="filter-panel-collapsed">
       <aside class="panel" id="filterPanel">
         <h3>Filters</h3>
         <div id="filters"></div>
@@ -1959,6 +1954,18 @@ require([
     if (willOpen) loadRequests();
   }
 
+  function toggleFilterPanel(open) {
+    const main = document.getElementById("main");
+    const button = document.getElementById("filterPanelBtn");
+    const isOpen = !main.classList.contains("filter-panel-collapsed");
+    const willOpen = open == null ? !isOpen : open;
+    main.classList.toggle("filter-panel-collapsed", !willOpen);
+    button.setAttribute("aria-expanded", String(willOpen));
+    button.textContent = willOpen ? "Hide filters" : "Show filters";
+    if (view && typeof view.resize === "function") requestAnimationFrame(function () { view.resize(); });
+  }
+
+  document.getElementById("filterPanelBtn").addEventListener("click", function () { toggleFilterPanel(); });
   document.getElementById("requestsPanelBtn").addEventListener("click", function () { toggleRequestsPanel(); });
   document.getElementById("requestsClose").addEventListener("click", function () { toggleRequestsPanel(false); });
 
@@ -2065,9 +2072,9 @@ require([
     const container = document.getElementById("filters");
     CFG.filterFields.forEach(function (f) {
       activeFilters[f.field] = new Set();
-      const group = document.createElement("details");
+      const group = document.createElement("div");
       group.className = "filter-group";
-      const title = document.createElement("summary");
+      const title = document.createElement("label");
       title.className = "title";
       title.textContent = f.label;
       group.appendChild(title);
