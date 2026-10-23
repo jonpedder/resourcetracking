@@ -1008,6 +1008,7 @@ require([
   "esri/layers/FeatureLayer",
   "esri/renderers/UniqueValueRenderer",
   "esri/symbols/SimpleMarkerSymbol",
+  "esri/symbols/PictureMarkerSymbol",
   "esri/widgets/Legend",
   "esri/widgets/LayerList",
   "esri/widgets/Search",
@@ -1020,7 +1021,7 @@ require([
   "esri/geometry/Extent"
 ], function (
   esriConfig, OAuthInfo, IdentityManager, Map, MapView, FeatureLayer,
-  UniqueValueRenderer, SimpleMarkerSymbol, Legend, LayerList, Search,
+  UniqueValueRenderer, SimpleMarkerSymbol, PictureMarkerSymbol, Legend, LayerList, Search,
   BasemapGallery, Editor, FeatureForm, Expand, Home, Graphic, Extent
 ) {
   "use strict";
@@ -1193,10 +1194,58 @@ require([
     }
   });
 
+  function facilityIcon(type) {
+    const value = String(type || "").toLowerCase();
+    let color = "#607D8B";
+    let glyph = '<circle cx="16" cy="16" r="5" fill="none" stroke="white" stroke-width="2.2"/><path d="M16 8v3M16 21v3M8 16h3M21 16h3" stroke="white" stroke-width="2.2" stroke-linecap="round"/>';
+
+    if (value.includes("emergency operations") || value === "eoc") {
+      color = "#E74C3C";
+      glyph = '<path d="M8 24V12h16v12M11 12V9h10v3M14 24v-6h4v6" fill="none" stroke="white" stroke-width="2.1" stroke-linejoin="round"/><path d="M16 9V5m-4 3-2-2m12 2 2-2" stroke="white" stroke-width="2.1" stroke-linecap="round"/>';
+    } else if (value.includes("staging")) {
+      color = "#F39C12";
+      glyph = '<path d="M10 25V7m1 1h12l-3.5 4L23 16H11" fill="none" stroke="white" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round"/>';
+    } else if (value.includes("distribution") || value.includes("pod")) {
+      color = "#8E44AD";
+      glyph = '<path d="M8 11l8-4 8 4-8 4-8-4Zm0 0v10l8 4 8-4V11M16 15v10" fill="none" stroke="white" stroke-width="2.1" stroke-linejoin="round"/>';
+    } else if (value.includes("shelter")) {
+      color = "#27AE60";
+      glyph = '<path d="M6 15 16 7l10 8M9 14v11h14V14M13 25v-7h6v7" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>';
+    } else if (value.includes("camp")) {
+      color = "#16A085";
+      glyph = '<path d="m6 25 10-18 10 18H6Zm10-18v18m-6-7h12" fill="none" stroke="white" stroke-width="2.1" stroke-linejoin="round"/>';
+    } else if (value.includes("medical") || value.includes("hospital")) {
+      color = "#C0392B";
+      glyph = '<path d="M13 7h6v6h6v6h-6v6h-6v-6H7v-6h6V7Z" fill="white"/>';
+    } else if (value.includes("warehouse") || value.includes("logistics")) {
+      color = "#2980B9";
+      glyph = '<path d="m6 13 10-6 10 6v12H6V13Zm5 12v-7h10v7M9 14h14" fill="none" stroke="white" stroke-width="2.1" stroke-linejoin="round"/>';
+    }
+
+    const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="' + color + '" stroke="#F7F5EF" stroke-width="2"/>' + glyph + '</svg>';
+    return new PictureMarkerSymbol({
+      url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg),
+      width: 30,
+      height: 30
+    });
+  }
+
+  function buildFacilityRenderer(types) {
+    return new UniqueValueRenderer({
+      field: "FacilityType",
+      defaultSymbol: facilityIcon("other"),
+      defaultLabel: "Other facility",
+      uniqueValueInfos: types.map(function (type) {
+        return { value: type, label: type, symbol: facilityIcon(type) };
+      })
+    });
+  }
+
   const facilitiesLayer = new FeatureLayer({
     url: CFG.featureServiceUrl + "/" + CFG.layers.facilities,
     title: "Facilities",
     outFields: ["*"],
+    renderer: buildFacilityRenderer([]),
     popupTemplate: {
       title: "{SiteName}",
       content: [{
@@ -1211,6 +1260,25 @@ require([
         ]
       }]
     }
+  });
+
+  // Build the type renderer from the service's current FacilityType values so new
+  // configured types receive an icon and appear in the legend without hard-coding data.
+  facilitiesLayer.load().then(function () {
+    return facilitiesLayer.queryFeatures({
+      where: "FacilityType IS NOT NULL",
+      outFields: ["FacilityType"],
+      returnDistinctValues: true,
+      returnGeometry: false,
+      orderByFields: ["FacilityType"]
+    });
+  }).then(function (result) {
+    const types = result.features.map(function (feature) {
+      return feature.attributes.FacilityType;
+    }).filter(function (type) { return type != null && type !== ""; });
+    facilitiesLayer.renderer = buildFacilityRenderer(types);
+  }).catch(function (error) {
+    console.warn("Facility type symbology could not be refreshed.", error);
   });
 
   /* ------------------------------------------------------------------ map */
