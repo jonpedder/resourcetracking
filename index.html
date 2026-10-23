@@ -1225,8 +1225,8 @@ require([
     const svg = '<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="14" fill="' + color + '" stroke="#F7F5EF" stroke-width="2"/>' + glyph + '</svg>';
     return new PictureMarkerSymbol({
       url: "data:image/svg+xml;charset=UTF-8," + encodeURIComponent(svg),
-      width: 30,
-      height: 30
+      width: 22,
+      height: 22
     });
   }
 
@@ -1246,6 +1246,21 @@ require([
     title: "Facilities",
     outFields: ["*"],
     renderer: buildFacilityRenderer([]),
+    // Show facility names only when zoomed in to roughly city/street level.
+    labelingInfo: [{
+      minScale: 150000,
+      labelExpressionInfo: { expression: "$feature.SiteName" },
+      labelPlacement: "above-center",
+      symbol: {
+        type: "text",
+        color: "#F7F5EF",
+        haloColor: "#0A1620",
+        haloSize: 1.5,
+        font: { family: "Arial", size: 10, weight: "bold" },
+        yoffset: 7
+      }
+    }],
+    labelsVisible: true,
     popupTemplate: {
       title: "{SiteName}",
       content: [{
