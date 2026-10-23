@@ -1,0 +1,70 @@
+{
+  "name": "EOC Facility Type Style",
+  "version": 1,
+  "field": "FacilityType",
+  "symbol": {
+    "type": "picture-marker",
+    "width": 22,
+    "height": 22,
+    "shape": "circle",
+    "outlineColor": "#F7F5EF",
+    "outlineWidth": 2,
+    "svgViewBox": "0 0 32 32"
+  },
+  "types": [
+    {
+      "matches": ["emergency operations", "eoc"],
+      "icon": "emergency-operations-center",
+      "color": "#E74C3C"
+    },
+    {
+      "matches": ["staging"],
+      "icon": "staging-flag",
+      "color": "#F39C12"
+    },
+    {
+      "matches": ["distribution", "pod"],
+      "icon": "distribution-box",
+      "color": "#8E44AD"
+    },
+    {
+      "matches": ["shelter"],
+      "icon": "shelter-house",
+      "color": "#27AE60"
+    },
+    {
+      "matches": ["camp"],
+      "icon": "base-camp-tent",
+      "color": "#16A085"
+    },
+    {
+      "matches": ["medical", "hospital"],
+      "icon": "medical-cross",
+      "color": "#C0392B"
+    },
+    {
+      "matches": ["warehouse", "logistics"],
+      "icon": "warehouse",
+      "color": "#2980B9"
+    }
+  ],
+  "default": {
+    "icon": "facility-building",
+    "color": "#34495E",
+    "label": "Other facility"
+  },
+  "labeling": {
+    "field": "SiteName",
+    "minScale": 150000,
+    "placement": "above-center",
+    "color": "#F7F5EF",
+    "haloColor": "#0A1620",
+    "haloSize": 1.5,
+    "font": {
+      "family": "Arial",
+      "size": 10,
+      "weight": "bold"
+    },
+    "yOffset": 7
+  }
+}
