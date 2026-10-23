@@ -232,14 +232,22 @@ header#topbar button:hover { background: var(--border); }
 }
 
 /* Filters */
-.filter-group { margin-bottom: 16px; }
-.filter-group label.title {
-  display: block;
+.filter-group {
+  margin-bottom: 8px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--panel-2);
+}
+.filter-group .title {
+  padding: 8px 10px;
+  color: var(--text);
   font-size: 12px;
   font-weight: 600;
-  margin-bottom: 6px;
-  color: var(--text);
+  cursor: pointer;
+  user-select: none;
 }
+.filter-group[open] .title { border-bottom: 1px solid var(--border); }
+.filter-group > div { padding: 6px 10px 8px; }
 .filter-option {
   display: flex;
   align-items: center;
@@ -2174,9 +2182,9 @@ require([
     const container = document.getElementById("filters");
     CFG.filterFields.forEach(function (f) {
       activeFilters[f.field] = new Set();
-      const group = document.createElement("div");
+      const group = document.createElement("details");
       group.className = "filter-group";
-      const title = document.createElement("label");
+      const title = document.createElement("summary");
       title.className = "title";
       title.textContent = f.label;
       group.appendChild(title);
