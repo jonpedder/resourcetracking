@@ -942,6 +942,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
           <summary>Data connections and layers</summary>
           <label class="cfg-field">Portal URL<input type="text" id="cfgPortalUrl" /></label>
           <label class="cfg-field">OAuth App ID (Client ID)<input type="text" id="cfgAppId" placeholder="required for org-shared layers" /></label>
+          <label class="cfg-field">Web Map item ID<input type="text" id="cfgWebmapId" maxlength="32" /></label>
           <label class="cfg-field">Feature Service URL<input type="text" id="cfgServiceUrl" /></label>
           <div class="cfg-row">
             <label class="cfg-field small">Resources layer<input type="number" id="cfgLayerResources" min="0" /></label>
@@ -1052,6 +1053,7 @@ window.EOC_CONFIG = {
   featureServiceUrl:
     "https://services6.arcgis.com/SdBwj74JF24xKhpX/arcgis/rest/services/EOC_Resource_Inventory/FeatureServer",
 
+  webmapId: "08061ee8f80447ed8ba9d2f6e3ced832",
   layers: {
     resources: 0, // point — NIMS-typed inventory
     facilities: 1, // point — EOC / staging / POD / shelter / base camp
@@ -1223,7 +1225,7 @@ require([
   "esri/identity/OAuthInfo",
   "esri/identity/IdentityManager",
   "esri/portal/Portal",
-  "esri/Map",
+  "esri/WebMap",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
   "esri/renderers/UniqueValueRenderer",
@@ -1237,12 +1239,11 @@ require([
   "esri/widgets/FeatureForm",
   "esri/widgets/Expand",
   "esri/widgets/Home",
-  "esri/Graphic",
-  "esri/geometry/Extent"
+  "esri/Graphic"
 ], function (
-  esriConfig, OAuthInfo, IdentityManager, Portal, Map, MapView, FeatureLayer,
+  esriConfig, OAuthInfo, IdentityManager, Portal, WebMap, MapView, FeatureLayer,
   UniqueValueRenderer, SimpleMarkerSymbol, PictureMarkerSymbol, Legend, LayerList, Search,
-  BasemapGallery, Editor, FeatureForm, Expand, Home, Graphic, Extent
+  BasemapGallery, Editor, FeatureForm, Expand, Home, Graphic
 ) {
   "use strict";
 
@@ -1364,7 +1365,7 @@ require([
   }
 
   /* ---------------------------------------------------------------- layers */
-  const resourcesLayer = new FeatureLayer({
+  let resourcesLayer = new FeatureLayer({
     url: CFG.featureServiceUrl + "/" + CFG.layers.resources,
     title: "Resources",
     outFields: ["*"],
@@ -1473,7 +1474,7 @@ require([
     });
   }
 
-  const facilitiesLayer = new FeatureLayer({
+  let facilitiesLayer = new FeatureLayer({
     url: CFG.featureServiceUrl + "/" + CFG.layers.facilities,
     title: "Facilities",
     outFields: ["*"],
@@ -1529,18 +1530,26 @@ require([
   });
 
   /* ------------------------------------------------------------------ map */
-  const map = new Map({ basemap: "dark-gray-vector", layers: [facilitiesLayer, resourcesLayer] });
-
-  // Non-spatial ResourceRequests log (ICS 213RR). Standalone table — not added to the map.
-  const requestsTable = new FeatureLayer({
+  // The portal Web Map is the authoritative map item. Its basemap, starting viewpoint,
+  // metadata, and standalone ResourceRequests table are loaded from ArcGIS Online.
+  // The app replaces its operational layer instances with the configured layers above
+  // so the live status colors and rich application popups remain configurable.
+  const map = new WebMap({ portalItem: { id: CFG.webmapId, portal: new Portal({ url: CFG.portalUrl }) } });
+  await map.loadAll();
+  const webmapRequestsTable = map.tables && map.tables.find(function (table) {
+    return table.url && /\/FeatureServer\/2\/?$/i.test(table.url);
+  });
+  const requestsTable = webmapRequestsTable || new FeatureLayer({
     url: CFG.featureServiceUrl + "/" + CFG.layers.requests,
     outFields: ["*"]
   });
+  requestsTable.outFields = ["*"];
+  map.removeAll();
+  map.addMany([facilitiesLayer, resourcesLayer]);
 
   const view = new MapView({
     container: "viewDiv",
     map: map,
-    extent: new Extent(CFG.initialExtent),
     padding: { top: 0 },
     popup: { dockEnabled: true, dockOptions: { position: "bottom-right", breakpoint: false } }
   });
@@ -2554,6 +2563,7 @@ require([
     selectSettingsTab("configuration");
     document.getElementById("cfgPortalUrl").value = CFG.portalUrl || "";
     document.getElementById("cfgAppId").value = CFG.appId || "";
+    document.getElementById("cfgWebmapId").value = CFG.webmapId || "";
     document.getElementById("cfgServiceUrl").value = CFG.featureServiceUrl || "";
     document.getElementById("cfgLayerResources").value = CFG.layers.resources;
     document.getElementById("cfgLayerFacilities").value = CFG.layers.facilities;
@@ -2606,6 +2616,7 @@ require([
     const overrides = {
       portalUrl: document.getElementById("cfgPortalUrl").value.trim(),
       appId: document.getElementById("cfgAppId").value.trim(),
+      webmapId: document.getElementById("cfgWebmapId").value.trim(),
       featureServiceUrl: document.getElementById("cfgServiceUrl").value.trim().replace(/\/+$/, ""),
       layers: {
         resources: parseInt(document.getElementById("cfgLayerResources").value, 10) || 0,
