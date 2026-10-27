@@ -650,7 +650,7 @@ header#topbar button:hover { background: var(--border); }
   background: var(--panel);
   border: 1px solid var(--border);
   border-radius: 8px;
-  width: 460px;
+  width: 860px;
   max-width: 94vw;
   margin-top: 5vh;
   max-height: 88vh;
@@ -692,6 +692,20 @@ header#topbar button:hover { background: var(--border); }
 #configMsg { font-size: 12px; margin-top: 10px; }
 #configMsg.success { color: var(--accent); }
 #configMsg.error { color: var(--danger); }
+.settings-tabs { display: flex; gap: 4px; padding: 10px 16px 0; border-bottom: 1px solid var(--border); }
+.settings-tab { background: transparent; color: var(--muted); border: 0; border-bottom: 3px solid transparent; padding: 9px 14px; font-weight: 700; cursor: pointer; }
+.settings-tab.active { color: var(--text); border-bottom-color: var(--accent); }
+.settings-panel[hidden] { display: none; }
+.help-layout { display: grid; grid-template-columns: 180px 1fr; gap: 18px; }
+.help-nav { position: sticky; top: 0; align-self: start; display: grid; gap: 5px; }
+.help-nav strong { color: var(--text); margin-bottom: 4px; }
+.help-nav a { color: var(--accent); text-decoration: none; font-size: 12px; padding: 4px 0; }
+.help-card { border: 1px solid var(--border); border-radius: 6px; background: var(--panel-2); margin-bottom: 10px; padding: 0 13px 12px; }
+.help-card summary { cursor: pointer; color: var(--text); font-weight: 700; padding: 12px 0; }
+.help-card p, .help-card li { color: var(--muted); font-size: 12px; line-height: 1.55; }
+.help-card h4 { color: var(--text); margin: 10px 0 4px; }
+.help-callout { border-left: 3px solid var(--accent); padding: 8px 10px; background: rgba(46, 204, 113, 0.08); }
+@media (max-width: 680px) { .help-layout { grid-template-columns: 1fr; } .help-nav { position: static; } }
 
 </style>
 </head>
@@ -725,7 +739,7 @@ header#topbar button:hover { background: var(--border); }
       <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
       <button id="requestsPanelBtn">Requests</button>
       <button id="newRequestBtn">+ Resource Request (213RR)</button>
-      <button id="configBtn" class="icon-btn header-icon" title="Configuration" aria-label="Configuration">&#9881;</button>
+      <button id="configBtn" class="icon-btn header-icon" title="Settings and help" aria-label="Settings and help">&#9881;</button>
       <span id="signInStatus"></span>
       <button id="signInBtn">Sign out</button>
     </header>
@@ -839,12 +853,17 @@ header#topbar button:hover { background: var(--border); }
     <div id="configModal">
       <div class="modal-head">
         <div>
-          <div class="modal-title">Configuration</div>
-          <div class="modal-sub">Connection settings persist in this browser (localStorage)</div>
+          <div class="modal-title">Settings &amp; Help</div>
+          <div class="modal-sub">Configure data connections, map layers, and learn the operational workflow</div>
         </div>
         <button id="configClose" class="icon-btn" aria-label="Close">&times;</button>
       </div>
+      <nav class="settings-tabs" role="tablist" aria-label="Settings sections">
+        <button id="configurationTab" class="settings-tab active" role="tab" aria-selected="true" aria-controls="configurationPanel">Configuration</button>
+        <button id="helpTab" class="settings-tab" role="tab" aria-selected="false" aria-controls="helpPanel">Help &amp; How-to</button>
+      </nav>
       <div id="configBody">
+        <section id="configurationPanel" class="settings-panel" role="tabpanel" aria-labelledby="configurationTab">
         <label class="cfg-field">Portal URL
           <input type="text" id="cfgPortalUrl" />
         </label>
@@ -869,9 +888,33 @@ header#topbar button:hover { background: var(--border); }
         <label class="cfg-toggle"><input type="checkbox" id="cfgShowResources" checked /> Show Resources</label>
         <label class="cfg-toggle"><input type="checkbox" id="cfgShowFacilities" checked /> Show Facilities</label>
         <div id="configMsg"></div>
-        <p class="cfg-note">Changing connection settings reloads the app.</p>
+        <p class="cfg-note">Changing connection settings reloads the app. Layer visibility changes apply immediately.</p>
+        </section>
+        <section id="helpPanel" class="settings-panel" role="tabpanel" aria-labelledby="helpTab" hidden>
+          <div class="help-layout">
+            <nav class="help-nav" aria-label="Help topics">
+              <strong>In this guide</strong>
+              <a href="#help-about">About the app</a>
+              <a href="#help-map">Map workspace</a>
+              <a href="#help-request">Create a request</a>
+              <a href="#help-workflow">Request workflow</a>
+              <a href="#help-audit">Audit and reports</a>
+              <a href="#help-settings">Settings</a>
+              <a href="#help-trouble">Troubleshooting</a>
+            </nav>
+            <div>
+              <details id="help-about" class="help-card" open><summary>About EOC Resource &amp; Asset Management</summary><p>This authenticated application combines NIMS-typed resource inventory, facilities, ICS 213RR resource requests, and Workflow Manager tracking in one operational workspace.</p><p class="help-callout"><strong>System of record:</strong> ArcGIS feature services store resources, facilities, and requests. Workflow Manager provides the request audit trail.</p></details>
+              <details id="help-map" class="help-card"><summary>Use the map workspace</summary><ul><li>Use <strong>Show filters</strong> to narrow resources by status, category, kind, or type.</li><li>Select a resource in the inventory list or map to inspect its operational details.</li><li>Use the map tools for search, layer visibility, basemaps, home extent, and editing.</li><li>KPIs summarize the resources that match the active filters.</li></ul></details>
+              <details id="help-request" class="help-card"><summary>Create an ICS 213RR resource request</summary><ol><li>Select <strong>+ Resource Request (213RR)</strong>.</li><li>Enter a clear request title, incident, priority, resource typing, quantity, date needed, and justification.</li><li>The Requestor field is prepopulated from the signed-in ArcGIS user's full name.</li><li>Select <strong>Submit Request</strong>. The request enters the workflow as Submitted.</li></ol></details>
+              <details id="help-workflow" class="help-card"><summary>Process requests through the workflow</summary><p>Open <strong>Requests</strong>, choose the appropriate operational persona, and use the action available for the current status.</p><ul><li><strong>Logistics:</strong> review, source, mobilize, return, and close.</li><li><strong>Approver:</strong> approve or deny with a documented reason.</li><li><strong>Operations:</strong> deploy and demobilize.</li><li><strong>Requestor:</strong> revise and resubmit denied requests.</li></ul><p>Only actions owned by the selected persona are enabled.</p></details>
+              <details id="help-audit" class="help-card"><summary>Audit history and reports</summary><p>Use a request's audit action to review Workflow Manager job history and comments. Export the record as CSV for analysis or PDF for an operational report. Audit entries identify the responsible persona and signed-in account where available.</p></details>
+              <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab controls the ArcGIS portal, OAuth client, feature service, sublayer indexes, and initial layer visibility. Browser overrides are stored locally on this device.</p><p>Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
+              <details id="help-trouble" class="help-card"><summary>Troubleshooting</summary><h4>Sign-in does not complete</h4><p>Verify the portal URL, OAuth client ID, and registered redirect URI. Then sign out and retry.</p><h4>Layers do not load</h4><p>Confirm the feature service URL, layer indexes, sharing permissions, and that your account can read the service.</p><h4>A request cannot be submitted</h4><p>Complete the required title and verify that your account has edit privileges on the requests table.</p><h4>A workflow action fails</h4><p>Confirm the request has a Workflow Manager job and that your account has permission to run the assigned step.</p></details>
+            </div>
+          </div>
+        </section>
       </div>
-      <div class="modal-foot">
+      <div id="configActions" class="modal-foot">
         <button id="configReset" class="btn-secondary">Reset to defaults</button>
         <button id="configSave" class="btn-primary">Save &amp; reload</button>
       </div>
@@ -2233,7 +2276,19 @@ require([
   });
 
   /* --------------------------------------------------- configuration panel */
+  function selectSettingsTab(name) {
+    const showHelp = name === "help";
+    document.getElementById("configurationPanel").hidden = showHelp;
+    document.getElementById("helpPanel").hidden = !showHelp;
+    document.getElementById("configurationTab").classList.toggle("active", !showHelp);
+    document.getElementById("helpTab").classList.toggle("active", showHelp);
+    document.getElementById("configurationTab").setAttribute("aria-selected", String(!showHelp));
+    document.getElementById("helpTab").setAttribute("aria-selected", String(showHelp));
+    document.getElementById("configActions").hidden = showHelp;
+  }
+
   function openConfigPanel() {
+    selectSettingsTab("configuration");
     document.getElementById("cfgPortalUrl").value = CFG.portalUrl || "";
     document.getElementById("cfgAppId").value = CFG.appId || "";
     document.getElementById("cfgServiceUrl").value = CFG.featureServiceUrl || "";
@@ -2278,6 +2333,14 @@ require([
   }
 
   document.getElementById("configBtn").addEventListener("click", openConfigPanel);
+  document.getElementById("configurationTab").addEventListener("click", function () { selectSettingsTab("configuration"); });
+  document.getElementById("helpTab").addEventListener("click", function () { selectSettingsTab("help"); });
+  document.querySelectorAll(".help-nav a").forEach(function (link) {
+    link.addEventListener("click", function () {
+      const topic = document.querySelector(link.getAttribute("href"));
+      if (topic) topic.open = true;
+    });
+  });
   document.getElementById("configClose").addEventListener("click", closeConfigPanel);
   document.getElementById("configSave").addEventListener("click", saveConfig);
   document.getElementById("configReset").addEventListener("click", resetConfig);
