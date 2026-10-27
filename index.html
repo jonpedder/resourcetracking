@@ -758,6 +758,18 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
 .req-actions button.deny { background: var(--danger); border-color: var(--danger); color: #fff; }
 .req-approved, #requestFormMsg.success, #configMsg.success, .audit-who, .audit-to { color: var(--success); }
 .esri-view { --esri-view-outline-color: var(--accent); }
+/* Asset request workspace: a Mission Insights-style operational panel on the right. */
+#requestOverlay { justify-content: flex-end; align-items: stretch; background: transparent; pointer-events: none; }
+#requestOverlay.open { display: flex; }
+#requestModal { width: 420px; max-width: 94vw; height: 100vh; max-height: none; margin: 0; border: 0; border-left: 1px solid var(--accent); border-radius: 0; box-shadow: -10px 0 28px rgba(0,0,0,.5); pointer-events: auto; }
+#requestForm { flex: 1 1 auto; min-height: 0; }
+.asset-request-summary { padding: 12px 16px; background: var(--panel-2); border-bottom: 1px solid var(--border); }
+.asset-request-summary .eyebrow { color: var(--accent); font-size: 10px; font-weight: 800; letter-spacing: .8px; text-transform: uppercase; }
+.asset-request-summary strong { display: block; margin-top: 5px; font-size: 16px; }
+.asset-request-summary span { display: block; margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.45; }
+.list-item.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent); background: #173d55; transform: translateX(2px); }
+.list-item .request-hint { display: block; color: var(--accent); font-size: 10px; font-weight: 700; margin-top: 7px; text-transform: uppercase; letter-spacing: .4px; }
+@media (max-width: 720px) { #requestModal { width: 100vw; max-width: 100vw; } }
 
 </style>
 </head>
@@ -789,8 +801,6 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </div>
       <div class="spacer"></div>
       <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
-      <button id="requestsPanelBtn">Requests</button>
-      <button id="newRequestBtn">+ Resource Request (213RR)</button>
       <button id="configBtn" class="icon-btn header-icon" title="Settings and help" aria-label="Settings and help">&#9881;</button>
       <span id="signInStatus"></span>
       <button id="signInBtn">Sign out</button>
@@ -850,6 +860,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
         </div>
         <button id="requestClose" class="icon-btn" aria-label="Close">&times;</button>
       </div>
+      <div id="assetRequestSummary" class="asset-request-summary" hidden></div>
       <div id="requestFormMsg"></div>
       <div id="requestForm"></div>
       <div class="modal-foot">
@@ -942,8 +953,6 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
           <label class="cfg-field">Subtitle<input type="text" id="cfgSubtitle" maxlength="120" /></label>
           <label class="cfg-field">Show filters button<input type="text" id="cfgLabelFilters" maxlength="40" /></label>
           <label class="cfg-field">Hide filters button<input type="text" id="cfgLabelHideFilters" maxlength="40" /></label>
-          <label class="cfg-field">Requests button<input type="text" id="cfgLabelRequests" maxlength="40" /></label>
-          <label class="cfg-field">New request button<input type="text" id="cfgLabelNewRequest" maxlength="60" /></label>
           <label class="cfg-field">Resource inventory heading<input type="text" id="cfgLabelInventory" maxlength="60" /></label>
           <label class="cfg-field">Filters heading<input type="text" id="cfgLabelFilterHeading" maxlength="60" /></label>
           <label class="cfg-field">Sign out button<input type="text" id="cfgLabelSignOut" maxlength="40" /></label>
@@ -989,7 +998,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
             <div>
               <details id="help-about" class="help-card" open><summary>About EOC Resource &amp; Asset Management</summary><p>This authenticated application combines NIMS-typed resource inventory, facilities, ICS 213RR resource requests, and Workflow Manager tracking in one operational workspace.</p><p class="help-callout"><strong>System of record:</strong> ArcGIS feature services store resources, facilities, and requests. Workflow Manager provides the request audit trail.</p></details>
               <details id="help-map" class="help-card"><summary>Use the map workspace</summary><ul><li>Use <strong>Show filters</strong> to narrow resources by status, category, kind, or type.</li><li>Select a resource in the inventory list or map to inspect its operational details.</li><li>Use the map tools for search, layer visibility, basemaps, home extent, and editing.</li><li>KPIs summarize the resources that match the active filters.</li></ul></details>
-              <details id="help-request" class="help-card"><summary>Create an ICS 213RR resource request</summary><ol><li>Select <strong>+ Resource Request (213RR)</strong>.</li><li>Enter a clear request title, incident, priority, resource typing, quantity, date needed, and justification.</li><li>The Requestor field is prepopulated from the signed-in ArcGIS user's full name.</li><li>Select <strong>Submit Request</strong>. The request enters the workflow as Submitted.</li></ol></details>
+              <details id="help-request" class="help-card"><summary>Request an inventory asset</summary><ol><li>Select an asset in the <strong>Resource Inventory</strong> list.</li><li>A request panel opens on the right and prepopulates the asset name, resource typing, available quantity, location details, and signed-in requestor.</li><li>Review the quantity and date needed, add the incident name and justification, and adjust any prepopulated values as needed.</li><li>Select <strong>Submit Asset Request</strong>. The ICS 213RR request enters the workflow as Submitted.</li></ol></details>
               <details id="help-workflow" class="help-card"><summary>Process requests through the workflow</summary><p>Open <strong>Requests</strong>, choose the appropriate operational persona, and use the action available for the current status.</p><ul><li><strong>Logistics:</strong> review, source, mobilize, return, and close.</li><li><strong>Approver:</strong> approve or deny with a documented reason.</li><li><strong>Operations:</strong> deploy and demobilize.</li><li><strong>Requestor:</strong> revise and resubmit denied requests.</li></ul><p>Only actions owned by the selected persona are enabled.</p></details>
               <details id="help-audit" class="help-card"><summary>Audit history and reports</summary><p>Use a request's audit action to review Workflow Manager job history and comments. Export the record as CSV for analysis or PDF for an operational report. Audit entries identify the responsible persona and signed-in account where available.</p></details>
               <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab controls the ArcGIS portal, OAuth client, feature service, sublayer indexes, application labels, shared theme palette, resource status colors, and initial layer visibility. Browser overrides are stored locally on this device.</p><p>Color and label changes apply after <strong>Save &amp; reload</strong>. Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
@@ -1600,6 +1609,7 @@ require([
 
   /* -------------------------------------------------- ICS 213RR request form */
   let requestForm = null;
+  let selectedRequestAsset = null;
   let editContext = null; // when set, the request modal is editing/resubmitting an existing record
 
   function ensureRequestForm() {
@@ -1630,33 +1640,64 @@ require([
     });
   }
 
-  function openRequestModal() {
+  function openRequestForAsset(assetFeature, listItem) {
     const overlay = document.getElementById("requestOverlay");
     const msg = document.getElementById("requestFormMsg");
+    const summary = document.getElementById("assetRequestSummary");
+    const a = assetFeature.attributes || {};
     msg.textContent = "";
     msg.className = "";
     editContext = null;
-    document.getElementById("requestModalTitle").textContent = "Resource Request \u2014 ICS 213RR";
-    document.getElementById("requestModalSub").textContent = "Submit a new request into the EOC ResourceRequests log";
-    document.getElementById("requestSubmit").textContent = "Submit Request";
+    selectedRequestAsset = assetFeature;
+    document.querySelectorAll(".list-item.selected").forEach(function (item) { item.classList.remove("selected"); });
+    if (listItem) listItem.classList.add("selected");
+    document.getElementById("requestModalTitle").textContent = "Request Selected Asset";
+    document.getElementById("requestModalSub").textContent = "Create an ICS 213RR request from the selected inventory item";
+    document.getElementById("requestSubmit").textContent = "Submit Asset Request";
 
-    // A fresh, empty record; RequestStatus defaults to "Submitted", DateNeeded to today.
+    summary.hidden = false;
+    summary.innerHTML = "";
+    const eyebrow = document.createElement("div");
+    eyebrow.className = "eyebrow";
+    eyebrow.textContent = "Selected inventory asset";
+    const name = document.createElement("strong");
+    name.textContent = a.ResourceName || "Unnamed resource";
+    const detail = document.createElement("span");
+    detail.textContent = [a.NIMS_Category, a.NIMS_Kind, a.TypeClass, a.SiteName, a.Status].filter(Boolean).join(" · ") +
+      (a.Quantity != null ? " · Available quantity " + a.Quantity : "");
+    summary.append(eyebrow, name, detail);
+
+    const notes = [
+      "Requested from inventory asset: " + (a.ResourceName || "Unnamed resource"),
+      a.SiteName ? "Current site: " + a.SiteName : "",
+      a.OwningAgency ? "Owning agency: " + a.OwningAgency : "",
+      a.Status ? "Current status: " + a.Status : ""
+    ].filter(Boolean).join("\n");
     const feature = new Graphic({
       attributes: {
+        RequestTitle: "Request " + (a.ResourceName || "resource"),
         RequestStatus: "Submitted",
         Requestor: currentUserFullName,
         Priority: "Routine",
-        DateNeeded: Date.now()
+        RequestedCategory: a.NIMS_Category || null,
+        RequestedKind: a.NIMS_Kind || null,
+        RequestedType: a.TypeClass || a.ResourceTypeDef || null,
+        QuantityRequested: 1,
+        DateNeeded: Date.now(),
+        Notes: notes
       }
     });
 
     ensureRequestForm();
     requestForm.feature = feature;
     overlay.classList.add("open");
+    zoomToFeature(assetFeature);
   }
 
   function closeRequestModal() {
     document.getElementById("requestOverlay").classList.remove("open");
+    document.querySelectorAll(".list-item.selected").forEach(function (item) { item.classList.remove("selected"); });
+    selectedRequestAsset = null;
   }
 
   function submitRequest() {
@@ -1684,8 +1725,6 @@ require([
         if (res && res.error) throw res.error;
         msg.className = "success";
         msg.textContent = "Request submitted (OBJECTID " + (res ? res.objectId : "?") + ").";
-        // Reveal the request in the drawer (newest-first), ready for approval.
-        toggleRequestsPanel(true);
         setTimeout(closeRequestModal, 1200);
       })
       .catch(function (err) {
@@ -1729,7 +1768,6 @@ require([
       .then(function () { submitBtn.disabled = false; });
   }
 
-  document.getElementById("newRequestBtn").addEventListener("click", openRequestModal);
   document.getElementById("requestClose").addEventListener("click", closeRequestModal);
   document.getElementById("requestCancel").addEventListener("click", closeRequestModal);
   document.getElementById("requestSubmit").addEventListener("click", submitRequest);
@@ -2348,6 +2386,7 @@ require([
         document.getElementById("requestModalTitle").textContent = "Edit & Resubmit \u2014 ICS 213RR";
         document.getElementById("requestModalSub").textContent = "Adjust the request and resubmit it for approval";
         document.getElementById("requestSubmit").textContent = "Resubmit for Approval";
+        document.getElementById("assetRequestSummary").hidden = true;
         const reason = feat.attributes[WF.denialReasonField];
         msg.className = reason ? "error" : "";
         msg.textContent = reason ? ("Denied: " + reason) : "";
@@ -2398,7 +2437,6 @@ require([
   }
 
   document.getElementById("filterPanelBtn").addEventListener("click", function () { toggleFilterPanel(); });
-  document.getElementById("requestsPanelBtn").addEventListener("click", function () { toggleRequestsPanel(); });
   document.getElementById("requestsClose").addEventListener("click", function () { toggleRequestsPanel(false); });
 
   // Audit log modal (Workflow Manager job history).
@@ -2446,8 +2484,6 @@ require([
     document.getElementById("cfgSubtitle").value = branding.subtitle || "";
     document.getElementById("cfgLabelFilters").value = labels.filtersButton || "";
     document.getElementById("cfgLabelHideFilters").value = labels.hideFiltersButton || "";
-    document.getElementById("cfgLabelRequests").value = labels.requestsButton || "";
-    document.getElementById("cfgLabelNewRequest").value = labels.newRequestButton || "";
     document.getElementById("cfgLabelInventory").value = labels.inventoryHeading || "";
     document.getElementById("cfgLabelFilterHeading").value = labels.filtersHeading || "";
     document.getElementById("cfgLabelSignOut").value = labels.signOutButton || "";
@@ -2500,8 +2536,8 @@ require([
       labels: {
         filtersButton: document.getElementById("cfgLabelFilters").value.trim() || "Show filters",
         hideFiltersButton: document.getElementById("cfgLabelHideFilters").value.trim() || "Hide filters",
-        requestsButton: document.getElementById("cfgLabelRequests").value.trim() || "Requests",
-        newRequestButton: document.getElementById("cfgLabelNewRequest").value.trim() || "+ Resource Request (213RR)",
+        requestsButton: (CFG.labels && CFG.labels.requestsButton) || "Requests",
+        newRequestButton: (CFG.labels && CFG.labels.newRequestButton) || "+ Resource Request (213RR)",
         inventoryHeading: document.getElementById("cfgLabelInventory").value.trim() || "Resource Inventory",
         filtersHeading: document.getElementById("cfgLabelFilterHeading").value.trim() || "Filters",
         signOutButton: document.getElementById("cfgLabelSignOut").value.trim() || "Sign out"
@@ -2665,7 +2701,7 @@ require([
     const countEl = document.getElementById("resultCount");
     resourcesLayer.queryFeatures({
       where: where,
-      outFields: ["OBJECTID", "ResourceName", "NIMS_Category", "TypeClass", "Quantity", "Status", "SiteName"],
+      outFields: ["*"],
       orderByFields: ["ResourceName"],
       returnGeometry: true,
       num: 200
@@ -2683,8 +2719,14 @@ require([
           (a.TypeClass ? " · " + a.TypeClass : "") +
           " · Qty " + (a.Quantity == null ? "-" : a.Quantity) +
           (a.SiteName ? " · " + a.SiteName : "") + "</div>" +
-          '<span class="status" style="background:' + color + '">' + (a.Status || "") + "</span>";
-        item.addEventListener("click", function () { zoomToFeature(feat); });
+          '<span class="status" style="background:' + color + '">' + (a.Status || "") + "</span>" +
+          '<span class="request-hint">Select to request this asset</span>';
+        item.setAttribute("role", "button");
+        item.tabIndex = 0;
+        item.addEventListener("click", function () { openRequestForAsset(feat, item); });
+        item.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") { event.preventDefault(); openRequestForAsset(feat, item); }
+        });
         listEl.appendChild(item);
       });
     });
