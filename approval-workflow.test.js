@@ -53,6 +53,24 @@ for (const decision of [
   });
 }
 
+test("derives approval actions from the Workflow Manager question step", function () {
+  const actions = workflow.approvalActions({ action: { args: { questionResponses: {
+    Approved: { displayName: "Approved", value: 1, order: 0 },
+    Denied: { displayName: "Denied", value: 0, order: 1 },
+    Other: { displayName: "Other", value: 2, order: 2 }
+  } } } });
+  assert.deepEqual(actions, [
+    { label: "Approved", to: "Approved", questionResponse: 1, order: 0 },
+    { label: "Denied", to: "Denied", questionResponse: 0, order: 1 }
+  ]);
+});
+
+test("All Personas includes every workflow owner", function () {
+  const steps = { Submitted: { owner: "Logistics" }, "Under Review": { owner: "Approver" } };
+  assert.equal(workflow.personaOwnsStatus("All Personas", "Submitted", steps), true);
+  assert.equal(workflow.personaOwnsStatus("Approver", "Submitted", steps), false);
+});
+
 test("requires Workflow Manager linkage before editing a request", async function () {
   let requestWritten = false;
   await assert.rejects(workflow.applyDecision({

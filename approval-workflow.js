@@ -29,12 +29,31 @@
     return "Status: " + fromStatus + " → " + toStatus + " (by " + username + ")\nDecision note: " + note;
   }
 
+  function approvalActions(step) {
+    const responses = step && step.action && step.action.args && step.action.args.questionResponses;
+    return Object.keys(responses || {}).map(function (key) {
+      const response = responses[key] || {};
+      const label = response.displayName || key;
+      return { label: label, to: key, questionResponse: response.value, order: response.order || 0 };
+    }).filter(function (action) {
+      return action.to === "Approved" || action.to === "Denied";
+    }).sort(function (a, b) { return a.order - b.order; });
+  }
+
+  function personaOwnsStatus(persona, status, steps) {
+    return persona === "All Personas" || !!(steps && steps[status] && steps[status].owner === persona);
+  }
+
   async function applyDecision(options) {
     const o = options || {};
     if (!o.note || !String(o.note).trim()) throw new Error("A decision note is required.");
     if (!o.objectId || !o.fromStatus || !o.toStatus) throw new Error("Decision context is incomplete.");
     if (o.toStatus !== "Approved" && o.toStatus !== "Denied") throw new Error("Unsupported approval decision.");
     if (!o.jobId) throw new Error("This request has no linked Workflow Manager job.");
+
+    if (typeof o.completeWorkflowDecision === "function") {
+      await o.completeWorkflowDecision(o.jobId, o.questionResponse);
+    }
 
     const attributes = { OBJECTID: o.objectId, RequestStatus: o.toStatus };
     if (o.toStatus === "Approved") {
@@ -61,6 +80,8 @@
     requestTime: requestTime,
     sortRequests: sortRequests,
     transitionComment: transitionComment,
+    approvalActions: approvalActions,
+    personaOwnsStatus: personaOwnsStatus,
     applyDecision: applyDecision
   };
 });
