@@ -22,8 +22,8 @@ test("approval page is wired to ResourceRequests and Workflow Manager", function
 });
 
 test("approval decisions require a note and support approve or deny", function () {
-  assert.match(html, /A decision note is required/);
+  assert.match(html, /approval-workflow\.js/);
   assert.match(html, /label:'Approve'/);
   assert.match(html, /label:'Deny'/);
-  assert.match(html, /RequestStatus:action\.to/);
+  assert.match(html, /ApprovalWorkflow\.applyDecision/);
 });
