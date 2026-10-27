@@ -827,7 +827,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </div>
       <div class="spacer"></div>
       <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
-      <button id="newRequestBtn" type="button">+ Resource Request (213RR)</button>
+      <button id="newRequestBtn" type="button" aria-controls="requestsPanel" aria-expanded="false">+ Resource Request (213RR)</button>
       <span id="signInStatus"></span>
       <button id="signInBtn">Sign out</button>
       <button id="configBtn" class="icon-btn header-icon" title="Settings and help" aria-label="Settings and help">&#9881;</button>
@@ -1709,33 +1709,6 @@ require([
     });
   }
 
-  function openRequestModal() {
-    const overlay = document.getElementById("requestOverlay");
-    const msg = document.getElementById("requestFormMsg");
-    msg.textContent = "";
-    msg.className = "";
-    editContext = null;
-    selectedRequestAsset = null;
-    document.querySelectorAll(".list-item.selected").forEach(function (item) { item.classList.remove("selected"); });
-    document.getElementById("requestModalTitle").textContent = "Resource Request — ICS 213RR";
-    document.getElementById("requestModalSub").textContent = "Submit a new request into the EOC ResourceRequests log";
-    document.getElementById("requestSubmit").textContent = "Submit Request";
-    document.getElementById("assetRequestSummary").hidden = true;
-
-    const feature = new Graphic({
-      attributes: {
-        RequestStatus: "Submitted",
-        Requestor: currentUserFullName,
-        Priority: "Routine",
-        DateNeeded: Date.now()
-      }
-    });
-
-    ensureRequestForm();
-    requestForm.feature = feature;
-    overlay.classList.add("open");
-  }
-
   function openRequestForAsset(assetFeature, listItem) {
     const overlay = document.getElementById("requestOverlay");
     const msg = document.getElementById("requestFormMsg");
@@ -1864,7 +1837,6 @@ require([
       .then(function () { submitBtn.disabled = false; });
   }
 
-  document.getElementById("newRequestBtn").addEventListener("click", openRequestModal);
   document.getElementById("requestClose").addEventListener("click", closeRequestModal);
   document.getElementById("requestCancel").addEventListener("click", closeRequestModal);
   document.getElementById("requestSubmit").addEventListener("click", submitRequest);
@@ -2517,6 +2489,7 @@ require([
     const panel = document.getElementById("requestsPanel");
     const willOpen = open == null ? !panel.classList.contains("open") : open;
     panel.classList.toggle("open", willOpen);
+    document.getElementById("newRequestBtn").setAttribute("aria-expanded", String(willOpen));
     if (willOpen) loadRequests();
   }
 
@@ -2534,6 +2507,7 @@ require([
   }
 
   document.getElementById("filterPanelBtn").addEventListener("click", function () { toggleFilterPanel(); });
+  document.getElementById("newRequestBtn").addEventListener("click", function () { toggleRequestsPanel(); });
   document.getElementById("requestsClose").addEventListener("click", function () { toggleRequestsPanel(false); });
 
   // Audit log modal (Workflow Manager job history).
