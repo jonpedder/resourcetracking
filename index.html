@@ -827,7 +827,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </div>
       <div class="spacer"></div>
       <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
-      <button id="newRequestBtn" type="button" aria-controls="requestsPanel" aria-expanded="false">+ Resource Request (213RR)</button>
+      <button id="newRequestBtn" type="button" title="Open Resource Request Approval in a new tab">+ Resource Request (213RR)</button>
       <span id="signInStatus"></span>
       <button id="signInBtn">Sign out</button>
       <button id="configBtn" class="icon-btn header-icon" title="Settings and help" aria-label="Settings and help">&#9881;</button>
@@ -2563,7 +2563,9 @@ require([
   }
 
   document.getElementById("filterPanelBtn").addEventListener("click", function () { toggleFilterPanel(); });
-  document.getElementById("newRequestBtn").addEventListener("click", function () { toggleRequestsPanel(); });
+  document.getElementById("newRequestBtn").addEventListener("click", function () {
+    window.RequestWorkflow.openApprovalPage(window.open.bind(window), "./approval.html");
+  });
   document.getElementById("requestsClose").addEventListener("click", function () { toggleRequestsPanel(false); });
 
   // Audit log modal (Workflow Manager job history).

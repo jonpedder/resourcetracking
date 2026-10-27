@@ -39,3 +39,14 @@ test("header label displays the pending approval count", function () {
   assert.equal(workflow.buttonLabel("Resource Request (213RR)", 7), "Resource Request (213RR) (7)");
   assert.equal(workflow.buttonLabel("Resource Request (213RR)", 0), "Resource Request (213RR) (0)");
 });
+
+test("header button opens Resource Request Approval in a new tab", function () {
+  let args;
+  const opened = { location: "approval" };
+  const result = workflow.openApprovalPage(function () {
+    args = Array.from(arguments);
+    return opened;
+  }, "./approval.html");
+  assert.deepEqual(args, ["./approval.html", "_blank", "noopener"]);
+  assert.equal(result, opened);
+});

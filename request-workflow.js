@@ -24,10 +24,15 @@
     return !!open;
   }
 
+  function openApprovalPage(openWindow, url) {
+    return openWindow(url || "./approval.html", "_blank", "noopener");
+  }
+
   return {
     defaultQueue: defaultQueue,
     pendingWhere: pendingWhere,
     buttonLabel: buttonLabel,
-    setPanelOpen: setPanelOpen
+    setPanelOpen: setPanelOpen,
+    openApprovalPage: openApprovalPage
   };
 });
