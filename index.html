@@ -698,6 +698,17 @@ header#topbar button:hover { background: var(--border); }
   letter-spacing: 0.5px; color: var(--muted);
   margin: 6px 0 8px; border-top: 1px solid var(--border); padding-top: 12px;
 }
+.cfg-card { background: var(--panel); border: 1px solid var(--border); margin-bottom: 12px; padding: 0 14px 12px; }
+.cfg-card > summary { display: flex; align-items: center; gap: 9px; padding: 13px 0; color: var(--accent); font-size: 14px; font-weight: 700; cursor: pointer; list-style: none; }
+.cfg-card > summary::-webkit-details-marker { display: none; }
+.cfg-card > summary::before { content: "+"; width: 20px; height: 20px; display: grid; place-items: center; flex: 0 0 20px; border: 1px solid var(--accent); border-radius: 2px; font-size: 16px; line-height: 1; }
+.cfg-card[open] > summary::before { content: "−"; }
+.cfg-card[open] > summary { margin-bottom: 12px; border-bottom: 1px solid var(--border); }
+.logo-tools { display: grid; grid-template-columns:minmax(0,1fr) 110px; gap: 12px; align-items: end; }
+.logo-preview { width: 110px; height: 92px; object-fit: contain; padding: 6px; background: var(--bg); border: 1px solid var(--border); }
+.logo-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#cfgLogoStatus { min-height: 16px; }
+@media (max-width: 620px) { .logo-tools { grid-template-columns: 1fr; } }
 .cfg-toggle {
   display: flex; align-items: center; gap: 8px;
   font-size: 13px; padding: 4px 0; cursor: pointer;
@@ -927,61 +938,72 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </nav>
       <div id="configBody">
         <section id="configurationPanel" class="settings-panel" role="tabpanel" aria-labelledby="configurationTab">
-        <label class="cfg-field">Portal URL
-          <input type="text" id="cfgPortalUrl" />
-        </label>
-        <label class="cfg-field">OAuth App ID (Client ID)
-          <input type="text" id="cfgAppId" placeholder="required for org-shared layers" />
-        </label>
-        <label class="cfg-field">Feature Service URL
-          <input type="text" id="cfgServiceUrl" />
-        </label>
-        <div class="cfg-row">
-          <label class="cfg-field small">Resources layer
-            <input type="number" id="cfgLayerResources" min="0" />
-          </label>
-          <label class="cfg-field small">Facilities layer
-            <input type="number" id="cfgLayerFacilities" min="0" />
-          </label>
-          <label class="cfg-field small">Requests table
-            <input type="number" id="cfgLayerRequests" min="0" />
-          </label>
-        </div>
-        <div class="cfg-section">Application labels</div>
-        <div class="cfg-grid">
-          <label class="cfg-field">Application name<input type="text" id="cfgAppName" maxlength="80" /></label>
-          <label class="cfg-field">Subtitle<input type="text" id="cfgSubtitle" maxlength="120" /></label>
-          <label class="cfg-field">Show filters button<input type="text" id="cfgLabelFilters" maxlength="40" /></label>
-          <label class="cfg-field">Hide filters button<input type="text" id="cfgLabelHideFilters" maxlength="40" /></label>
-          <label class="cfg-field">Resource inventory heading<input type="text" id="cfgLabelInventory" maxlength="60" /></label>
-          <label class="cfg-field">Filters heading<input type="text" id="cfgLabelFilterHeading" maxlength="60" /></label>
-          <label class="cfg-field">Sign out button<input type="text" id="cfgLabelSignOut" maxlength="40" /></label>
-        </div>
-        <div class="cfg-section">Theme colors</div>
-        <p class="cfg-note">Choose the shared application palette. Colors apply after Save &amp; reload.</p>
-        <div class="cfg-grid">
-          <label class="cfg-field cfg-color">Header/navy<input type="color" id="cfgColorNavy" /></label>
-          <label class="cfg-field cfg-color">Background<input type="color" id="cfgColorBackground" /></label>
-          <label class="cfg-field cfg-color">Panel<input type="color" id="cfgColorPanel" /></label>
-          <label class="cfg-field cfg-color">Alternate panel<input type="color" id="cfgColorPanelAlt" /></label>
-          <label class="cfg-field cfg-color">Accent/buttons<input type="color" id="cfgColorAccent" /></label>
-          <label class="cfg-field cfg-color">Primary text<input type="color" id="cfgColorText" /></label>
-          <label class="cfg-field cfg-color">Muted text<input type="color" id="cfgColorMuted" /></label>
-          <label class="cfg-field cfg-color">Borders<input type="color" id="cfgColorBorder" /></label>
-        </div>
-        <div class="cfg-section">Resource status colors</div>
-        <div class="cfg-grid">
-          <label class="cfg-field cfg-color">Available<input type="color" id="cfgStatusAvailable" /></label>
-          <label class="cfg-field cfg-color">Committed<input type="color" id="cfgStatusCommitted" /></label>
-          <label class="cfg-field cfg-color">En Route<input type="color" id="cfgStatusEnRoute" /></label>
-          <label class="cfg-field cfg-color">Out of Service<input type="color" id="cfgStatusOutOfService" /></label>
-          <label class="cfg-field cfg-color">Demobilized<input type="color" id="cfgStatusDemobilized" /></label>
-        </div>
-        <div class="cfg-section">Live map layers</div>
-        <label class="cfg-toggle"><input type="checkbox" id="cfgShowResources" checked /> Show Resources</label>
-        <label class="cfg-toggle"><input type="checkbox" id="cfgShowFacilities" checked /> Show Facilities</label>
+        <details class="cfg-card">
+          <summary>Data connections and layers</summary>
+          <label class="cfg-field">Portal URL<input type="text" id="cfgPortalUrl" /></label>
+          <label class="cfg-field">OAuth App ID (Client ID)<input type="text" id="cfgAppId" placeholder="required for org-shared layers" /></label>
+          <label class="cfg-field">Feature Service URL<input type="text" id="cfgServiceUrl" /></label>
+          <div class="cfg-row">
+            <label class="cfg-field small">Resources layer<input type="number" id="cfgLayerResources" min="0" /></label>
+            <label class="cfg-field small">Facilities layer<input type="number" id="cfgLayerFacilities" min="0" /></label>
+            <label class="cfg-field small">Requests table<input type="number" id="cfgLayerRequests" min="0" /></label>
+          </div>
+          <label class="cfg-toggle"><input type="checkbox" id="cfgShowResources" checked /> Show Resources</label>
+          <label class="cfg-toggle"><input type="checkbox" id="cfgShowFacilities" checked /> Show Facilities</label>
+          <p class="cfg-note">Changing connection settings reloads the app. Layer visibility changes apply immediately.</p>
+        </details>
+        <details class="cfg-card">
+          <summary>Agency branding and logo</summary>
+          <div class="cfg-grid">
+            <label class="cfg-field">Application name<input type="text" id="cfgAppName" maxlength="80" /></label>
+            <label class="cfg-field">Subtitle<input type="text" id="cfgSubtitle" maxlength="120" /></label>
+          </div>
+          <div class="logo-tools">
+            <div>
+              <label class="cfg-field">Logo URL<input type="url" id="cfgLogoUrl" placeholder="https://agency.gov/logo.png" /></label>
+              <label class="cfg-field">Upload logo<input type="file" id="cfgLogoUpload" accept="image/png,image/jpeg,image/gif,image/webp" /></label>
+              <p class="cfg-note">HTTPS URL or PNG, JPEG, GIF, or WebP. Maximum upload size: 300 KB.</p>
+              <div class="logo-actions"><button type="button" id="cfgLogoPreviewBtn" class="btn-secondary">Preview logo</button><button type="button" id="cfgLogoClear" class="btn-secondary">Use default logo</button></div>
+              <div id="cfgLogoStatus" class="cfg-note" role="status" aria-live="polite"></div>
+            </div>
+            <img id="cfgLogoPreview" class="logo-preview" hidden alt="Agency logo preview" />
+          </div>
+        </details>
+        <details class="cfg-card">
+          <summary>Application labels</summary>
+          <div class="cfg-grid">
+            <label class="cfg-field">Show filters button<input type="text" id="cfgLabelFilters" maxlength="40" /></label>
+            <label class="cfg-field">Hide filters button<input type="text" id="cfgLabelHideFilters" maxlength="40" /></label>
+            <label class="cfg-field">Resource inventory heading<input type="text" id="cfgLabelInventory" maxlength="60" /></label>
+            <label class="cfg-field">Filters heading<input type="text" id="cfgLabelFilterHeading" maxlength="60" /></label>
+            <label class="cfg-field">Sign out button<input type="text" id="cfgLabelSignOut" maxlength="40" /></label>
+          </div>
+        </details>
+        <details class="cfg-card">
+          <summary>Theme colors</summary>
+          <p class="cfg-note">Choose the shared application palette. Colors apply after Save &amp; reload.</p>
+          <div class="cfg-grid">
+            <label class="cfg-field cfg-color">Header/navy<input type="color" id="cfgColorNavy" /></label>
+            <label class="cfg-field cfg-color">Background<input type="color" id="cfgColorBackground" /></label>
+            <label class="cfg-field cfg-color">Panel<input type="color" id="cfgColorPanel" /></label>
+            <label class="cfg-field cfg-color">Alternate panel<input type="color" id="cfgColorPanelAlt" /></label>
+            <label class="cfg-field cfg-color">Accent/buttons<input type="color" id="cfgColorAccent" /></label>
+            <label class="cfg-field cfg-color">Primary text<input type="color" id="cfgColorText" /></label>
+            <label class="cfg-field cfg-color">Muted text<input type="color" id="cfgColorMuted" /></label>
+            <label class="cfg-field cfg-color">Borders<input type="color" id="cfgColorBorder" /></label>
+          </div>
+        </details>
+        <details class="cfg-card">
+          <summary>Resource status colors</summary>
+          <div class="cfg-grid">
+            <label class="cfg-field cfg-color">Available<input type="color" id="cfgStatusAvailable" /></label>
+            <label class="cfg-field cfg-color">Committed<input type="color" id="cfgStatusCommitted" /></label>
+            <label class="cfg-field cfg-color">En Route<input type="color" id="cfgStatusEnRoute" /></label>
+            <label class="cfg-field cfg-color">Out of Service<input type="color" id="cfgStatusOutOfService" /></label>
+            <label class="cfg-field cfg-color">Demobilized<input type="color" id="cfgStatusDemobilized" /></label>
+          </div>
+        </details>
         <div id="configMsg"></div>
-        <p class="cfg-note">Changing connection settings reloads the app. Layer visibility changes apply immediately.</p>
         </section>
         <section id="helpPanel" class="settings-panel" role="tabpanel" aria-labelledby="helpTab" hidden>
           <div class="help-layout">
@@ -1001,7 +1023,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
               <details id="help-request" class="help-card"><summary>Request an inventory asset</summary><ol><li>Select an asset in the <strong>Resource Inventory</strong> list.</li><li>A request panel opens on the right and prepopulates the asset name, resource typing, available quantity, location details, and signed-in requestor.</li><li>Review the quantity and date needed, add the incident name and justification, and adjust any prepopulated values as needed.</li><li>Select <strong>Submit Asset Request</strong>. The ICS 213RR request enters the workflow as Submitted.</li></ol></details>
               <details id="help-workflow" class="help-card"><summary>Process requests through the workflow</summary><p>Open <strong>Requests</strong>, choose the appropriate operational persona, and use the action available for the current status.</p><ul><li><strong>Logistics:</strong> review, source, mobilize, return, and close.</li><li><strong>Approver:</strong> approve or deny with a documented reason.</li><li><strong>Operations:</strong> deploy and demobilize.</li><li><strong>Requestor:</strong> revise and resubmit denied requests.</li></ul><p>Only actions owned by the selected persona are enabled.</p></details>
               <details id="help-audit" class="help-card"><summary>Audit history and reports</summary><p>Use a request's audit action to review Workflow Manager job history and comments. Export the record as CSV for analysis or PDF for an operational report. Audit entries identify the responsible persona and signed-in account where available.</p></details>
-              <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab controls the ArcGIS portal, OAuth client, feature service, sublayer indexes, application labels, shared theme palette, resource status colors, and initial layer visibility. Browser overrides are stored locally on this device.</p><p>Color and label changes apply after <strong>Save &amp; reload</strong>. Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
+              <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab uses collapsed sections for data connections, agency branding, labels, theme colors, and resource status colors. Select the plus symbol to expand a section and the minus symbol to collapse it.</p><p>Agency logos can come from an HTTPS URL or an uploaded PNG, JPEG, GIF, or WebP image. Logo files are validated and limited to 300 KB. Browser overrides, including uploaded logos, are stored locally on this device.</p><p>Changes apply after <strong>Save &amp; reload</strong>. Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
               <details id="help-trouble" class="help-card"><summary>Troubleshooting</summary><h4>Sign-in does not complete</h4><p>Verify the portal URL, OAuth client ID, and registered redirect URI. Then sign out and retry.</p><h4>Layers do not load</h4><p>Confirm the feature service URL, layer indexes, sharing permissions, and that your account can read the service.</p><h4>A request cannot be submitted</h4><p>Complete the required title and verify that your account has edit privileges on the requests table.</p><h4>A workflow action fails</h4><p>Confirm the request has a Workflow Manager job and that your account has permission to run the assigned step.</p></details>
             </div>
           </div>
@@ -1039,6 +1061,7 @@ window.EOC_CONFIG = {
   branding: {
     appName: "EOC Resource & Asset Management",
     subtitle: "Sentinel Emergency Management Agency · FEMA NIMS Common Operating Picture",
+    logoUrl: "",
     colors: {
       navy: "#003B5C",
       background: "#071824",
@@ -1161,6 +1184,8 @@ try {
   const subtitle = document.querySelector("#topbar .sub");
   if (brand && branding.appName) brand.textContent = branding.appName;
   if (subtitle && branding.subtitle) subtitle.textContent = branding.subtitle;
+  const logo = document.querySelector("#topbar .brand-logo");
+  if (logo && branding.logoUrl) logo.src = branding.logoUrl;
   if (branding.appName) document.title = branding.appName;
   const labels = cfg.labels || {};
   const textById = {
@@ -2458,6 +2483,62 @@ require([
   });
 
   /* --------------------------------------------------- configuration panel */
+  const MAX_LOGO_BYTES = 300 * 1024;
+  const LOGO_TYPES = ["image/png", "image/jpeg", "image/gif", "image/webp"];
+  let draftLogoUrl = "";
+
+  function showLogoPreview(src, message) {
+    const preview = document.getElementById("cfgLogoPreview");
+    const status = document.getElementById("cfgLogoStatus");
+    if (src) {
+      preview.src = src;
+      preview.hidden = false;
+    } else {
+      preview.removeAttribute("src");
+      preview.hidden = true;
+    }
+    status.textContent = message || (src ? "Custom agency logo selected." : "Default agency seal selected.");
+  }
+
+  function previewLogoUrl() {
+    const value = document.getElementById("cfgLogoUrl").value.trim();
+    if (!value) { draftLogoUrl = ""; showLogoPreview("", "Default agency seal selected."); return; }
+    let url;
+    try { url = new URL(value); } catch (e) { showLogoPreview("", "Enter a valid HTTPS logo URL."); return; }
+    if (url.protocol !== "https:") { showLogoPreview("", "Logo URLs must use HTTPS."); return; }
+    showLogoPreview("", "Checking remote logo format and size…");
+    fetch(url.href, { mode: "cors" }).then(function (response) {
+      if (!response.ok) throw new Error("Logo URL returned HTTP " + response.status + ".");
+      return response.blob();
+    }).then(function (blob) {
+      if (LOGO_TYPES.indexOf(blob.type) < 0) throw new Error("URL must return PNG, JPEG, GIF, or WebP.");
+      if (blob.size > MAX_LOGO_BYTES) throw new Error("Remote logo is larger than the 300 KB limit.");
+      const reader = new FileReader();
+      reader.onload = function () {
+        draftLogoUrl = String(reader.result || "");
+        showLogoPreview(draftLogoUrl, "Remote logo ready to save (" + Math.ceil(blob.size / 1024) + " KB)." );
+      };
+      reader.readAsDataURL(blob);
+    }).catch(function (error) {
+      draftLogoUrl = "";
+      showLogoPreview("", "Could not use logo URL: " + error.message + " The host must allow cross-origin image downloads.");
+    });
+  }
+
+  function uploadLogo(file) {
+    if (!file) return;
+    if (LOGO_TYPES.indexOf(file.type) < 0) { showLogoPreview("", "Choose a PNG, JPEG, GIF, or WebP image."); return; }
+    if (file.size > MAX_LOGO_BYTES) { showLogoPreview("", "Logo is larger than the 300 KB limit."); return; }
+    const reader = new FileReader();
+    reader.onload = function () {
+      draftLogoUrl = String(reader.result || "");
+      document.getElementById("cfgLogoUrl").value = "";
+      showLogoPreview(draftLogoUrl, file.name + " ready to save (" + Math.ceil(file.size / 1024) + " KB)." );
+    };
+    reader.onerror = function () { showLogoPreview("", "The logo file could not be read."); };
+    reader.readAsDataURL(file);
+  }
+
   function selectSettingsTab(name) {
     const showHelp = name === "help";
     document.getElementById("configurationPanel").hidden = showHelp;
@@ -2480,6 +2561,11 @@ require([
     const branding = CFG.branding || {};
     const labels = CFG.labels || {};
     const colors = branding.colors || {};
+    document.querySelectorAll("#configurationPanel details.cfg-card").forEach(function (card) { card.open = false; });
+    draftLogoUrl = branding.logoUrl || "";
+    document.getElementById("cfgLogoUrl").value = draftLogoUrl.indexOf("data:") === 0 ? "" : draftLogoUrl;
+    document.getElementById("cfgLogoUpload").value = "";
+    showLogoPreview(draftLogoUrl, draftLogoUrl ? "Current custom agency logo." : "Default agency seal selected.");
     document.getElementById("cfgAppName").value = branding.appName || "";
     document.getElementById("cfgSubtitle").value = branding.subtitle || "";
     document.getElementById("cfgLabelFilters").value = labels.filtersButton || "";
@@ -2510,6 +2596,13 @@ require([
     document.getElementById("configOverlay").classList.remove("open");
   }
   function saveConfig() {
+    const pendingLogoUrl = document.getElementById("cfgLogoUrl").value.trim();
+    if (pendingLogoUrl && !draftLogoUrl) {
+      const msg = document.getElementById("configMsg");
+      msg.className = "error";
+      msg.textContent = "Preview and validate the logo URL before saving.";
+      return;
+    }
     const overrides = {
       portalUrl: document.getElementById("cfgPortalUrl").value.trim(),
       appId: document.getElementById("cfgAppId").value.trim(),
@@ -2522,6 +2615,7 @@ require([
       branding: {
         appName: document.getElementById("cfgAppName").value.trim() || "EOC Resource & Asset Management",
         subtitle: document.getElementById("cfgSubtitle").value.trim(),
+        logoUrl: draftLogoUrl,
         colors: {
           navy: document.getElementById("cfgColorNavy").value,
           background: document.getElementById("cfgColorBackground").value,
@@ -2568,6 +2662,14 @@ require([
   }
 
   document.getElementById("configBtn").addEventListener("click", openConfigPanel);
+  document.getElementById("cfgLogoPreviewBtn").addEventListener("click", previewLogoUrl);
+  document.getElementById("cfgLogoUpload").addEventListener("change", function (event) { uploadLogo(event.target.files && event.target.files[0]); });
+  document.getElementById("cfgLogoClear").addEventListener("click", function () {
+    draftLogoUrl = "";
+    document.getElementById("cfgLogoUrl").value = "";
+    document.getElementById("cfgLogoUpload").value = "";
+    showLogoPreview("", "Default agency seal selected.");
+  });
   document.getElementById("configurationTab").addEventListener("click", function () { selectSettingsTab("configuration"); });
   document.getElementById("helpTab").addEventListener("click", function () { selectSettingsTab("help"); });
   document.querySelectorAll(".help-nav a").forEach(function (link) {
