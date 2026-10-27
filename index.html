@@ -128,6 +128,28 @@ header#topbar button {
   font-size: 13px;
 }
 header#topbar button:hover { background: var(--border); }
+.inventory-heading-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 4px 0 10px;
+}
+.panel .inventory-heading-row h3 { margin: 0; }
+#listPanel #filterPanelBtn {
+  flex: 0 0 auto;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+  border-radius: 3px;
+  padding: 4px 8px;
+  font-size: 11px;
+  line-height: 1.2;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+}
+#listPanel #filterPanelBtn:hover { background: var(--panel-2); }
 
 /* KPI strip */
 #kpis {
@@ -826,7 +848,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
         </div>
       </div>
       <div class="spacer"></div>
-      <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
+
       <button id="assetsBtn" type="button" title="Open Assets in a new tab">Assets</button>
       <button id="newRequestBtn" type="button" title="Open Request Approval in a new tab">Request Approval</button>
       <span id="signInStatus"></span>
@@ -850,7 +872,10 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </aside>
 
       <aside class="panel" id="listPanel">
-        <h3>Resource Inventory</h3>
+        <div class="inventory-heading-row">
+          <h3>Resource Inventory</h3>
+          <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
+        </div>
         <div id="resultCount"></div>
         <div id="list"></div>
       </aside>
