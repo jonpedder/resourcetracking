@@ -689,6 +689,10 @@ header#topbar button:hover { background: var(--border); }
 }
 .cfg-row { display: flex; gap: 8px; }
 .cfg-field.small { flex: 1; }
+.cfg-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 12px; }
+.cfg-color { display: grid; grid-template-columns: 1fr 46px; gap: 8px; align-items: end; }
+.cfg-color input[type="color"] { height: 34px; padding: 2px; cursor: pointer; }
+@media (max-width: 620px) { .cfg-grid { grid-template-columns: 1fr; } }
 .cfg-section {
   font-size: 12px; font-weight: 600; text-transform: uppercase;
   letter-spacing: 0.5px; color: var(--muted);
@@ -932,6 +936,38 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
             <input type="number" id="cfgLayerRequests" min="0" />
           </label>
         </div>
+        <div class="cfg-section">Application labels</div>
+        <div class="cfg-grid">
+          <label class="cfg-field">Application name<input type="text" id="cfgAppName" maxlength="80" /></label>
+          <label class="cfg-field">Subtitle<input type="text" id="cfgSubtitle" maxlength="120" /></label>
+          <label class="cfg-field">Show filters button<input type="text" id="cfgLabelFilters" maxlength="40" /></label>
+          <label class="cfg-field">Hide filters button<input type="text" id="cfgLabelHideFilters" maxlength="40" /></label>
+          <label class="cfg-field">Requests button<input type="text" id="cfgLabelRequests" maxlength="40" /></label>
+          <label class="cfg-field">New request button<input type="text" id="cfgLabelNewRequest" maxlength="60" /></label>
+          <label class="cfg-field">Resource inventory heading<input type="text" id="cfgLabelInventory" maxlength="60" /></label>
+          <label class="cfg-field">Filters heading<input type="text" id="cfgLabelFilterHeading" maxlength="60" /></label>
+          <label class="cfg-field">Sign out button<input type="text" id="cfgLabelSignOut" maxlength="40" /></label>
+        </div>
+        <div class="cfg-section">Theme colors</div>
+        <p class="cfg-note">Choose the shared application palette. Colors apply after Save &amp; reload.</p>
+        <div class="cfg-grid">
+          <label class="cfg-field cfg-color">Header/navy<input type="color" id="cfgColorNavy" /></label>
+          <label class="cfg-field cfg-color">Background<input type="color" id="cfgColorBackground" /></label>
+          <label class="cfg-field cfg-color">Panel<input type="color" id="cfgColorPanel" /></label>
+          <label class="cfg-field cfg-color">Alternate panel<input type="color" id="cfgColorPanelAlt" /></label>
+          <label class="cfg-field cfg-color">Accent/buttons<input type="color" id="cfgColorAccent" /></label>
+          <label class="cfg-field cfg-color">Primary text<input type="color" id="cfgColorText" /></label>
+          <label class="cfg-field cfg-color">Muted text<input type="color" id="cfgColorMuted" /></label>
+          <label class="cfg-field cfg-color">Borders<input type="color" id="cfgColorBorder" /></label>
+        </div>
+        <div class="cfg-section">Resource status colors</div>
+        <div class="cfg-grid">
+          <label class="cfg-field cfg-color">Available<input type="color" id="cfgStatusAvailable" /></label>
+          <label class="cfg-field cfg-color">Committed<input type="color" id="cfgStatusCommitted" /></label>
+          <label class="cfg-field cfg-color">En Route<input type="color" id="cfgStatusEnRoute" /></label>
+          <label class="cfg-field cfg-color">Out of Service<input type="color" id="cfgStatusOutOfService" /></label>
+          <label class="cfg-field cfg-color">Demobilized<input type="color" id="cfgStatusDemobilized" /></label>
+        </div>
         <div class="cfg-section">Live map layers</div>
         <label class="cfg-toggle"><input type="checkbox" id="cfgShowResources" checked /> Show Resources</label>
         <label class="cfg-toggle"><input type="checkbox" id="cfgShowFacilities" checked /> Show Facilities</label>
@@ -956,7 +992,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
               <details id="help-request" class="help-card"><summary>Create an ICS 213RR resource request</summary><ol><li>Select <strong>+ Resource Request (213RR)</strong>.</li><li>Enter a clear request title, incident, priority, resource typing, quantity, date needed, and justification.</li><li>The Requestor field is prepopulated from the signed-in ArcGIS user's full name.</li><li>Select <strong>Submit Request</strong>. The request enters the workflow as Submitted.</li></ol></details>
               <details id="help-workflow" class="help-card"><summary>Process requests through the workflow</summary><p>Open <strong>Requests</strong>, choose the appropriate operational persona, and use the action available for the current status.</p><ul><li><strong>Logistics:</strong> review, source, mobilize, return, and close.</li><li><strong>Approver:</strong> approve or deny with a documented reason.</li><li><strong>Operations:</strong> deploy and demobilize.</li><li><strong>Requestor:</strong> revise and resubmit denied requests.</li></ul><p>Only actions owned by the selected persona are enabled.</p></details>
               <details id="help-audit" class="help-card"><summary>Audit history and reports</summary><p>Use a request's audit action to review Workflow Manager job history and comments. Export the record as CSV for analysis or PDF for an operational report. Audit entries identify the responsible persona and signed-in account where available.</p></details>
-              <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab controls the ArcGIS portal, OAuth client, feature service, sublayer indexes, and initial layer visibility. Browser overrides are stored locally on this device.</p><p>Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
+              <details id="help-settings" class="help-card"><summary>Configure the application</summary><p>The Configuration tab controls the ArcGIS portal, OAuth client, feature service, sublayer indexes, application labels, shared theme palette, resource status colors, and initial layer visibility. Browser overrides are stored locally on this device.</p><p>Color and label changes apply after <strong>Save &amp; reload</strong>. Use <strong>Reset to defaults</strong> to remove local overrides. Confirm the published app URL is registered as an OAuth redirect URI before changing the client ID.</p></details>
               <details id="help-trouble" class="help-card"><summary>Troubleshooting</summary><h4>Sign-in does not complete</h4><p>Verify the portal URL, OAuth client ID, and registered redirect URI. Then sign out and retry.</p><h4>Layers do not load</h4><p>Confirm the feature service URL, layer indexes, sharing permissions, and that your account can read the service.</p><h4>A request cannot be submitted</h4><p>Complete the required title and verify that your account has edit privileges on the requests table.</p><h4>A workflow action fails</h4><p>Confirm the request has a Workflow Manager job and that your account has permission to run the assigned step.</p></details>
             </div>
           </div>
@@ -989,6 +1025,30 @@ window.EOC_CONFIG = {
     resources: 0, // point — NIMS-typed inventory
     facilities: 1, // point — EOC / staging / POD / shelter / base camp
     requests: 2 // table — ICS 213RR-style resource requests
+  },
+
+  branding: {
+    appName: "EOC Resource & Asset Management",
+    subtitle: "Sentinel Emergency Management Agency · FEMA NIMS Common Operating Picture",
+    colors: {
+      navy: "#003B5C",
+      background: "#071824",
+      panel: "#0C2231",
+      panelAlt: "#123247",
+      accent: "#F2A900",
+      text: "#F4F7F9",
+      muted: "#AFC3CF",
+      border: "#28495B"
+    }
+  },
+  labels: {
+    filtersButton: "Show filters",
+    hideFiltersButton: "Hide filters",
+    requestsButton: "Requests",
+    newRequestButton: "+ Resource Request (213RR)",
+    inventoryHeading: "Resource Inventory",
+    filtersHeading: "Filters",
+    signOutButton: "Sign out"
   },
 
   // Tactical dark palette — color drives Status, size drives Quantity.
@@ -1076,6 +1136,40 @@ try {
   Object.assign(window.EOC_CONFIG, saved);
 } catch (e) { /* ignore malformed overrides */ }
 
+(function applyConfiguredPresentation() {
+  const cfg = window.EOC_CONFIG;
+  const branding = cfg.branding || {};
+  const colors = branding.colors || {};
+  const root = document.documentElement;
+  const vars = {
+    navy: "--navy", background: "--bg", panel: "--panel", panelAlt: "--panel-2",
+    accent: "--accent", text: "--text", muted: "--muted", border: "--border"
+  };
+  Object.keys(vars).forEach(function (key) {
+    if (/^#[0-9a-f]{6}$/i.test(colors[key] || "")) root.style.setProperty(vars[key], colors[key]);
+  });
+  const brand = document.querySelector("#topbar .brand");
+  const subtitle = document.querySelector("#topbar .sub");
+  if (brand && branding.appName) brand.textContent = branding.appName;
+  if (subtitle && branding.subtitle) subtitle.textContent = branding.subtitle;
+  if (branding.appName) document.title = branding.appName;
+  const labels = cfg.labels || {};
+  const textById = {
+    filterPanelBtn: labels.filtersButton,
+    requestsPanelBtn: labels.requestsButton,
+    newRequestBtn: labels.newRequestButton,
+    signInBtn: labels.signOutButton
+  };
+  Object.keys(textById).forEach(function (id) {
+    const el = document.getElementById(id);
+    if (el && textById[id]) el.textContent = textById[id];
+  });
+  const inventoryHeading = document.querySelector("#listPanel h3");
+  const filtersHeading = document.querySelector("#filterPanel h3");
+  if (inventoryHeading && labels.inventoryHeading) inventoryHeading.textContent = labels.inventoryHeading;
+  if (filtersHeading && labels.filtersHeading) filtersHeading.textContent = labels.filtersHeading;
+})();
+
 </script>
   <script>
     document.getElementById("loginRedirect").textContent = location.href.split(/[?#]/)[0];
@@ -1140,13 +1234,13 @@ require([
     return portal.load().then(function () {
       currentUserFullName = (portal.user && portal.user.fullName) || cred.userId || "";
       document.getElementById("signInStatus").textContent = "Signed in: " + currentUserFullName;
-      document.getElementById("signInBtn").textContent = "Sign out";
+      document.getElementById("signInBtn").textContent = (CFG.labels && CFG.labels.signOutButton) || "Sign out";
       return cred;
     }).catch(function (error) {
       console.warn("Could not load the signed-in user's profile", error);
       currentUserFullName = cred.userId || "";
       document.getElementById("signInStatus").textContent = "Signed in: " + currentUserFullName;
-      document.getElementById("signInBtn").textContent = "Sign out";
+      document.getElementById("signInBtn").textContent = (CFG.labels && CFG.labels.signOutButton) || "Sign out";
       return cred;
     });
   }
@@ -2297,7 +2391,9 @@ require([
     const willOpen = open == null ? !isOpen : open;
     main.classList.toggle("filter-panel-collapsed", !willOpen);
     button.setAttribute("aria-expanded", String(willOpen));
-    button.textContent = willOpen ? "Hide filters" : "Show filters";
+    button.textContent = willOpen
+      ? ((CFG.labels && CFG.labels.hideFiltersButton) || "Hide filters")
+      : ((CFG.labels && CFG.labels.filtersButton) || "Show filters");
     if (view && typeof view.resize === "function") requestAnimationFrame(function () { view.resize(); });
   }
 
@@ -2343,6 +2439,31 @@ require([
     document.getElementById("cfgLayerResources").value = CFG.layers.resources;
     document.getElementById("cfgLayerFacilities").value = CFG.layers.facilities;
     document.getElementById("cfgLayerRequests").value = CFG.layers.requests;
+    const branding = CFG.branding || {};
+    const labels = CFG.labels || {};
+    const colors = branding.colors || {};
+    document.getElementById("cfgAppName").value = branding.appName || "";
+    document.getElementById("cfgSubtitle").value = branding.subtitle || "";
+    document.getElementById("cfgLabelFilters").value = labels.filtersButton || "";
+    document.getElementById("cfgLabelHideFilters").value = labels.hideFiltersButton || "";
+    document.getElementById("cfgLabelRequests").value = labels.requestsButton || "";
+    document.getElementById("cfgLabelNewRequest").value = labels.newRequestButton || "";
+    document.getElementById("cfgLabelInventory").value = labels.inventoryHeading || "";
+    document.getElementById("cfgLabelFilterHeading").value = labels.filtersHeading || "";
+    document.getElementById("cfgLabelSignOut").value = labels.signOutButton || "";
+    document.getElementById("cfgColorNavy").value = colors.navy || "#003B5C";
+    document.getElementById("cfgColorBackground").value = colors.background || "#071824";
+    document.getElementById("cfgColorPanel").value = colors.panel || "#0C2231";
+    document.getElementById("cfgColorPanelAlt").value = colors.panelAlt || "#123247";
+    document.getElementById("cfgColorAccent").value = colors.accent || "#F2A900";
+    document.getElementById("cfgColorText").value = colors.text || "#F4F7F9";
+    document.getElementById("cfgColorMuted").value = colors.muted || "#AFC3CF";
+    document.getElementById("cfgColorBorder").value = colors.border || "#28495B";
+    document.getElementById("cfgStatusAvailable").value = CFG.statusColors.Available || "#36B37E";
+    document.getElementById("cfgStatusCommitted").value = CFG.statusColors.Committed || "#3498DB";
+    document.getElementById("cfgStatusEnRoute").value = CFG.statusColors["En Route"] || "#F2C94C";
+    document.getElementById("cfgStatusOutOfService").value = CFG.statusColors["Out of Service"] || "#D9364F";
+    document.getElementById("cfgStatusDemobilized").value = CFG.statusColors.Demobilized || "#95A5A6";
     document.getElementById("cfgShowResources").checked = resourcesLayer.visible;
     document.getElementById("cfgShowFacilities").checked = facilitiesLayer.visible;
     document.getElementById("configMsg").textContent = "";
@@ -2361,6 +2482,36 @@ require([
         resources: parseInt(document.getElementById("cfgLayerResources").value, 10) || 0,
         facilities: parseInt(document.getElementById("cfgLayerFacilities").value, 10) || 0,
         requests: parseInt(document.getElementById("cfgLayerRequests").value, 10) || 0
+      },
+      branding: {
+        appName: document.getElementById("cfgAppName").value.trim() || "EOC Resource & Asset Management",
+        subtitle: document.getElementById("cfgSubtitle").value.trim(),
+        colors: {
+          navy: document.getElementById("cfgColorNavy").value,
+          background: document.getElementById("cfgColorBackground").value,
+          panel: document.getElementById("cfgColorPanel").value,
+          panelAlt: document.getElementById("cfgColorPanelAlt").value,
+          accent: document.getElementById("cfgColorAccent").value,
+          text: document.getElementById("cfgColorText").value,
+          muted: document.getElementById("cfgColorMuted").value,
+          border: document.getElementById("cfgColorBorder").value
+        }
+      },
+      labels: {
+        filtersButton: document.getElementById("cfgLabelFilters").value.trim() || "Show filters",
+        hideFiltersButton: document.getElementById("cfgLabelHideFilters").value.trim() || "Hide filters",
+        requestsButton: document.getElementById("cfgLabelRequests").value.trim() || "Requests",
+        newRequestButton: document.getElementById("cfgLabelNewRequest").value.trim() || "+ Resource Request (213RR)",
+        inventoryHeading: document.getElementById("cfgLabelInventory").value.trim() || "Resource Inventory",
+        filtersHeading: document.getElementById("cfgLabelFilterHeading").value.trim() || "Filters",
+        signOutButton: document.getElementById("cfgLabelSignOut").value.trim() || "Sign out"
+      },
+      statusColors: {
+        Available: document.getElementById("cfgStatusAvailable").value,
+        Committed: document.getElementById("cfgStatusCommitted").value,
+        "En Route": document.getElementById("cfgStatusEnRoute").value,
+        "Out of Service": document.getElementById("cfgStatusOutOfService").value,
+        Demobilized: document.getElementById("cfgStatusDemobilized").value
       }
     };
     try {
