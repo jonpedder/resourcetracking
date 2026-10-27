@@ -733,6 +733,21 @@ header#topbar button:hover { background: var(--border); }
 .help-callout { border-left: 3px solid var(--accent); padding: 8px 10px; background: rgba(46, 204, 113, 0.08); }
 @media (max-width: 680px) { .help-layout { grid-template-columns: 1fr; } .help-nav { position: static; } }
 
+.help-pdf-toolbar { display: flex; align-items: center; flex-wrap: wrap; gap: 9px; margin-bottom: 14px; }
+.help-pdf-toolbar .help-pdf-note { color: var(--muted); font-size: 11px; }
+.help-pdf-status { width: 100%; min-height: 16px; color: var(--muted); font-size: 11px; }
+.help-pdf-status.success { color: var(--success); }
+.help-pdf-status.error { color: #ff9aaa; }
+.help-card > summary { display: flex; align-items: center; gap: 10px; }
+.help-summary-title { flex: 1; }
+.help-pdf-btn { display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--accent); background: transparent; color: var(--accent); border-radius: 3px; padding: 6px 9px; font-size: 11px; font-weight: 700; cursor: pointer; flex: none; }
+.help-pdf-btn.primary { background: var(--accent); color: #111; padding: 9px 12px; }
+.help-pdf-btn:hover { filter: brightness(1.1); background-color: var(--panel-2); }
+.help-pdf-btn.primary:hover { background-color: var(--accent); }
+.help-pdf-btn:disabled { cursor: wait; opacity: .65; }
+.help-pdf-btn svg { width: 14px; height: 14px; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+@media (max-width: 680px) { .help-pdf-btn span { display: none; } }
+
 /* Shared Mission Insights visual language */
 button, select, input, textarea { font: inherit; }
 button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
@@ -1019,6 +1034,11 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
               <a href="#help-trouble">Troubleshooting</a>
             </nav>
             <div>
+              <div class="help-pdf-toolbar">
+                <button id="downloadHelpPdf" type="button" class="help-pdf-btn primary"><svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg><span>Download help PDF</span></button>
+                <span class="help-pdf-note">Downloads the complete guide with a table of contents and page numbers.</span>
+                <span id="helpPdfStatus" class="help-pdf-status" role="status" aria-live="polite"></span>
+              </div>
               <details id="help-about" class="help-card" open><summary>About EOC Resource &amp; Asset Management</summary><p>This authenticated application combines NIMS-typed resource inventory, facilities, ICS 213RR resource requests, and Workflow Manager tracking in one operational workspace.</p><p class="help-callout"><strong>System of record:</strong> ArcGIS feature services store resources, facilities, and requests. Workflow Manager provides the request audit trail.</p></details>
               <details id="help-map" class="help-card"><summary>Use the map workspace</summary><ul><li>Use <strong>Show filters</strong> to narrow resources by status, category, kind, or type.</li><li>Select a resource in the inventory list or map to inspect its operational details.</li><li>Use the map tools for search, layer visibility, basemaps, home extent, and editing.</li><li>KPIs summarize the resources that match the active filters.</li></ul></details>
               <details id="help-request" class="help-card"><summary>Request an inventory asset</summary><ol><li>Select an asset in the <strong>Resource Inventory</strong> list.</li><li>A request panel opens on the right and prepopulates the asset name, resource typing, available quantity, location details, and signed-in requestor.</li><li>Review the quantity and date needed, add the incident name and justification, and adjust any prepopulated values as needed.</li><li>Select <strong>Submit Asset Request</strong>. The ICS 213RR request enters the workflow as Submitted.</li></ol></details>
@@ -1214,6 +1234,7 @@ try {
         "Sign-in blocked: ArcGIS cannot redirect to a file:// page. Use the localhost link below or your published HTTPS URL.";
     }
   </script>
+  <script src="./jspdf.umd.min.js"></script>
   <script src="https://js.arcgis.com/4.30/"></script>
   <script>
 /**
@@ -1552,6 +1573,19 @@ require([
     map: map,
     padding: { top: 0 },
     popup: { dockEnabled: true, dockOptions: { position: "bottom-right", breakpoint: false } }
+  });
+
+  // Expose the live ArcGIS objects for diagnostics and future app integrations.
+  window.__esriMap = map;
+  window.__esriView = view;
+  window.__esriLayers = {
+    Resources: resourcesLayer,
+    Facilities: facilitiesLayer,
+    ResourceRequests: requestsTable
+  };
+  window.__app = Object.assign(window.__app || {}, {
+    webmapId: CFG.webmapId,
+    webmapPortalItem: map.portalItem
   });
 
   view.ui.add(new Home({ view: view }), "top-left");
@@ -2547,6 +2581,220 @@ require([
     reader.onerror = function () { showLogoPreview("", "The logo file could not be read."); };
     reader.readAsDataURL(file);
   }
+
+  const helpDownloadIcon = '<svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 3v12m0 0 5-5m-5 5-5-5M5 20h14"/></svg>';
+
+  function cleanHelpText(value) {
+    return String(value || "").replace(/\s+/g, " ").trim();
+  }
+
+  function helpPdfStatus(text, kind) {
+    const status = document.getElementById("helpPdfStatus");
+    if (!status) return;
+    status.textContent = text || "";
+    status.className = "help-pdf-status" + (kind ? " " + kind : "");
+  }
+
+  function pdfRgb(value, fallback) {
+    const hex = /^#[0-9a-f]{6}$/i.test(value || "") ? value : fallback;
+    return [hex.slice(1, 3), hex.slice(3, 5), hex.slice(5, 7)].map(function (part) { return parseInt(part, 16); });
+  }
+
+  function pdfLogoData() {
+    const url = (CFG.branding && CFG.branding.logoUrl) || document.querySelector(".brand-logo").src || "";
+    if (!url) return Promise.resolve("");
+    if (url.indexOf("data:") === 0) return Promise.resolve(url);
+    return fetch(url).then(function (response) {
+      if (!response.ok) throw new Error("Logo unavailable");
+      return response.blob();
+    }).then(function (blob) {
+      return new Promise(function (resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = function () { resolve(reader.result); };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    }).catch(function () { return ""; });
+  }
+
+  function drawHelpPdfBrand(doc, logo) {
+    const colors = (CFG.branding && CFG.branding.colors) || {};
+    const accent = pdfRgb(colors.accent, "#F2A900");
+    const navy = pdfRgb(colors.navy, "#003B5C");
+    if (logo) {
+      try { doc.addImage(logo, 44, 25, 45, 52, undefined, "FAST"); } catch (e) { logo = ""; }
+    }
+    if (!logo) {
+      doc.setDrawColor.apply(doc, accent);
+      doc.setLineWidth(2);
+      doc.roundedRect(52, 30, 28, 38, 7, 7, "S");
+      doc.line(58, 49, 74, 49);
+      doc.line(66, 40, 66, 58);
+    }
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(16);
+    doc.setTextColor.apply(doc, navy);
+    doc.text((CFG.branding && CFG.branding.appName) || "EOC Resource & Asset Management", 100, 45);
+    doc.setFont("helvetica", "normal");
+    doc.setFontSize(8);
+    doc.setTextColor(85);
+    doc.text(cleanHelpText((CFG.branding && CFG.branding.subtitle) || "Operator Guide"), 100, 60);
+    doc.setDrawColor.apply(doc, accent);
+    doc.setLineWidth(2);
+    doc.line(44, 82, 568, 82);
+  }
+
+  function addHelpSectionToPdf(doc, section, state) {
+    const margin = 44, contentWidth = 524;
+    function nextPage() {
+      doc.addPage();
+      drawHelpPdfBrand(doc, state.logo);
+      state.y = 104;
+    }
+    function addText(text, options) {
+      options = options || {};
+      const size = options.size || 9;
+      const indent = options.indent || 0;
+      doc.setFont("helvetica", options.bold ? "bold" : "normal");
+      doc.setFontSize(size);
+      doc.setTextColor.apply(doc, options.color || [35, 35, 35]);
+      doc.splitTextToSize(cleanHelpText(text), contentWidth - indent).forEach(function (line) {
+        if (state.y > 724) nextPage();
+        doc.text(line, margin + indent, state.y);
+        state.y += size + (options.leading || 4);
+      });
+    }
+    const title = cleanHelpText(section.querySelector(".help-summary-title") ? section.querySelector(".help-summary-title").textContent : section.querySelector("summary").childNodes[0].textContent);
+    addText(title, { size: 17, bold: true, color: pdfRgb((CFG.branding.colors || {}).navy, "#003B5C"), leading: 7 });
+    Array.prototype.slice.call(section.children, 1).forEach(function (child) {
+      if (child.matches("h1,h2,h3,h4,h5,h6")) addText(child.textContent, { size: 12, bold: true, color: pdfRgb((CFG.branding.colors || {}).navy, "#003B5C"), leading: 5 });
+      else if (child.matches("ol,ul")) Array.prototype.forEach.call(child.querySelectorAll(":scope > li"), function (item, index) {
+        addText((child.matches("ol") ? (index + 1) + ". " : "• ") + item.textContent, { size: 9, indent: 12, leading: 4 });
+      });
+      else addText(child.textContent, { size: 9, leading: 4 });
+      state.y += 3;
+    });
+    return title;
+  }
+
+  function finishHelpPdf(doc, footerTitle) {
+    const total = doc.getNumberOfPages();
+    for (let page = 1; page <= total; page++) {
+      doc.setPage(page);
+      doc.setDrawColor(180);
+      doc.line(44, 754, 568, 754);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(8);
+      doc.setTextColor(90);
+      doc.text(footerTitle, 44, 770);
+      const number = "Page " + page + " of " + total;
+      doc.text(number, 568 - doc.getTextWidth(number), 770);
+    }
+  }
+
+  function saveHelpPdf(doc, filename) {
+    const url = URL.createObjectURL(doc.output("blob"));
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    link.hidden = true;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+    helpPdfStatus(filename + " downloaded.", "success");
+  }
+
+  async function downloadHelpSectionPdf(section, button) {
+    const JsPDF = window.jspdf && window.jspdf.jsPDF;
+    if (!JsPDF) { helpPdfStatus("PDF library is unavailable. Reload the app and try again.", "error"); return; }
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.textContent = "Building PDF…";
+    helpPdfStatus("Building PDF…");
+    try {
+      const doc = new JsPDF({ unit: "pt", format: "letter" });
+      const state = { y: 104, logo: await pdfLogoData() };
+      drawHelpPdfBrand(doc, state.logo);
+      const title = addHelpSectionToPdf(doc, section, state);
+      doc.setProperties({ title: title, subject: "EOC Resource & Asset Management help", author: (CFG.branding && CFG.branding.appName) || "EOC Resource & Asset Management" });
+      finishHelpPdf(doc, title);
+      saveHelpPdf(doc, title.replace(/[^a-z0-9]+/gi, "-").replace(/^-|-$/g, "").toLowerCase() + ".pdf");
+    } catch (error) {
+      console.error(error);
+      helpPdfStatus("Unable to create the PDF: " + error.message, "error");
+    } finally {
+      button.disabled = false;
+      button.innerHTML = original;
+    }
+  }
+
+  async function downloadCompleteHelpPdf() {
+    const JsPDF = window.jspdf && window.jspdf.jsPDF;
+    const button = document.getElementById("downloadHelpPdf");
+    if (!JsPDF) { helpPdfStatus("PDF library is unavailable. Reload the app and try again.", "error"); return; }
+    const original = button.innerHTML;
+    button.disabled = true;
+    button.textContent = "Building PDF…";
+    helpPdfStatus("Building complete help PDF…");
+    try {
+      const sections = Array.prototype.slice.call(document.querySelectorAll("#helpPanel .help-card"));
+      const doc = new JsPDF({ unit: "pt", format: "letter" });
+      const logo = await pdfLogoData();
+      const appName = (CFG.branding && CFG.branding.appName) || "EOC Resource & Asset Management";
+      drawHelpPdfBrand(doc, logo);
+      doc.setProperties({ title: appName + " Operator Guide", subject: "Resource and asset management operator help", author: appName });
+      doc.setFont("helvetica", "bold"); doc.setFontSize(22); doc.setTextColor.apply(doc, pdfRgb((CFG.branding.colors || {}).navy, "#003B5C")); doc.text("Operator Guide", 44, 116);
+      doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(70); doc.text("Generated " + new Date().toLocaleString(), 44, 137);
+      doc.setFont("helvetica", "bold"); doc.setFontSize(15); doc.text("Table of contents", 44, 172);
+      const toc = [];
+      sections.forEach(function (section) {
+        doc.addPage();
+        drawHelpPdfBrand(doc, logo);
+        const state = { y: 104, logo: logo };
+        const title = addHelpSectionToPdf(doc, section, state);
+        toc.push({ title: title, page: doc.getNumberOfPages() });
+      });
+      doc.setPage(1);
+      let y = 198;
+      toc.forEach(function (row) {
+        doc.setFont("helvetica", "normal"); doc.setFontSize(10); doc.setTextColor(35);
+        doc.text(row.title, 44, y);
+        const pageText = String(row.page);
+        doc.text(pageText, 568 - doc.getTextWidth(pageText), y);
+        y += 18;
+      });
+      finishHelpPdf(doc, appName + " Operator Guide");
+      saveHelpPdf(doc, "eoc-resource-asset-management-operator-guide.pdf");
+    } catch (error) {
+      console.error(error);
+      helpPdfStatus("Unable to create the help PDF: " + error.message, "error");
+    } finally {
+      button.disabled = false;
+      button.innerHTML = original;
+    }
+  }
+
+  document.querySelectorAll("#helpPanel .help-card > summary").forEach(function (summary) {
+    const title = cleanHelpText(summary.textContent);
+    summary.textContent = "";
+    const titleSpan = document.createElement("span");
+    titleSpan.className = "help-summary-title";
+    titleSpan.textContent = title;
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "help-pdf-btn section-help-pdf";
+    button.innerHTML = helpDownloadIcon + "<span>Download PDF</span>";
+    button.setAttribute("aria-label", "Download " + title + " as PDF");
+    button.addEventListener("click", function (event) {
+      event.preventDefault();
+      event.stopPropagation();
+      downloadHelpSectionPdf(summary.parentElement, button);
+    });
+    summary.appendChild(titleSpan);
+    summary.appendChild(button);
+  });
+  document.getElementById("downloadHelpPdf").addEventListener("click", downloadCompleteHelpPdf);
 
   function selectSettingsTab(name) {
     const showHelp = name === "help";
