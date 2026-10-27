@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="calcite-mode-dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
@@ -9,16 +9,25 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.30/esri/themes/dark/main.css" />
   <style>
 :root {
-  --bg: #0a1620;
-  --panel: #0f2130;
-  --panel-2: #16303f;
-  --border: #1d3f52;
-  --text: #e6edf3;
-  --muted: #9fb3c0;
-  --accent: #2ECC71;
-  --accent-blue: #3498DB;
-  --danger: #E74C3C;
-  --warning: #F1C40F;
+  --navy: #003B5C;
+  --bg: #071824;
+  --panel: #0C2231;
+  --panel-2: #123247;
+  --border: #28495B;
+  --text: #F4F7F9;
+  --muted: #AFC3CF;
+  --accent: #F2A900;
+  --accent-blue: #4FA3D1;
+  --danger: #D9364F;
+  --warning: #F28C28;
+  --success: #36B37E;
+  --focus: #8BD3FF;
+  color-scheme: dark;
+  --calcite-color-brand: var(--accent);
+  --calcite-color-foreground-1: var(--panel);
+  --calcite-color-foreground-2: var(--panel-2);
+  --calcite-color-text-1: var(--text);
+  --calcite-color-text-2: var(--muted);
 }
 
 * {
@@ -30,7 +39,7 @@ html, body {
   margin: 0;
   padding: 0;
   height: 100%;
-  font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: Arial, "Helvetica Neue", sans-serif;
   background: var(--bg);
   color: var(--text);
 }
@@ -53,7 +62,9 @@ html, body {
   padding: 28px;
   background: var(--panel);
   border: 1px solid var(--border);
-  border-radius: 8px;
+  border-top: 4px solid var(--accent);
+  border-radius: 0;
+  box-shadow: 0 20px 60px rgba(0,0,0,.65);
   line-height: 1.5;
 }
 .login-card h1 { margin-top: 0; font-size: 24px; }
@@ -706,6 +717,43 @@ header#topbar button:hover { background: var(--border); }
 .help-card h4 { color: var(--text); margin: 10px 0 4px; }
 .help-callout { border-left: 3px solid var(--accent); padding: 8px 10px; background: rgba(46, 204, 113, 0.08); }
 @media (max-width: 680px) { .help-layout { grid-template-columns: 1fr; } .help-nav { position: static; } }
+
+/* Shared Mission Insights visual language */
+button, select, input, textarea { font: inherit; }
+button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--focus); outline-offset: 2px; }
+header#topbar { min-height: 74px; background: linear-gradient(90deg, var(--navy), var(--panel)); border-bottom-color: var(--border); }
+header#topbar .brand .accent, .modal-title, .drawer-title, .panel h3 { color: var(--accent); }
+header#topbar button, #clearFilters, .btn-secondary, .req-audit { border: 1px solid var(--accent); background: transparent; color: var(--accent); border-radius: 3px; font-weight: 700; padding: 9px 12px; }
+header#topbar button:hover, #clearFilters:hover, .btn-secondary:hover, .req-audit:hover { background: var(--panel-2); border-color: var(--accent); filter: brightness(1.08); }
+header#topbar #newRequestBtn, .btn-primary, .req-actions button { border: 1px solid var(--accent); background: var(--accent); color: #111; border-radius: 3px; font-weight: 700; }
+header#topbar #newRequestBtn:hover, .btn-primary:hover, .req-actions button:hover { filter: brightness(1.1); }
+header#topbar #signInBtn { background: transparent; color: var(--accent); }
+.login-card button { background: var(--accent); color: #111; border-radius: 3px; font-weight: 700; }
+.login-card h1 { color: var(--text); }
+#loginMessage { color: var(--accent); }
+.kpi, .list-item, .req-card, .audit-entry { border-radius: 3px; }
+.kpi { border-left-color: var(--accent); }
+.kpi .value { color: var(--text); }
+.list-item:hover, .req-card:hover { border-color: var(--accent); transform: translateX(2px); }
+.list-item { transition: transform .15s, border-color .15s; }
+.modal-head, .drawer-head { background: linear-gradient(90deg, var(--navy), var(--panel)); }
+#requestModal, #auditModal, #denyModal, #configModal { border: 1px solid var(--accent); border-radius: 0; }
+.modal-title, .drawer-title { font-weight: 700; }
+.settings-tab { border: 1px solid var(--border); border-bottom: 0; background: var(--panel-2); padding: 10px 18px; }
+.settings-tab.active { background: var(--panel); color: var(--accent); box-shadow: inset 0 3px var(--accent); border-bottom-color: var(--panel); }
+.help-card { border-radius: 0; background: var(--panel); padding: 0 16px 12px; }
+.help-card summary { color: var(--accent); font-size: 14px; }
+.help-card[open] summary { border-bottom: 1px solid var(--border); margin-bottom: 10px; }
+.help-callout { border-left: 4px solid var(--accent); background: rgba(7,24,36,.55); }
+.help-nav { background: var(--panel); border: 1px solid var(--border); padding: 12px; }
+.help-nav strong { color: var(--accent); }
+.help-nav a { color: var(--muted); border-left: 2px solid transparent; padding: 7px 5px; }
+.help-nav a:hover { color: var(--accent); border-left-color: var(--accent); }
+.cfg-field input, #personaSelect, #requestStatusFilter, #denyBody textarea { background: var(--panel-2); border-radius: 3px; }
+.req-actions button.approve { background: var(--success); border-color: var(--success); }
+.req-actions button.deny { background: var(--danger); border-color: var(--danger); color: #fff; }
+.req-approved, #requestFormMsg.success, #configMsg.success, .audit-who, .audit-to { color: var(--success); }
+.esri-view { --esri-view-outline-color: var(--accent); }
 
 </style>
 </head>
