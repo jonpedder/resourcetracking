@@ -1003,6 +1003,7 @@ require([
   "esri/config",
   "esri/identity/OAuthInfo",
   "esri/identity/IdentityManager",
+  "esri/portal/Portal",
   "esri/Map",
   "esri/views/MapView",
   "esri/layers/FeatureLayer",
@@ -1020,7 +1021,7 @@ require([
   "esri/Graphic",
   "esri/geometry/Extent"
 ], function (
-  esriConfig, OAuthInfo, IdentityManager, Map, MapView, FeatureLayer,
+  esriConfig, OAuthInfo, IdentityManager, Portal, Map, MapView, FeatureLayer,
   UniqueValueRenderer, SimpleMarkerSymbol, PictureMarkerSymbol, Legend, LayerList, Search,
   BasemapGallery, Editor, FeatureForm, Expand, Home, Graphic, Extent
 ) {
@@ -1041,10 +1042,22 @@ require([
   const loginBtn = document.getElementById("loginBtn");
   if (location.protocol !== "http:" && location.protocol !== "https:") return;
 
+  let currentUserFullName = "";
+
   function acceptCredential(cred) {
-    document.getElementById("signInStatus").textContent = "Signed in: " + (cred.userId || "");
-    document.getElementById("signInBtn").textContent = "Sign out";
-    return cred;
+    const portal = new Portal({ url: CFG.portalUrl, authMode: "immediate" });
+    return portal.load().then(function () {
+      currentUserFullName = (portal.user && portal.user.fullName) || cred.userId || "";
+      document.getElementById("signInStatus").textContent = "Signed in: " + currentUserFullName;
+      document.getElementById("signInBtn").textContent = "Sign out";
+      return cred;
+    }).catch(function (error) {
+      console.warn("Could not load the signed-in user's profile", error);
+      currentUserFullName = cred.userId || "";
+      document.getElementById("signInStatus").textContent = "Signed in: " + currentUserFullName;
+      document.getElementById("signInBtn").textContent = "Sign out";
+      return cred;
+    });
   }
 
   function signIn() {
@@ -1421,7 +1434,12 @@ require([
           { type: "field", fieldName: "QuantityRequested", label: "Quantity Requested" },
           { type: "field", fieldName: "DateNeeded", label: "Date Needed" },
           { type: "field", fieldName: "RequestStatus", label: "Status" },
-          { type: "field", fieldName: "Notes", label: "Notes / Justification" }
+          {
+            type: "field",
+            fieldName: "Notes",
+            label: "Notes / Justification",
+            input: { type: "text-area" }
+          }
         ]
       }
     });
@@ -1441,6 +1459,7 @@ require([
     const feature = new Graphic({
       attributes: {
         RequestStatus: "Submitted",
+        Requestor: currentUserFullName,
         Priority: "Routine",
         DateNeeded: Date.now()
       }
