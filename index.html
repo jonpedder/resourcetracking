@@ -1235,6 +1235,7 @@ try {
         "Sign-in blocked: ArcGIS cannot redirect to a file:// page. Use the localhost link below or your published HTTPS URL.";
     }
   </script>
+  <script src="./request-workflow.js"></script>
   <script src="./jspdf.umd.min.js"></script>
   <script src="https://js.arcgis.com/4.30/"></script>
   <script>
@@ -1877,9 +1878,10 @@ require([
 
   /* ---- persona-driven approval workflow (mirrors ArcGIS Workflow Manager) ---- */
   const WF = CFG.workflow;
-  let activePersona = WF.personas[0];
-  // Requests list status filter — defaults to new (Submitted) requests awaiting approval.
-  let activeRequestStatus = "Submitted";
+  const defaultRequestQueue = window.RequestWorkflow.defaultQueue();
+  let activePersona = defaultRequestQueue.persona;
+  // Requests list defaults to the Under Review queue awaiting an Approver decision.
+  let activeRequestStatus = defaultRequestQueue.status;
 
   /* ---- Workflow Manager job = per-request audit log ---- */
   const WFM = WF.wfm || null;
@@ -2261,7 +2263,24 @@ require([
     if (el) el.textContent = WF.personaGroups[activePersona] || "";
   }
 
+  function updatePendingRequestCount() {
+    const button = document.getElementById("newRequestBtn");
+    const baseLabel = (CFG.labels && CFG.labels.newRequestButton) || "+ Resource Request (213RR)";
+    return requestsTable.load().then(function () {
+      return requestsTable.queryFeatureCount({ where: window.RequestWorkflow.pendingWhere("Under Review") });
+    }).then(function (count) {
+      button.textContent = window.RequestWorkflow.buttonLabel(baseLabel, count);
+      button.setAttribute("aria-label", baseLabel + "; " + count + " awaiting approval");
+      return count;
+    }).catch(function (error) {
+      console.warn("Could not load pending request count", error);
+      button.textContent = baseLabel;
+      return null;
+    });
+  }
+
   function loadRequests() {
+    updatePendingRequestCount();
     const listEl = document.getElementById("requestsList");
     const countEl = document.getElementById("requestsCount");
     if (!listEl) return;
@@ -2488,8 +2507,7 @@ require([
   function toggleRequestsPanel(open) {
     const panel = document.getElementById("requestsPanel");
     const willOpen = open == null ? !panel.classList.contains("open") : open;
-    panel.classList.toggle("open", willOpen);
-    document.getElementById("newRequestBtn").setAttribute("aria-expanded", String(willOpen));
+    window.RequestWorkflow.setPanelOpen(panel, document.getElementById("newRequestBtn"), willOpen);
     if (willOpen) loadRequests();
   }
 
@@ -3124,6 +3142,7 @@ require([
     hideBanner();
     buildFilterUI();
     applyFilters();
+    updatePendingRequestCount();
     handleDeepLink();
   }).catch(function (err) {
     console.error(err);
