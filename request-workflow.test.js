@@ -36,8 +36,9 @@ test("workflow defaults to requests awaiting Approver action", function () {
 });
 
 test("header label displays the pending approval count", function () {
-  assert.equal(workflow.buttonLabel("Resource Request (213RR)", 7), "Resource Request (213RR) (7)");
-  assert.equal(workflow.buttonLabel("Resource Request (213RR)", 0), "Resource Request (213RR) (0)");
+  assert.equal(workflow.buttonLabel("Request Approval", 7), "Request Approval (7)");
+  assert.equal(workflow.buttonLabel("Request Approval", 0), "Request Approval (0)");
+  assert.equal(workflow.buttonLabel("", 3), "Request Approval (3)");
 });
 
 test("header button opens Resource Request Approval in a new tab", function () {

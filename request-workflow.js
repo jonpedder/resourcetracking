@@ -14,7 +14,7 @@
   }
 
   function buttonLabel(baseLabel, count) {
-    const base = baseLabel || "+ Resource Request (213RR)";
+    const base = baseLabel || "Request Approval";
     return Number.isFinite(count) && count >= 0 ? base + " (" + count + ")" : base;
   }
 

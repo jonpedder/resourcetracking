@@ -827,7 +827,8 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
       </div>
       <div class="spacer"></div>
       <button id="filterPanelBtn" type="button" aria-controls="filterPanel" aria-expanded="false">Show filters</button>
-      <button id="newRequestBtn" type="button" title="Open Resource Request Approval in a new tab">+ Resource Request (213RR)</button>
+      <button id="assetsBtn" type="button" title="Open Assets in a new tab">Assets</button>
+      <button id="newRequestBtn" type="button" title="Open Request Approval in a new tab">Request Approval</button>
       <span id="signInStatus"></span>
       <button id="signInBtn">Sign out</button>
       <button id="configBtn" class="icon-btn header-icon" title="Settings and help" aria-label="Settings and help">&#9881;</button>
@@ -1100,7 +1101,7 @@ window.EOC_CONFIG = {
     filtersButton: "Show filters",
     hideFiltersButton: "Hide filters",
     requestsButton: "Requests",
-    newRequestButton: "+ Resource Request (213RR)",
+    newRequestButton: "Request Approval",
     inventoryHeading: "Resource Inventory",
     filtersHeading: "Filters",
     signOutButton: "Sign out"
@@ -1189,6 +1190,9 @@ window.EOC_CONFIG = {
 try {
   const saved = JSON.parse(localStorage.getItem("eoc.configOverrides") || "{}");
   Object.assign(window.EOC_CONFIG, saved);
+  if (window.EOC_CONFIG.labels && /^\+?\s*Resource Request(?: \(213RR\))?$/i.test(window.EOC_CONFIG.labels.newRequestButton || "")) {
+    window.EOC_CONFIG.labels.newRequestButton = "Request Approval";
+  }
 } catch (e) { /* ignore malformed overrides */ }
 
 (function applyConfiguredPresentation() {
@@ -2304,7 +2308,7 @@ require([
 
   function updatePendingRequestCount() {
     const button = document.getElementById("newRequestBtn");
-    const baseLabel = (CFG.labels && CFG.labels.newRequestButton) || "+ Resource Request (213RR)";
+    const baseLabel = (CFG.labels && CFG.labels.newRequestButton) || "Request Approval";
     return requestsTable.load().then(function () {
       return requestsTable.queryFeatureCount({ where: window.RequestWorkflow.pendingWhere("Under Review") });
     }).then(function (count) {
@@ -2564,6 +2568,9 @@ require([
   }
 
   document.getElementById("filterPanelBtn").addEventListener("click", function () { toggleFilterPanel(); });
+  document.getElementById("assetsBtn").addEventListener("click", function () {
+    window.open("./index.html", "_blank", "noopener");
+  });
   document.getElementById("newRequestBtn").addEventListener("click", function () {
     window.RequestWorkflow.openApprovalPage(window.open.bind(window), "./approval.html");
   });
@@ -2952,7 +2959,7 @@ require([
         filtersButton: document.getElementById("cfgLabelFilters").value.trim() || "Show filters",
         hideFiltersButton: document.getElementById("cfgLabelHideFilters").value.trim() || "Hide filters",
         requestsButton: (CFG.labels && CFG.labels.requestsButton) || "Requests",
-        newRequestButton: (CFG.labels && CFG.labels.newRequestButton) || "+ Resource Request (213RR)",
+        newRequestButton: (CFG.labels && CFG.labels.newRequestButton) || "Request Approval",
         inventoryHeading: document.getElementById("cfgLabelInventory").value.trim() || "Resource Inventory",
         filtersHeading: document.getElementById("cfgLabelFilterHeading").value.trim() || "Filters",
         signOutButton: document.getElementById("cfgLabelSignOut").value.trim() || "Sign out"
