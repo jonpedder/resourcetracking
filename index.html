@@ -1236,6 +1236,7 @@ try {
     }
   </script>
   <script src="./request-workflow.js"></script>
+  <script src="./webmap-integration.js"></script>
   <script src="./jspdf.umd.min.js"></script>
   <script src="https://js.arcgis.com/4.30/"></script>
   <script>
@@ -1567,8 +1568,45 @@ require([
     outFields: ["*"]
   });
   requestsTable.outFields = ["*"];
-  map.removeAll();
-  map.addMany([facilitiesLayer, resourcesLayer]);
+  // Preserve all authored Web Map content and bind app behavior to its live layers.
+  const webmapResourcesLayer = window.WebMapIntegration.findLayer(
+    map.allLayers, CFG.featureServiceUrl + "/" + CFG.layers.resources, "Resources"
+  );
+  const webmapFacilitiesLayer = window.WebMapIntegration.findLayer(
+    map.allLayers, CFG.featureServiceUrl + "/" + CFG.layers.facilities, "Facilities"
+  );
+  if (webmapResourcesLayer) {
+    window.WebMapIntegration.applyApplicationProperties(webmapResourcesLayer, resourcesLayer);
+    resourcesLayer = webmapResourcesLayer;
+  } else {
+    map.add(resourcesLayer);
+  }
+  if (webmapFacilitiesLayer) {
+    window.WebMapIntegration.applyApplicationProperties(webmapFacilitiesLayer, facilitiesLayer);
+    facilitiesLayer = webmapFacilitiesLayer;
+  } else {
+    map.add(facilitiesLayer);
+  }
+
+
+  // Refresh facility symbols on the bound Web Map layer so new facility types
+  // continue to appear in the map and legend without hard-coded categories.
+  facilitiesLayer.load().then(function () {
+    return facilitiesLayer.queryFeatures({
+      where: "FacilityType IS NOT NULL",
+      outFields: ["FacilityType"],
+      returnDistinctValues: true,
+      returnGeometry: false,
+      orderByFields: ["FacilityType"]
+    });
+  }).then(function (result) {
+    const types = result.features.map(function (feature) {
+      return feature.attributes.FacilityType;
+    }).filter(function (type) { return type != null && type !== ""; });
+    facilitiesLayer.renderer = buildFacilityRenderer(types);
+  }).catch(function (error) {
+    console.warn("Web Map facility symbology could not be refreshed.", error);
+  });
 
   const view = new MapView({
     container: "viewDiv",
