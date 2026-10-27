@@ -779,7 +779,7 @@ header#topbar #signInBtn { background: transparent; color: var(--accent); }
 .help-nav strong { color: var(--accent); }
 .help-nav a { color: var(--muted); border-left: 2px solid transparent; padding: 7px 5px; }
 .help-nav a:hover { color: var(--accent); border-left-color: var(--accent); }
-.cfg-field input, #personaSelect, #requestStatusFilter, #denyBody textarea { background: var(--panel-2); border-radius: 3px; }
+.cfg-field input, #personaSelect, #requestStatusFilter, #requestStateFilter, #denyBody textarea { background: var(--panel-2); border-radius: 3px; }
 .req-actions button.approve { background: var(--success); border-color: var(--success); }
 .req-actions button.deny { background: var(--danger); border-color: var(--danger); color: #fff; }
 .req-approved, #requestFormMsg.success, #configMsg.success, .audit-who, .audit-to { color: var(--success); }
@@ -1236,6 +1236,7 @@ try {
     }
   </script>
   <script src="./request-workflow.js"></script>
+  <script src="./request-state-filter.js"></script>
   <script src="./webmap-integration.js"></script>
   <script src="./jspdf.umd.min.js"></script>
   <script src="https://js.arcgis.com/4.30/"></script>
@@ -3013,6 +3014,8 @@ require([
 
   /* -------------------------------------------------------------- filters */
   const activeFilters = {}; // field -> Set of selected values
+  let activeRequestState = "";
+  let requestStateResourceClause = "1=1";
 
   function buildWhere() {
     const clauses = [];
@@ -3023,6 +3026,7 @@ require([
         clauses.push(field + " IN (" + list + ")");
       }
     });
+    if (requestStateResourceClause !== "1=1") clauses.unshift(requestStateResourceClause);
     return clauses.length ? clauses.join(" AND ") : "1=1";
   }
 
@@ -3033,8 +3037,60 @@ require([
     refreshList(where);
   }
 
+  function applyRequestStateFilter(state) {
+    activeRequestState = state || "";
+    if (!activeRequestState) {
+      requestStateResourceClause = "1=1";
+      applyFilters();
+      return Promise.resolve();
+    }
+    const statuses = window.RequestStateFilter.statusesFor(activeRequestState);
+    return requestsTable.load().then(function () {
+      return requestsTable.queryFeatures({
+        where: "1=1",
+        outFields: ["RequestTitle", "RequestStatus"],
+        returnGeometry: false,
+        num: 2000
+      });
+    }).then(function (result) {
+      const requests = result.features || [];
+      const allNames = requests.map(window.RequestStateFilter.resourceName).filter(Boolean);
+      const matching = statuses.length
+        ? requests.filter(function (feature) { return statuses.indexOf(feature.attributes.RequestStatus) !== -1; })
+        : requests;
+      requestStateResourceClause = window.RequestStateFilter.resourceClause(activeRequestState, matching, allNames);
+      applyFilters();
+    }).catch(function (error) {
+      requestStateResourceClause = "1=0";
+      applyFilters();
+      showBanner("Could not apply the request-state filter: " + (error.message || "error"), "error");
+      setTimeout(hideBanner, 5000);
+    });
+  }
+
   function buildFilterUI() {
     const container = document.getElementById("filters");
+    const requestGroup = document.createElement("details");
+    requestGroup.className = "filter-group";
+    requestGroup.open = true;
+    const requestTitle = document.createElement("summary");
+    requestTitle.className = "title";
+    requestTitle.textContent = "Request & approval state";
+    const requestHolder = document.createElement("div");
+    const requestSelect = document.createElement("select");
+    requestSelect.id = "requestStateFilter";
+    requestSelect.setAttribute("aria-label", "Filter resources by request and approval state");
+    window.RequestStateFilter.OPTIONS.forEach(function (option) {
+      const element = document.createElement("option");
+      element.value = option.value;
+      element.textContent = option.label;
+      requestSelect.appendChild(element);
+    });
+    requestSelect.addEventListener("change", function () { applyRequestStateFilter(requestSelect.value); });
+    requestHolder.appendChild(requestSelect);
+    requestGroup.append(requestTitle, requestHolder);
+    container.appendChild(requestGroup);
+
     CFG.filterFields.forEach(function (f) {
       activeFilters[f.field] = new Set();
       const group = document.createElement("details");
@@ -3085,6 +3141,10 @@ require([
 
   document.getElementById("clearFilters").addEventListener("click", function () {
     Object.keys(activeFilters).forEach(function (k) { activeFilters[k].clear(); });
+    activeRequestState = "";
+    requestStateResourceClause = "1=1";
+    const requestStateSelect = document.getElementById("requestStateFilter");
+    if (requestStateSelect) requestStateSelect.value = "";
     document.querySelectorAll("#filters input[type=checkbox]").forEach(function (cb) { cb.checked = false; });
     applyFilters();
   });
