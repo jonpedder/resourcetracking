@@ -27,3 +27,7 @@ test("approval decisions require a note and support approve or deny", function (
   assert.match(html, /label:'Deny'/);
   assert.match(html, /ApprovalWorkflow\.applyDecision/);
 });
+
+test("approval header credits ArcGIS Workflow Manager", function () {
+  assert.match(html, /Sentinel Emergency Management Agency · FEMA NIMS Common Operating Picture\. Powered by ArcGIS Workflow Manager/);
+});

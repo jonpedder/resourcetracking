@@ -25,3 +25,8 @@ test("legacy saved request labels migrate to Request Approval", function () {
   assert.match(html, /newRequestButton = "Request Approval"/);
   assert.match(html, /newRequestButton: "Request Approval"/);
 });
+
+test("header subtitle credits ArcGIS Workflow Manager", function () {
+  assert.match(html, /Sentinel Emergency Management Agency &middot; FEMA NIMS Common Operating Picture\. Powered by ArcGIS Workflow Manager/);
+  assert.match(html, /subtitle: "Sentinel Emergency Management Agency · FEMA NIMS Common Operating Picture\. Powered by ArcGIS Workflow Manager"/);
+});
